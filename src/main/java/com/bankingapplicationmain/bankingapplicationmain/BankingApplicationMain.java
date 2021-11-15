@@ -6,9 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BankingApplicationMain {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 49072a28409bb04319d61c927c63cbfcaa3df78b
 	public static void main(String[] args) {
-		System.out.println("Hello Bank");
 		SpringApplication.run(BankingApplicationMain.class, args);
 	}
 
