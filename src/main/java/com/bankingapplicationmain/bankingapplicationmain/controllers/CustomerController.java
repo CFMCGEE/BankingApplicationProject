@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
@@ -15,15 +16,28 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
+    //get all customers
+    @GetMapping
+    public ResponseEntity<List<Customer>> getAllCustomers(){
+        return customerService.getAllCustomers();
+    }
+
+    //get customer by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id){
+        return customerService.getCustomerById(id);
+    }
+
+    //create customer
     @PostMapping
     public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
 
+    //edit customer
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCustomer(@PathVariable Long id, @Valid @RequestBody Customer customer){
         return customerService.updateCustomer(customer, id);
     }
-
 
 }
