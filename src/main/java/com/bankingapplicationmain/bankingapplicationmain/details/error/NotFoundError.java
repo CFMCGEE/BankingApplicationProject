@@ -1,18 +1,18 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.error;
 
-public class AccountIssueError {
+public class NotFoundError {
 
     private Integer code;
     private String message;
 
-    public AccountIssueError(Integer code, String message) {
+    public NotFoundError(Integer code, String message) {
 
         this.code = code;
         this.message = message;
 
     }
 
-    public AccountIssueError() {
+    public NotFoundError() {
 
     }
 
