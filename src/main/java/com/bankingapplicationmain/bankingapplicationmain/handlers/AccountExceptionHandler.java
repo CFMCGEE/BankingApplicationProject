@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundError;
+//import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleAccountNotFoundException;
@@ -45,7 +46,7 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         NotFoundError accountError = new NotFoundError();
         accountError.setCode(errorCode);
-        accountError.setMessage("ERROR WHILE TRYING TO FETCH CUSTOMERS ACCOUNTS");
+        accountError.setMessage("ERROR WHILE TRYING TO FETCH CUSTOMER'S ACCOUNTS");
 
         return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
 
