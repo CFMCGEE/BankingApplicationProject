@@ -15,6 +15,7 @@ public class Customer {
 
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Address> address;
+
     public Customer() {
     }
 

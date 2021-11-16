@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundException;
+import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
 
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -70,4 +73,11 @@ public class CustomerService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    public ResponseEntity<?> getCustomerByAccountId(Long customerId) {
+        verifyCustomer(customerId);
+        if (customerRepository.findById(customerId).isPresent()) {
+            customerRepository.findById(customerId);
+        }
+        throw new CustomerNotFoundException("Customer with id " + customerId + " not found");
+    }
 }
