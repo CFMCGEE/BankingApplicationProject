@@ -12,20 +12,18 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class BankingApplicationMain {
 
-<<<<<<< HEAD
+
 // test run 123
-=======
+
 	private static final Logger logger = LoggerFactory.getLogger(BankingApplicationMain.class);
 
->>>>>>> d4760a4408bcd2524fc776f6ff8622fd30eeaa3a
+
 	public static void main(String[] args) {
 		System.out.println("Hello Bank");
 		SpringApplication.run(BankingApplicationMain.class, args);
 	}
 
-<<<<<<< HEAD
-}
-=======
+
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
@@ -37,4 +35,3 @@ public class BankingApplicationMain {
 	}
 
 }
->>>>>>> d4760a4408bcd2524fc776f6ff8622fd30eeaa3a
