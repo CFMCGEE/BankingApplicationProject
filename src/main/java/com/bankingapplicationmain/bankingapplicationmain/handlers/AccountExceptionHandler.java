@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
-import com.bankingapplicationmain.bankingapplicationmain.details.error.AccountIssueError;
+import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundError;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleAccountNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,11 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         int errorCode = HttpStatus.NOT_FOUND.value(); //404
 
-        AccountIssueError customerError = new AccountIssueError();
-        customerError.setCode(errorCode);
-        customerError.setMessage("ERROR WHILE TRYING TO FETCH ACCOUNTS"); //error fetching accounts
+        NotFoundError accountError = new NotFoundError();
+        accountError.setCode(errorCode);
+        accountError.setMessage("ERROR WHILE TRYING TO FETCH ACCOUNTS"); //error fetching accounts
 
-        return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
 
     }
 
@@ -29,11 +30,24 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         int errorCode = HttpStatus.NOT_FOUND.value();
 
-        AccountIssueError customerError = new AccountIssueError();
-        customerError.setCode(errorCode);
-        customerError.setMessage("ERROR FETCHING ACCOUNTS");
+        NotFoundError accountError = new NotFoundError();
+        accountError.setCode(errorCode);
+        accountError.setMessage("ERROR WHILE TRYING TO FETCH ACCOUNT");
 
-        return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(AccountByIDNotFoundException.class)
+    public ResponseEntity<?> handleAccountByIDNotFoundException() {
+
+        int errorCode = HttpStatus.NOT_FOUND.value();
+
+        NotFoundError accountError = new NotFoundError();
+        accountError.setCode(errorCode);
+        accountError.setMessage("ERROR WHILE TRYING TO FETCH CUSTOMERS ACCOUNTS");
+
+        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
 
     }
 
