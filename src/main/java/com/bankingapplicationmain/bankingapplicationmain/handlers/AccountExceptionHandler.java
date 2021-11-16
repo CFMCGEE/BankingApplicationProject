@@ -2,6 +2,7 @@ package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundError;
 //import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleAccountNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
     }
 
-    @ExceptionHandler(AccountNotFoundException.class)
+    @ExceptionHandler(AccountByIDNotFoundException.class)
     public ResponseEntity<?> handleAccountByIDNotFoundException() {
 
         int errorCode = HttpStatus.NOT_FOUND.value();
