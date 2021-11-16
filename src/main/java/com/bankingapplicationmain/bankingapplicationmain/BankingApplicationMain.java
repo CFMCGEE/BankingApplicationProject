@@ -1,5 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain;
 
+import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -27,5 +28,6 @@ public class BankingApplicationMain {
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 		return args -> logger.info("Running application!");
 	}
+
 
 }

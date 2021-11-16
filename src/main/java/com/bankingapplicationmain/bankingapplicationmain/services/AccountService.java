@@ -26,7 +26,7 @@ public class AccountService {
         if (accounts.isEmpty()) {
             throw new AccountNotFoundException();
         } else {
-            logger.info("All accounts successfully grabbed.");
+            logger.info("All accounts successfully found.");
             return accountRepository.findAll();
         }
 
@@ -35,7 +35,7 @@ public class AccountService {
     public Account getSingleAccount(Long accountID) {
 
         if (accountRepository.findById(accountID).isPresent()) {
-            logger.info("One account successfully grabbed.");
+            logger.info("One account successfully found.");
         }
 
         return accountRepository.findById(accountID).orElseThrow(() -> new SingleAccountNotFoundException());

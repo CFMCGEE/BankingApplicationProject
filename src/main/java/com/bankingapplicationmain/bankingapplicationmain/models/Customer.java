@@ -1,7 +1,5 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
-import org.apache.tomcat.jni.Address;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +15,7 @@ public class Customer {
 
     private String first_Name;
     private String last_Name;
-    private Set<Address> addresses;
+    //private Set<Address> addresses;
 
     public Customer() {
     }
@@ -46,11 +44,5 @@ public class Customer {
         this.last_Name = last_Name;
     }
 
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
 
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
 }
