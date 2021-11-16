@@ -3,7 +3,7 @@ package com.bankingapplicationmain.bankingapplicationmain.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.OK)
+@ResponseStatus(HttpStatus.NOT_FOUND)
 public class CustomerNotFoundById extends RuntimeException {
     private static final long serialVersionUID = 1L;
 

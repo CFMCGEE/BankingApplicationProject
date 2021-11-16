@@ -18,6 +18,7 @@ public class CustomerController {
 
     //get all customers
     @GetMapping
+    @RequestMapping("/customers")
     public ResponseEntity<List<Customer>> getAllCustomers(){
         return customerService.getAllCustomers();
     }
@@ -44,6 +45,12 @@ public class CustomerController {
     @GetMapping("/account/{customerId}/customer")
     public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long customerId){
         return customerService.getCustomerByAccountId(customerId);
+    }
+
+    //delete customer
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id){
+        return customerService.deleteCustomer(id);
     }
 
 }
