@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundError;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundById;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleCustomerNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -12,25 +13,32 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CustomerNotFoundExceptionHandler extends CustomerNotFoundException {
 
     @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<?> handleAccountNotFoundException() {
-
-        int errorCode = HttpStatus.NOT_FOUND.value(); //404
+    public ResponseEntity<?> handleCustomerNotFoundException() {
 
         NotFoundError customerError = new NotFoundError();
-        customerError.setCode(errorCode);
-        customerError.setMessage("ERROR FETCHING CUSTOMERS"); //error fetching accounts
+        customerError.setCode(HttpStatus.NOT_FOUND.value());
+        customerError.setMessage("ERROR FETCHING CUSTOMERS");
 
         return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
 
     }
 
     @ExceptionHandler(SingleCustomerNotFoundException.class)
-    public ResponseEntity<?> handleSingleAccountNotFoundException() {
-
-        int errorCode = HttpStatus.NOT_FOUND.value();
+    public ResponseEntity<?> handleSingleCustomerNotFoundException() {
 
         NotFoundError customerError = new NotFoundError();
-        customerError.setCode(errorCode);
+        customerError.setCode(HttpStatus.NOT_FOUND.value());
+        customerError.setMessage("ERROR FETCHING CUSTOMER");
+
+        return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(CustomerNotFoundById.class)
+    public ResponseEntity<?> handleSingleCustomerByIDNotFoundException() {
+
+        NotFoundError customerError = new NotFoundError();
+        customerError.setCode(HttpStatus.NOT_FOUND.value());
         customerError.setMessage("ERROR FETCHING CUSTOMER");
 
         return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);

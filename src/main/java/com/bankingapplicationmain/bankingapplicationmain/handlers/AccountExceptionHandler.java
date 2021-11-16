@@ -46,7 +46,7 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         NotFoundError accountError = new NotFoundError();
         accountError.setCode(errorCode);
-        accountError.setMessage("ERROR WHILE TRYING TO FETCH CUSTOMERS ACCOUNTS");
+        accountError.setMessage("ERROR WHILE TRYING TO FETCH CUSTOMER'S ACCOUNTS");
 
         return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
 

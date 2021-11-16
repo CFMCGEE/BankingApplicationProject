@@ -38,7 +38,8 @@ public class AccountService {
             logger.info("One account successfully found.");
         }
 
-        return accountRepository.findById(accountID).orElseThrow(() -> new SingleAccountNotFoundException());
+        return accountRepository.findById(accountID).orElseThrow(()
+                -> new SingleAccountNotFoundException());
 
     }
 

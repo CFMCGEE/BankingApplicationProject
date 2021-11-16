@@ -5,7 +5,7 @@ package com.bankingapplicationmain.bankingapplicationmain.handlers;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomerSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleCustomerSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerSuccessfullyFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleAccountSuccessfullyFoundException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleCustomerSuccessfullyFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,17 +36,17 @@ public class CustomerSuccessExceptionHandler extends CustomerSuccessfullyFound {
 
     }
 
-    @ExceptionHandler(SingleAccountSuccessfullyFoundException.class)
+    @ExceptionHandler(SingleCustomerSuccessfullyFoundException.class)
     public ResponseEntity<?> handleSingleCustomerSuccessfullyFoundException(Long customerID) {
 
         Customer customerList = customerRepository.findById(customerID).orElse(null);
 
-        SingleCustomerSuccessfullyFound singleAccountSuccessfullyFound = new SingleCustomerSuccessfullyFound();
-        singleAccountSuccessfullyFound.setCode(HttpStatus.OK.value());
-        singleAccountSuccessfullyFound.setMessage("Success!");
-        singleAccountSuccessfullyFound.setData(customerList);
+        SingleCustomerSuccessfullyFound singleCustomerSuccessfullyFound = new SingleCustomerSuccessfullyFound();
+        singleCustomerSuccessfullyFound.setCode(HttpStatus.OK.value());
+        singleCustomerSuccessfullyFound.setMessage("Success!");
+        singleCustomerSuccessfullyFound.setData(customerList);
 
-        return new ResponseEntity<>(singleAccountSuccessfullyFound, null, HttpStatus.OK);
+        return new ResponseEntity<>(singleCustomerSuccessfullyFound, null, HttpStatus.OK);
 
     }
 }
