@@ -12,9 +12,9 @@ public class Customer {
 
     private String first_Name;
     private String last_Name;
-    @OneToMany
-    private Set<Account> accounts;
 
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private Set<Address> address;
     public Customer() {
     }
 
@@ -40,6 +40,14 @@ public class Customer {
 
     public void setLast_Name(String last_Name) {
         this.last_Name = last_Name;
+    }
+
+    public Set<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Set<Address> address) {
+        this.address = address;
     }
 
 
