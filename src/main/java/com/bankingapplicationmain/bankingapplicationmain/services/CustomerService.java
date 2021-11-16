@@ -4,6 +4,8 @@ import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotF
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @Service
 public class CustomerService {
     private CustomerRepository customerRepository;
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository) {
@@ -37,7 +41,7 @@ public class CustomerService {
     }
 
     //get customer by id
-    public ResponseEntity<Customer> getCustomerById(Long customerId) {
+    public List<Customer> getCustomerById(Long customerId) {
         verifyCustomer(customerId);
         if (customerRepository.findById(customerId).isPresent()) {
             customerRepository.findById(customerId);

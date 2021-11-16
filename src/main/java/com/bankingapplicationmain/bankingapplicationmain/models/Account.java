@@ -16,16 +16,15 @@ public class Account {
     private String nickname;
     private Integer rewards;
     private Double balance;
-    //private Customer customer;
+    private Customer customer;
 
-    public Account(Long accountID, Type type, String nickname, Integer rewards, Double balance) {
-
-        this.id = accountID;
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer) {
+        this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
-
+        this.customer = customer;
     }
 
     public Account() {

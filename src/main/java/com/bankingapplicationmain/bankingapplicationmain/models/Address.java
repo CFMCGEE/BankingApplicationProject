@@ -4,7 +4,7 @@ public class Address {
     private Long id;
     private String street_number;
     private String street_name;
-    private String citty;
+    private String city;
     private String state;
     private String zip;
 
@@ -35,12 +35,12 @@ public class Address {
         this.street_name = street_name;
     }
 
-    public String getCitty() {
-        return citty;
+    public String getCity() {
+        return city;
     }
 
-    public void setCitty(String citty) {
-        this.citty = citty;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getState() {

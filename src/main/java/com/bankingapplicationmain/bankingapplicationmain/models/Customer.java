@@ -1,9 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -15,7 +12,8 @@ public class Customer {
 
     private String first_Name;
     private String last_Name;
-    //private Set<Address> addresses;
+    @OneToMany
+    private Set<Account> accounts;
 
     public Customer() {
     }
