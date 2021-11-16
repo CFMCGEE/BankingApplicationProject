@@ -40,8 +40,7 @@ public class CustomerController {
         return customerService.updateCustomer(customer, id);
     }
 
-    //Get customer that owns the
-    //specified account
+    //Get customer that owns the specified account
     @GetMapping("/account/{customerId}/customer")
     public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long customerId){
         return customerService.getCustomerByAccountId(customerId);

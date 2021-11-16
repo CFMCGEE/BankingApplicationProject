@@ -16,11 +16,11 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         int errorCode = HttpStatus.NOT_FOUND.value(); //404
 
-        AccountIssueError accountError = new AccountIssueError();
-        accountError.setCode(errorCode);
-        accountError.setMessage("ERROR WHILE TRYING TO FETCH ACCOUNTS"); //error fetching accounts
+        AccountIssueError customerError = new AccountIssueError();
+        customerError.setCode(errorCode);
+        customerError.setMessage("ERROR WHILE TRYING TO FETCH ACCOUNTS"); //error fetching accounts
 
-        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
 
     }
 
@@ -29,11 +29,11 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         int errorCode = HttpStatus.NOT_FOUND.value();
 
-        AccountIssueError accountError = new AccountIssueError();
-        accountError.setCode(errorCode);
-        accountError.setMessage("ERROR WHILE TRYING TO FETCH ACCOUNT");
+        AccountIssueError customerError = new AccountIssueError();
+        customerError.setCode(errorCode);
+        customerError.setMessage("ERROR FETCHING ACCOUNTS");
 
-        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
 
     }
 
