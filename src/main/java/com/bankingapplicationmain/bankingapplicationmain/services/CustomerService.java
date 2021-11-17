@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -89,7 +90,7 @@ public class CustomerService {
 
     public ResponseEntity<?> deleteCustomer(Long id) {
         logger.info("Customer successfully deleted");
-        customerRepository.deleteById(id);
+        customerRepository.deleteAllById(Collections.singleton(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
