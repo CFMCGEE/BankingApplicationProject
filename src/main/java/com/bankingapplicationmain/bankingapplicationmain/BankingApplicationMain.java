@@ -13,14 +13,10 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class BankingApplicationMain {
 
-
-// test run 123
-
 	private static final Logger logger = LoggerFactory.getLogger(BankingApplicationMain.class);
 
 
 	public static void main(String[] args) {
-		System.out.println("Hello Bank");
 		SpringApplication.run(BankingApplicationMain.class, args);
 	}
 
