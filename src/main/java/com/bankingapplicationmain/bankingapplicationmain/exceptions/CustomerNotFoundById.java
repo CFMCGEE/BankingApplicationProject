@@ -20,9 +20,7 @@ public class CustomerNotFoundById extends RuntimeException {
     }
 
     public CustomerNotFoundById() {
-    }
-<<<<<<< HEAD
 
-=======
->>>>>>> cc5377a462eeac9a8c89d8db2b6f8c18a11263ec
+    }
+
 }

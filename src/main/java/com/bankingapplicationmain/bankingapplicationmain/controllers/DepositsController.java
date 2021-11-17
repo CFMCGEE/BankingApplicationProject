@@ -20,11 +20,11 @@ public class DepositsController {
     }
 
 
-    @PostMapping("/accounts/{accountId}/deposits")
-    public void registerDeposits(@RequestBody Deposits deposits){
-        depositsService.addDeposit(deposits);
-      
-    }
+//    @PostMapping("/accounts/{accountId}/deposits")
+//    public void registerDeposits(@RequestBody Deposits deposits){
+//        depositsService.addDeposit(deposits);
+//
+//    }
 
 
     @PostMapping("/accounts/{accountId}/deposits")

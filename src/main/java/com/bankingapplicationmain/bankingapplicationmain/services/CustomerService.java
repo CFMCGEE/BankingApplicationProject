@@ -5,7 +5,6 @@ import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotF
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleCustomerNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class CustomerService {
@@ -32,9 +33,14 @@ public class CustomerService {
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+    protected void verifyCustomer(Long customerId) throws CustomerNotFoundException {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if(customer.isEmpty()) {
+            throw new CustomerNotFoundException();
+        }
+    }
 
-    // Get all customers
-
+    // Get all customerss
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
         if (customers.isEmpty()) {
@@ -47,6 +53,8 @@ public class CustomerService {
 
     //get customer by id
     public Customer getCustomerById(Long customerId) {
+        verifyCustomer(customerId);
+
 
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer Not Found");
@@ -71,15 +79,18 @@ public class CustomerService {
     }
 
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
+        verifyCustomer(customerId);
+
 
         logger.info("Customer successfully updated");
         customerRepository.save(customer);
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<?> getCustomerByAccountId(Long customerId) {
-
+        verifyCustomer(customerId);
         if (customerRepository.findById(customerId).isPresent()) {
             //logger
             logger.info("Customer successfully found");
@@ -91,6 +102,9 @@ public class CustomerService {
     public ResponseEntity<?> deleteCustomer(Long id) {
         logger.info("Customer successfully deleted");
         customerRepository.deleteById(id);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 }
