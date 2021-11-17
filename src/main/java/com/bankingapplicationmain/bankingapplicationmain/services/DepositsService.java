@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -20,18 +21,21 @@ public class DepositsService {
     @Autowired
     private DepositsRepository depositsRepository;
 
-
-    public ResponseEntity<?> getDeposits(Long accountId) {
-        return ResponseEntity.ok(depositsRepository.findAll());
-    }
-
-    public ResponseEntity<?> getDepositById(Long id) {
+    public Deposits getDepositById(Long id) {
 
         if(depositsRepository.findById(id).isEmpty()){
             logger.info("Deposit not found");
            throw new DepositsNotFoundById();
         }
-        return ResponseEntity.ok(depositsRepository.findById(id));
+        return depositsRepository.getById(id);
+    }
+    public List<Deposits> getDepositsByAccountId(Long id) {
+
+        if(depositsRepository.findByAccountID(id).isEmpty()){
+            logger.info("Deposit not found");
+           throw new DepositsNotFoundById();
+        }
+        return depositsRepository.findByAccountID(id);
     }
 
     //we need a post method
