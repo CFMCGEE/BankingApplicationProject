@@ -1,8 +1,8 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundById;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleCustomerNotFoundException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomerAccountSuccessfullyCreated;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
 import org.slf4j.Logger;
@@ -64,18 +64,29 @@ public class CustomerService {
     }
 
     public ResponseEntity<?> createCustomer(Customer customer){
-        logger.info("Customer successfully created");
-        customerRepository.save(customer);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newCustomerUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(customer.getId())
-                .toUri();
-        responseHeaders.setLocation(newCustomerUri);
+        try {
 
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+            logger.info("Customer successfully created!");
+
+            int successCode = HttpStatus.OK.value();
+
+            HttpHeaders responseHeaders = new HttpHeaders();
+            URI newCustomerUri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(customer.getId())
+                    .toUri();
+            responseHeaders.setLocation(newCustomerUri);
+
+            CustomerAccountSuccessfullyCreated customerAccountSuccessfullyCreated = new CustomerAccountSuccessfullyCreated(successCode, "Success!", customerRepository.save(customer));
+
+            return new ResponseEntity<>(customerAccountSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
+
+        } catch (UnableToCreateAccountException e) {
+           throw new UnableToCreateAccountException();
+        }
+
     }
 
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {

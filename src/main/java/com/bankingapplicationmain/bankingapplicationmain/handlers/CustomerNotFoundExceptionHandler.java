@@ -5,6 +5,7 @@ import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundE
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundById;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleCustomerNotFoundException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -45,6 +46,18 @@ public class CustomerNotFoundExceptionHandler extends CustomerNotFoundException 
         return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
 
     }
+
+    @ExceptionHandler(UnableToCreateAccountException.class)
+    public ResponseEntity<?> handleUnableToCreateAccountException() {
+
+        NotFoundError customerError = new NotFoundError();
+        customerError.setCode(HttpStatus.NOT_FOUND.value());
+        customerError.setMessage("ERROR CREATING CUSTOMER");
+
+        return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
+
+    }
+
 
 
 }
