@@ -26,5 +26,19 @@ public class AccountController {
     public Account getAccount(@PathVariable Long accountID) {
         return accountService.getSingleAccount(accountID);
     }
+    
+    @DeleteMapping("/{accountID}")
+    public ResponseEntity<?> deleteAccount(@PathVariable Long accountID){
+        return accountService.deleteAccount(accountID);
+    }
 
+    @PostMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<?> createAccount(@Valid @RequestBody Account account) {
+        return accountService.createAccount(account);
+    }
+
+    @PutMapping("/{accountID}")
+    public ResponseEntity<?> updateCustomer(@PathVariable Long accountID, @Valid @RequestBody Account account){
+        return accountService.updateAccount(account, accountID);
+    }
 }
