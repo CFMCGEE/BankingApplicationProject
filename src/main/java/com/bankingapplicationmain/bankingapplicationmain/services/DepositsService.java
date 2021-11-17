@@ -1,5 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.DepositsRepository;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class DepositsService {
     public ResponseEntity<?> getDepositById(Long id) {
         if(depositsRepository.findById(id).isEmpty()){
             logger.info("Deposit not found");
-         //   throw new DepositsNotFoundById(); //uncomment this when DepositsNotFoundById exception is created
+           throw new DepositsNotFoundById();
         }
         return ResponseEntity.ok(depositsRepository.findById(id));
     }

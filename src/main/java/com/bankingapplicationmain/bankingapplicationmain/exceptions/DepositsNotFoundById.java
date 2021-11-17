@@ -7,5 +7,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class DepositsNotFoundById extends RuntimeException{
     private static final long serialVersionUID = 1L;
 
-  public
+   public DepositsNotFoundById(){
+
+   }
+
+  public DepositsNotFoundById(String message){
+      super(message);
+  }
+
+  public DepositsNotFoundById(String message, Throwable cause){
+      super(message, cause);
+  }
+  public DepositsNotFoundById(Throwable cause){
+      super(cause);
+  }
+
 }
