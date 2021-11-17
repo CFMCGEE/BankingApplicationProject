@@ -21,4 +21,5 @@ public class CustomerSuccessfullyFoundException extends RuntimeException {
 
     public CustomerSuccessfullyFoundException() {
     }
+
 }

@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOUNT_ID")
     private Long id;
 
@@ -16,16 +16,17 @@ public class Account {
     private String nickname;
     private Integer rewards;
     private Double balance;
+    private int customer_id;
 
-//    private Customer customer;
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, int customer_id) {
 
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer) {
         this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
-//        this.customer = customer;
+        this.customer_id = customer_id;
+
     }
 
     public Account() {
@@ -36,8 +37,8 @@ public class Account {
         return id;
     }
 
-    public void setId(Long accountID) {
-        this.id = accountID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Type getType() {
@@ -72,6 +73,14 @@ public class Account {
         this.balance = balance;
     }
 
+    public int getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
+    }
+
     @Override
     public String toString() {
         return "{\n" +
@@ -79,7 +88,8 @@ public class Account {
                 "type: " + type + ", \n" +
                 "nickname: " + nickname + ", \n" +
                 "rewards: " + rewards + ", \n" +
-                "balance: " + balance +
+                "balance: " + balance + ", \n" +
+               "customer_id: " + customer_id +
                 "\n}";
     }
 

@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
+import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 
 public class SingleAccountSuccessfullyFound {
 
