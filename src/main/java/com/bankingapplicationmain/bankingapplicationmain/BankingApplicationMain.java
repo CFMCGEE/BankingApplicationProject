@@ -15,9 +15,11 @@ public class BankingApplicationMain {
 
 	private static final Logger logger = LoggerFactory.getLogger(BankingApplicationMain.class);
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(BankingApplicationMain.class, args);
 	}
+
 
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -30,4 +32,7 @@ public class BankingApplicationMain {
 	}
 
 
+
 }
+
+
