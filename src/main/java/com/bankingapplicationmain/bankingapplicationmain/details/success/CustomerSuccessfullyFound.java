@@ -4,7 +4,9 @@ import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 
 import java.util.List;
 
+
 public class CustomerSuccessfullyFound {
+
     private Integer code;
     private String message;
     private List<Customer> data;

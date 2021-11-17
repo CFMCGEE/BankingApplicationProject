@@ -1,10 +1,19 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String street_number;
     private String street_name;
-    private String citty;
+    private String city;
     private String state;
     private String zip;
 
@@ -35,12 +44,12 @@ public class Address {
         this.street_name = street_name;
     }
 
-    public String getCitty() {
-        return citty;
+    public String getCity() {
+        return city;
     }
 
-    public void setCitty(String citty) {
-        this.citty = citty;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getState() {

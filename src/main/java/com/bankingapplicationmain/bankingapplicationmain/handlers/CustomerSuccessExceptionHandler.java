@@ -1,5 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
+
 import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomerSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleCustomerSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerSuccessfullyFoundException;
@@ -40,7 +41,7 @@ public class CustomerSuccessExceptionHandler extends CustomerSuccessfullyFound {
         Customer customerList = customerRepository.findById(customerID).orElse(null);
 
         SingleCustomerSuccessfullyFound singleCustomerSuccessfullyFound = new SingleCustomerSuccessfullyFound();
-        singleCustomerSuccessfullyFound.setCode(HttpStatus.OK.value());
+       singleCustomerSuccessfullyFound.setCode(HttpStatus.OK.value());
         singleCustomerSuccessfullyFound.setMessage("Success!");
         singleCustomerSuccessfullyFound.setData(customerList);
 

@@ -9,6 +9,7 @@ public class SingleCustomerSuccessfullyFound {
     private Customer data;
 
     public SingleCustomerSuccessfullyFound(Integer code, String message, Customer data) {
+
         this.code = code;
         this.message = message;
         this.data = data;

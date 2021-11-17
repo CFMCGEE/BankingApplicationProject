@@ -1,9 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -15,7 +12,9 @@ public class Customer {
 
     private String first_Name;
     private String last_Name;
-    //private Set<Address> addresses;
+
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private Set<Address> address;
 
     public Customer() {
     }
@@ -42,6 +41,14 @@ public class Customer {
 
     public void setLast_Name(String last_Name) {
         this.last_Name = last_Name;
+    }
+
+    public Set<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Set<Address> address) {
+        this.address = address;
     }
 
 
