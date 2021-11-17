@@ -42,5 +42,32 @@ public class AccountService {
                 -> new SingleAccountNotFoundException());
 
     }
+    
+public ResponseEntity<?> deleteAccount(Long id) {
+        logger.info("Account deleted");
+        accountRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    public ResponseEntity<?> createAccount(@Valid @RequestBody Account account) {
+        logger.info("Account created");
+        accountRepository.save(account);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newAccountUri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(account.getId())
+                .toUri();
+        responseHeaders.setLocation(newAccountUri);
+
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+    public ResponseEntity<?> updateAccount(Account account, Long accountId) {
+
+        logger.info("Account updated");
+       accountRepository.save(account);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
