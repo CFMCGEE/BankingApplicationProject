@@ -1,11 +1,12 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
-
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 
 import java.util.List;
 
-public class CustomerSuccessfullyFound{
+
+public class CustomerSuccessfullyFound {
+
     private Integer code;
     private String message;
     private List<Customer> data;
@@ -42,4 +43,5 @@ public class CustomerSuccessfullyFound{
     public void setData(List<Customer> data) {
         this.data = data;
     }
+
 }

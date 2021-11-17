@@ -1,5 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
+
 import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundError;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundById;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundException;
@@ -44,5 +45,6 @@ public class CustomerNotFoundExceptionHandler extends CustomerNotFoundException 
         return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
 
     }
+
 
 }

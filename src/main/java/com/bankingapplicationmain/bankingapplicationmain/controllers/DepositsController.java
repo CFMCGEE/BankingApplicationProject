@@ -24,7 +24,6 @@ public class DepositsController {
         return depositsService.getDeposits(accountId);
     }
 
-
     @PostMapping("/accounts/{accountId}/deposits")
     public void registerDeposits(@RequestBody Deposits deposits){
         depositsService.createDeposit(deposits);
@@ -33,7 +32,6 @@ public class DepositsController {
 
     @PutMapping("/deposits/{depositId}")
     public void updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
-//         depositsService.editDeposit(depositId,deposits);
         depositsService.updateDeposit(depositId,deposits);
 
     }

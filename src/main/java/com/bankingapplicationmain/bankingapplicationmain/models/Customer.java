@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -50,6 +51,5 @@ public class Customer {
     public void setAddress(Set<Address> address) {
         this.address = address;
     }
-
 
 }

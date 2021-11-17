@@ -10,15 +10,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/customers")
 public class CustomerController {
 
     @Autowired
     CustomerService customerService;
 
-    //get all customers
     @GetMapping
-    @RequestMapping("/customers")
     public ResponseEntity<List<Customer>> getAllCustomers(){
         return customerService.getAllCustomers();
     }
@@ -47,7 +45,6 @@ public class CustomerController {
         return customerService.getCustomerByAccountId(customerId);
     }
 
-    //delete customer
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Long id){
         return customerService.deleteCustomer(id);

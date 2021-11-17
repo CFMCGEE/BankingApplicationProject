@@ -1,9 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleAccountSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountSuccessfullyFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleAccountSuccessfullyFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,28 +25,10 @@ public class AccountSuccessExceptionHandler extends AccountSuccessfullyFound {
 
         List<Account> accountList = accountRepository.findAll();
 
-        AccountSuccessfullyFound accountSuccessfullyFound = new AccountSuccessfullyFound();
-        accountSuccessfullyFound.setCode(successCode);
-        accountSuccessfullyFound.setMessage("Success!"); // Success
-        accountSuccessfullyFound.setData(accountList);
+        AccountSuccessfullyFound accountSuccessfullyFound = new AccountSuccessfullyFound(successCode, "Success!", accountList); // Success
 
         return new ResponseEntity<>(accountSuccessfullyFound, null, HttpStatus.OK);
 
     }
 
-    @ExceptionHandler(SingleAccountSuccessfullyFoundException.class)
-    public ResponseEntity<?> handleSingleAccountSuccessfullyFoundException(Long accountID) {
-
-        int successCode = HttpStatus.OK.value();
-
-        Account accountList = accountRepository.findById(accountID).orElse(null);
-
-        SingleAccountSuccessfullyFound singleAccountSuccessfullyFound = new SingleAccountSuccessfullyFound();
-        singleAccountSuccessfullyFound.setCode(successCode);
-        singleAccountSuccessfullyFound.setMessage("Success!");
-        singleAccountSuccessfullyFound.setData(accountList);
-
-        return new ResponseEntity<>(singleAccountSuccessfullyFound, null, HttpStatus.OK);
-
-    }
 }
