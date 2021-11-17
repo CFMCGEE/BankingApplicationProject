@@ -1,12 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.controllers;
 
+import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.services.DepositsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/accounts")
@@ -26,20 +24,22 @@ public class DepositsController {
         return depositsService.getDeposits(depositId);
     }
 
-    @RequestMapping(value="/accounts/{accountId}/deposits",method = RequestMethod.POST)
-    public ResponseEntity<?> createDeposit(@PathVariable Long accountId) {
-        return depositsService.createDeposit(accountId);
+
+    @PostMapping("/accounts/{accountId}/deposits")
+    public void registerDeposits(@RequestBody Deposits deposits){
+        depositsService.createDeposit(deposits);
     }
 
-    @RequestMapping(value="/deposits/{depositId}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateDeposit(@PathVariable Long depositId) {
-        return depositsService.updateDeposit(depositId);
+    @PutMapping("/deposits/{depositId}")
+    public void updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
+        depositsService.updateDeposit(depositId,deposits);
     }
 
-    @RequestMapping(value="/deposits/{depositId}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteDeposit(@PathVariable Long depositId) {
-        return depositsService.deleteDeposit(depositId);
+    @DeleteMapping("/deposits/{depositId}")
+    public void deleteDeposits(@PathVariable Long depositId){
+        depositsService.deleteDeposit(depositId);
     }
+
 
 
 }
