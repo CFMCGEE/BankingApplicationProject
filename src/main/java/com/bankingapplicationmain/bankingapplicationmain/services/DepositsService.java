@@ -2,14 +2,17 @@ package com.bankingapplicationmain.bankingapplicationmain.services;
 
 
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
+
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.DepositsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -26,7 +29,6 @@ public class DepositsService {
     }
 
     public ResponseEntity<?> getDepositById(Long id) {
-
         if(depositsRepository.findById(id).isEmpty()){
             logger.info("Deposit not found");
            throw new DepositsNotFoundById();
@@ -42,9 +44,6 @@ public class DepositsService {
     }
 
     //a put method as well
-
-    public void editDeposit(Long depositId, Deposits deposits){
-}
   
     public void updateDeposit(Long depositId, Deposits deposits){
 
