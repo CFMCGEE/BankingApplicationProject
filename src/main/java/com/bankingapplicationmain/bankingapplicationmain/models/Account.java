@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 public class Account {
 
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ACCOUNT_ID")
     private Long id;
@@ -17,7 +17,9 @@ public class Account {
     private Integer rewards;
     private Double balance;
 
-//    private Customer customer;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer) {
         this.id = id;
@@ -25,7 +27,7 @@ public class Account {
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
-//        this.customer = customer;
+        this.customer = customer;
     }
 
     public Account() {
