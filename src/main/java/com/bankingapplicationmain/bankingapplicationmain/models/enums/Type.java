@@ -2,7 +2,16 @@ package com.bankingapplicationmain.bankingapplicationmain.models.enums;
 
 public enum Type {
 
-    SAVINGS("Savings"), CHECKING("Checking"), CREDIT("Credit");
+    @JsonProperty("Savings")
+    SAVINGS,
+    @JsonProperty("Checking")
+    CHECKING,
+    @JsonProperty("Credit")
+    CREDIT;
+
+    Type() {
+
+    }
 
     private String type;
 
