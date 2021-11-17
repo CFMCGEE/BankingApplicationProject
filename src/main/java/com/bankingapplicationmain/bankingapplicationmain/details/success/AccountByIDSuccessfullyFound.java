@@ -9,9 +9,9 @@ public class AccountByIDSuccessfullyFound {
 
     private Integer code;
     private String message;
-    private List<Account> data;
+    private Iterable<Account> data;
 
-    public AccountByIDSuccessfullyFound(Integer code, String message, List<Account> data) {
+    public AccountByIDSuccessfullyFound(Integer code, String message, Iterable<Account> data) {
 
         this.code = code;
         this.message = message;
@@ -39,11 +39,11 @@ public class AccountByIDSuccessfullyFound {
         this.message = message;
     }
 
-    public List<Account> getData() {
+    public Iterable<Account> getData() {
         return data;
     }
 
-    public void setData(List<Account> data) {
+    public void setData(Iterable<Account> data) {
         this.data = data;
     }
 

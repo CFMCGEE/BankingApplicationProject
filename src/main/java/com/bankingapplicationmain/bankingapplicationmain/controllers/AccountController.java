@@ -22,7 +22,7 @@ public class AccountController {
     }
 
     @GetMapping("/{accountID}")
-    public Account getAccount(@PathVariable Long accountID) {
+    public ResponseEntity<Object> getAccount(@PathVariable Long accountID) {
         return accountService.getSingleAccount(accountID);
     }
     
@@ -41,8 +41,15 @@ public class AccountController {
         return accountService.updateAccount(account, accountID);
     }
 
+//    @GetMapping("/customers/{customerId}/accounts")
+//    public Iterable<Account> getEveryAccountByID(@PathVariable("customerId") Long accountID) {
+//        return accountService.getAllAccountsByCustomer(accountID);
+//    }
+
+
+
     @GetMapping("/customers/{customerId}/accounts")
-    public Iterable<Account> getEveryAccountByID(@PathVariable("customerId") Long accountID) {
+    public ResponseEntity<Object> getEveryAccountByID(@PathVariable("customerId") Long accountID) {
         return accountService.getAllAccountsByCustomer(accountID);
     }
 

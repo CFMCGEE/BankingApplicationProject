@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountByIDSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleAccountSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
@@ -39,30 +40,43 @@ public class AccountService {
 
     }
 
-    public Account getSingleAccount(Long accountID) {
+    public ResponseEntity<Object> getSingleAccount(Long accountID) {
 
-        if (accountRepository.findById(accountID).isEmpty()) {
-            throw new SingleAccountNotFoundException();
-        } else {
-            logger.info("One account successfully found!");
-            throw new SingleAccountSuccessfullyFoundException();
-        }
+        Account singleAccount = accountRepository.findById(accountID).orElseThrow(() -> new SingleAccountNotFoundException());
+
+        logger.info("One account successfully found!");
+
+        int successCode = HttpStatus.OK.value();
+
+        SingleAccountSuccessfullyFound singleAccountSuccessfullyFound = new SingleAccountSuccessfullyFound();
+        singleAccountSuccessfullyFound.setCode(successCode);
+        singleAccountSuccessfullyFound.setMessage("Success!");
+        singleAccountSuccessfullyFound.setData(singleAccount);
+
+        return new ResponseEntity<>(singleAccountSuccessfullyFound, HttpStatus.OK);
 
     }
 
-    public Iterable<Account> getAllAccountsByCustomer(Long accountID) {
+    public ResponseEntity<Object> getAllAccountsByCustomer(Long accountID) {
 
-        List<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(accountID));
+        Iterable<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(accountID));
 
-        if (accountOfCustomersByID.isEmpty()) {
-            throw new AccountByIDNotFoundException();
-        } else {
+        try {
+
             logger.info("All customer accounts successfully found!");
-            throw new AccountByIDSuccessfullyFoundException();
+
+            int successCode = HttpStatus.OK.value();
+
+            AccountByIDSuccessfullyFound accountByIDSuccessfullyFound = new AccountByIDSuccessfullyFound(successCode, "Success!", accountOfCustomersByID);
+
+            return new ResponseEntity<>(accountByIDSuccessfullyFound, HttpStatus.OK);
+
+        } catch (AccountByIDNotFoundException e) {
+            throw new AccountByIDNotFoundException();
         }
 
     }
-    
+
     public ResponseEntity<?> deleteAccount(Long id) {
         logger.info("Account deleted");
         accountRepository.deleteById(id);
@@ -87,7 +101,7 @@ public class AccountService {
     public ResponseEntity<?> updateAccount(Account account, Long accountId) {
 
         logger.info("Account updated");
-       accountRepository.save(account);
+        accountRepository.save(account);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
