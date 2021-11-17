@@ -37,16 +37,20 @@ public class BillExceptionHandler extends BillNotFoundException {
 
     }
 
-    //@ExceptionHandler()
-    public ResponseEntity<?> handleBillByIDNotFoundException() {
+//    @ExceptionHandler(BillNotFoundException.class)
+//    public ResponseEntity<?> handleBillByIDNotFoundException() {
+//
+//        int errorCode = HttpStatus.NOT_FOUND.value();
+//
+//        NotFoundError billError = new NotFoundError();
+//        billError.setCode(errorCode);
+//        billError.setMessage("Error creating bill: Account not found.");
+//
+//        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
+//    }
 
-        int errorCode = HttpStatus.NOT_FOUND.value();
 
-        NotFoundError billError = new NotFoundError();
-        billError.setCode(errorCode);
-        billError.setMessage("");
 
-        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
-    }
+
 
 }

@@ -9,8 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Service
@@ -51,9 +56,40 @@ public class BillService {
 //        return null;
 //    }
 
-    public void createBill(Bill bill){
-        billRepository.save(bill);
+    public ResponseEntity<?> createBill(Bill bill){
+        logger.info("Bill created Successfully");
+      billRepository.save(bill);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newBillURI = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{accountId}")
+                .buildAndExpand(bill.getId())
+                .toUri();
+        responseHeaders.setLocation(newBillURI);
+
+
+        return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
+
     }
+
+    public ResponseEntity<?> updateBill(Bill bill, Long id){
+        logger.info("Accepted bill modification");
+        billRepository.save(bill);
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    public ResponseEntity<?> deleteBill( Long id){
+        billRepository.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+
 
 
 }
