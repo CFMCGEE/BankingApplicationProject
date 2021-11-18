@@ -17,13 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-<<<<<<< HEAD
 import java.util.List;
-=======
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
->>>>>>> main
 
 
 @Service
@@ -34,10 +30,6 @@ public class DepositsService {
     @Autowired
     private DepositsRepository depositsRepository;
 
-<<<<<<< HEAD
-    public Deposits getDepositById(Long id) {
-
-=======
     //adding method to verify deposit
     protected void verifyDeposit(Long depositId) throws CustomerNotFoundException {
         Optional<Deposits> deposits = depositsRepository.findById(depositId);
@@ -46,16 +38,12 @@ public class DepositsService {
         }
     }
 
-    public ResponseEntity<?> getDeposits(Long accountId) {
-        return ResponseEntity.ok(depositsRepository.findAll());
-    }
-
-    public ResponseEntity<?> getDepositById(Long id) {
->>>>>>> main
-        if(depositsRepository.findById(id).isEmpty()){
+    public Deposits getDepositById(Long id) {
+        Deposits deposit = depositsRepository.findById(id).orElseThrow(()->
+        {
             logger.info("Deposit not found");
-           throw new DepositsNotFoundById();
-        }
+            throw new DepositsNotFoundById();
+        });
         logger.info("Deposits successfully found");
         return depositsRepository.getById(id);
     }
@@ -63,7 +51,7 @@ public class DepositsService {
 
         if(depositsRepository.findByAccountID(id).isEmpty()){
             logger.info("Deposits not found");
-           throw new DepositsNotFoundById();
+            throw new DepositsNotFoundById();
         }
         logger.info("Account Deposits successfully found");
         return depositsRepository.findByAccountID(id);
@@ -88,18 +76,9 @@ public class DepositsService {
     }
 
     //a put method as well
-<<<<<<< HEAD
-
-    public void editDeposit(Long depositId, Deposits deposits){
-        deposits.setId(depositId);
-        depositsRepository.save(deposits);
-        logger.info("Deposit successfully edited");
-
-    }
-=======
->>>>>>> main
   
     public ResponseEntity<?> updateDeposit(Long depositId, Deposits deposits){
+        deposits.setId(depositId);
         verifyDeposit(depositId);
 
         depositsRepository.save(deposits);

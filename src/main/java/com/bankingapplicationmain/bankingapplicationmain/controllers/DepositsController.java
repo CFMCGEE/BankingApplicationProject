@@ -7,15 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/deposits")
 public class DepositsController {
 
     @Autowired
     private DepositsService depositsService;
 
     @GetMapping("/deposits/{depositId}")
-    public void getDepositById(@RequestBody Long depositId){
-        depositsService.getDepositById(depositId);
+    public ResponseEntity<?> getDepositById(@PathVariable Long depositId){
+        return ResponseEntity.ok(depositsService.getDepositById(depositId));
 
     }
 
@@ -24,21 +24,10 @@ public class DepositsController {
         return ResponseEntity.ok(depositsService.getDepositsByAccountId(accountId));
     }
 
-<<<<<<< HEAD
-
-    @GetMapping("/deposits/{depositId}")
-    public ResponseEntity<?> getDepositById(@PathVariable Long depositId){
-        return ResponseEntity.ok(depositsService.getDepositById(depositId));
-      
-    }
-
-
-=======
->>>>>>> main
-    @PostMapping("/accounts/{accountId}/deposits")
-    public void addDeposits(@RequestBody Deposits deposits){
-        depositsService.createDeposit(deposits);
-
+    @PostMapping("/deposits")
+    public ResponseEntity<?> createDeposit(@RequestBody Deposits deposit){
+        depositsService.createDeposit(deposit);
+        return ResponseEntity.created(null).build();
     }
 
     @PutMapping("/deposits/{depositId}")
