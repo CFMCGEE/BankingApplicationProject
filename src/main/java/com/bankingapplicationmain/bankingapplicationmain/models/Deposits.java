@@ -2,6 +2,7 @@ package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Medium;
+import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,9 +22,9 @@ public class Deposits {
     private String description;
     private Status status;
     private Long payee_id;
-    private String type;
+    private Type type;
 
-    public Deposits(Long id, Medium medium, String transaction_date, int amount, String description, Status status, Long payee_id, String type) {
+    public Deposits(Long id, Medium medium, String transaction_date, int amount, String description, Status status, Long payee_id, Type type) {
 
         this.id = id;
         this.medium = medium;
@@ -96,11 +97,11 @@ public class Deposits {
         this.payee_id = payee_id;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
