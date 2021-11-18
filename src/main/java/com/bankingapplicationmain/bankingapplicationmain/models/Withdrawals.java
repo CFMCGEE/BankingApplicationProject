@@ -4,10 +4,12 @@ import com.bankingapplicationmain.bankingapplicationmain.models.moreenums.Medium
 import com.bankingapplicationmain.bankingapplicationmain.models.moreenums.Status;
 import com.bankingapplicationmain.bankingapplicationmain.models.moreenums.Type;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class Withdrawals {
 
     @Id
