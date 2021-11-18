@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @Service
-public class gitWithdrawalsService {
+public class WithdrawalsService {
 
 
     //Initialize logger
