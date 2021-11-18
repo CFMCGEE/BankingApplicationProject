@@ -14,24 +14,24 @@ public class Withdrawals {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Type type;
-    private String transaction_date;
-    private Status status;
-    private Long payer_id;
     private Medium medium;
+    private String transaction_date;
     private Double amount;
     private String description;
+    private Status status;
+    private Long payer_id;
+    private Type type;
 
-    public Withdrawals(Long id, Type type, String transaction_date, Status status, Long payer_id, Medium medium, Double amount, String description) {
+    public Withdrawals(Long id, Medium medium, String transaction_date, Double amount, String description, Status status, Long payer_id, Type type) {
 
         this.id = id;
-        this.type = type;
-        this.transaction_date = transaction_date;
-        this.status = status;
-        this.payer_id = payer_id;
         this.medium = medium;
+        this.transaction_date = transaction_date;
         this.amount = amount;
         this.description = description;
+        this.status = status;
+        this.payer_id = payer_id;
+        this.type = type;
 
     }
 
@@ -47,12 +47,12 @@ public class Withdrawals {
         this.id = id;
     }
 
-    public Type getType() {
-        return type;
+    public Medium getMedium() {
+        return medium;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setMedium(Medium medium) {
+        this.medium = medium;
     }
 
     public String getTransaction_date() {
@@ -61,6 +61,22 @@ public class Withdrawals {
 
     public void setTransaction_date(String transaction_date) {
         this.transaction_date = transaction_date;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Status getStatus() {
@@ -79,28 +95,12 @@ public class Withdrawals {
         this.payer_id = payer_id;
     }
 
-    public Medium getMedium() {
-        return medium;
+    public Type getType() {
+        return type;
     }
 
-    public void setMedium(Medium medium) {
-        this.medium = medium;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setType(Type type) {
+        this.type = type;
     }
 
 }
