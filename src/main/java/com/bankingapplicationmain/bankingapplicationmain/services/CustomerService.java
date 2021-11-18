@@ -71,7 +71,7 @@ public class CustomerService {
                     .toUri();
             responseHeaders.setLocation(newCustomerUri);
 
-            CustomerAccountSuccessfullyCreated customerAccountSuccessfullyCreated = new CustomerAccountSuccessfullyCreated(successCode, "Success!", customerRepository.save(customer));
+            CustomerAccountSuccessfullyCreated customerAccountSuccessfullyCreated = new CustomerAccountSuccessfullyCreated(successCode, "Customer Successfully Created!", customerRepository.save(customer));
 
             return new ResponseEntity<>(customerAccountSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
 
