@@ -1,11 +1,9 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.CustomerNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
 
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.DepositsRepository;
 import org.slf4j.Logger;
@@ -17,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.Collections;
 import java.util.List;
 import java.net.URI;
 import java.util.Optional;
@@ -31,7 +30,7 @@ public class DepositsService {
     private DepositsRepository depositsRepository;
 
     //adding method to verify deposit
-    protected void verifyDeposit(Long depositId) throws CustomerNotFoundException {
+    protected void verifyDeposit(Long depositId) throws DepositsNotFoundException {
         Optional<Deposits> deposits = depositsRepository.findById(depositId);
         if(deposits.isEmpty()) {
             throw new DepositsNotFoundException();
@@ -49,12 +48,12 @@ public class DepositsService {
     }
     public List<Deposits> getDepositsByAccountId(Long id) {
 
-        if(depositsRepository.findByAccountID(id).isEmpty()){
+        if(depositsRepository.findAllById(Collections.singleton(id)).isEmpty()){
             logger.info("Deposits not found");
             throw new DepositsNotFoundById();
         }
         logger.info("Account Deposits successfully found");
-        return depositsRepository.findByAccountID(id);
+        return depositsRepository.findAllById(Collections.singleton(id));
 
     }
 
