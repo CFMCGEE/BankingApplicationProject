@@ -1,13 +1,14 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String first_Name;
@@ -50,6 +51,5 @@ public class Customer {
     public void setAddress(Set<Address> address) {
         this.address = address;
     }
-
 
 }

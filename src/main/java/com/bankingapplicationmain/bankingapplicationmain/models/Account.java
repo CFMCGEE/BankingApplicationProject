@@ -7,44 +7,26 @@ import javax.persistence.*;
 @Entity
 public class Account {
 
-<<<<<<< HEAD
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-=======
-   @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ACCOUNT_ID")
->>>>>>> cc5377a462eeac9a8c89d8db2b6f8c18a11263ec
     private Long id;
 
     private Type type;
     private String nickname;
     private Integer rewards;
     private Double balance;
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "customer_id")
-<<<<<<< HEAD
     private int customer_id;
 
     public Account(Long id, Type type, String nickname, Integer rewards, Double balance, int customer_id) {
 
-=======
-    private Customer customer;
-
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer) {
->>>>>>> cc5377a462eeac9a8c89d8db2b6f8c18a11263ec
         this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
-<<<<<<< HEAD
         this.customer_id = customer_id;
 
-=======
-        this.customer = customer;
->>>>>>> cc5377a462eeac9a8c89d8db2b6f8c18a11263ec
     }
 
     public Account() {

@@ -1,8 +1,21 @@
 package com.bankingapplicationmain.bankingapplicationmain.models.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Status {
 
-    PENDING("Pending"), CANCELLED("Cancelled"), COMPLETED("Completed"), RECURRING("Recurring");
+    @JsonProperty("Pending")
+    PENDING,
+    @JsonProperty("Cancelled")
+    CANCELLED,
+    @JsonProperty("Completed")
+    COMPLETED,
+    @JsonProperty("Recurring")
+    RECURRING;
+
+    Status() {
+
+    }
 
     private String status;
 

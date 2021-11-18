@@ -13,12 +13,18 @@ public class DepositsController {
     @Autowired
     private DepositsService depositsService;
 
+    @GetMapping("/deposits/{depositId}")
+    public void getDepositById(@RequestBody Long depositId){
+        depositsService.getDepositById(depositId);
+
+    }
 
     @RequestMapping(value="/accounts/{accountId}/deposits",method = RequestMethod.GET)
     public ResponseEntity<?> getDepositsByAccountId(@PathVariable Long accountId) {
         return ResponseEntity.ok(depositsService.getDepositsByAccountId(accountId));
     }
 
+<<<<<<< HEAD
 
     @GetMapping("/deposits/{depositId}")
     public ResponseEntity<?> getDepositById(@PathVariable Long depositId){
@@ -27,6 +33,8 @@ public class DepositsController {
     }
 
 
+=======
+>>>>>>> main
     @PostMapping("/accounts/{accountId}/deposits")
     public void addDeposits(@RequestBody Deposits deposits){
         depositsService.createDeposit(deposits);
@@ -35,7 +43,6 @@ public class DepositsController {
 
     @PutMapping("/deposits/{depositId}")
     public void updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
-//         depositsService.editDeposit(depositId,deposits);
         depositsService.updateDeposit(depositId,deposits);
 
     }
