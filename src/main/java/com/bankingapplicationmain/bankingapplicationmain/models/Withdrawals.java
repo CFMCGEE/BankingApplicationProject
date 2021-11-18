@@ -1,8 +1,8 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
-import com.bankingapplicationmain.bankingapplicationmain.models.moreenums.Medium;
-import com.bankingapplicationmain.bankingapplicationmain.models.moreenums.Status;
-import com.bankingapplicationmain.bankingapplicationmain.models.moreenums.Type;
+import com.bankingapplicationmain.bankingapplicationmain.models.enums.Medium;
+import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
+import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

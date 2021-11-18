@@ -35,7 +35,7 @@ public class BillController {
         return billService.createBill(bill);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/bills/{id}")
     public void deleteBill( @PathVariable Long id){
         billService.deleteBill(id);
     }
