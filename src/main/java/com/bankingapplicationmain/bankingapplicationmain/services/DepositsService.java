@@ -27,15 +27,18 @@ public class DepositsService {
             logger.info("Deposit not found");
            throw new DepositsNotFoundById();
         }
+        logger.info("Deposits successfully found");
         return depositsRepository.getById(id);
     }
     public List<Deposits> getDepositsByAccountId(Long id) {
 
         if(depositsRepository.findByAccountID(id).isEmpty()){
-            logger.info("Deposit not found");
+            logger.info("Deposits not found");
            throw new DepositsNotFoundById();
         }
+        logger.info("Account Deposits successfully found");
         return depositsRepository.findByAccountID(id);
+
     }
 
     //we need a post method
@@ -48,7 +51,11 @@ public class DepositsService {
     //a put method as well
 
     public void editDeposit(Long depositId, Deposits deposits){
-}
+        deposits.setId(depositId);
+        depositsRepository.save(deposits);
+        logger.info("Deposit successfully edited");
+
+    }
   
     public void updateDeposit(Long depositId, Deposits deposits){
 

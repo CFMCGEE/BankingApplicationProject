@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface DepositsRepository extends JpaRepository<Deposits,Long> {
 
-    @Query(value="select d.* from Deposits d, Account a where a.id = ?1 and d.id = a.id", nativeQuery = true)
+    @Query(value="select d.* from Deposits d, Account a where a.id = ?1 and d.payee_id = a.id", nativeQuery = true)
     List<Deposits> findByAccountID(long accountID);
 
 }
