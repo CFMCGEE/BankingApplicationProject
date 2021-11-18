@@ -23,13 +23,16 @@ import java.util.List;
 
 @Service
 public class AccountService {
-    @Autowired
-    private CustomerRepository customerRepository;
-
 
     private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-    protected void verifyCustomer(Long customerId) throws AccountByIDNotFoundException{
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    protected void verifyCustomer(Long customerId) throws AccountByIDNotFoundException {
 
         Customer customer = customerRepository.findById(customerId).orElse(null);
 
@@ -38,8 +41,7 @@ public class AccountService {
         }
 
     }
-    @Autowired
-    private AccountRepository accountRepository;
+
 
     public List<Account> getAllAccounts() {
 
@@ -120,6 +122,7 @@ public class AccountService {
     }
 
     public ResponseEntity<?> deleteAccount(Long id) {
+
         if (accountRepository.findById(id).isPresent()) {
             int successCode = HttpStatus.OK.value();
             logger.info("Account deleted");
