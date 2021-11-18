@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class AccountExceptionHandler extends AccountNotFoundException {
+public class AccountExceptionHandler extends NotFoundError {
 
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<?> handleAccountNotFoundException() {

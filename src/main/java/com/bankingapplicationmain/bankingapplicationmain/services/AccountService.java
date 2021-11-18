@@ -37,7 +37,6 @@ public class AccountService {
             logger.info("All accounts successfully found!");
             throw new AccountSuccessfullyFoundException();
         }
-
     }
 
     public ResponseEntity<Object> getSingleAccount(Long accountID) {
