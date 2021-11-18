@@ -13,29 +13,34 @@ public class DepositsController {
     @Autowired
     private DepositsService depositsService;
 
+    //works
     @GetMapping("/deposits/{depositId}")
     public ResponseEntity<?> getDepositById(@PathVariable Long depositId){
         return ResponseEntity.ok(depositsService.getDepositById(depositId));
 
     }
 
+    //works
     @RequestMapping(value="/accounts/{accountId}/deposits",method = RequestMethod.GET)
     public ResponseEntity<?> getDepositsByAccountId(@PathVariable Long accountId) {
         return ResponseEntity.ok(depositsService.getDepositsByAccountId(accountId));
     }
 
+    //works
     @PostMapping("/deposits")
     public ResponseEntity<?> createDeposit(@RequestBody Deposits deposit){
         depositsService.createDeposit(deposit);
         return ResponseEntity.created(null).build();
     }
 
+    //works
     @PutMapping("/deposits/{depositId}")
     public void updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
         depositsService.updateDeposit(depositId,deposits);
 
     }
 
+    //works
     @DeleteMapping("/deposits/{depositId}")
     public void deleteDeposits(@PathVariable Long depositId){
         depositsService.deleteDeposit(depositId);
