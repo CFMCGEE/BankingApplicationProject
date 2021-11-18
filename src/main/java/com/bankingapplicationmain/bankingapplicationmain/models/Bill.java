@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Bill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BILL_ID")
     private Long id;
 

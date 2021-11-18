@@ -3,11 +3,10 @@ package com.bankingapplicationmain.bankingapplicationmain.controllers;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,8 +22,40 @@ public class AccountController {
     }
 
     @GetMapping("/{accountID}")
-    public Account getAccount(@PathVariable Long accountID) {
+    public ResponseEntity<Object> getAccount(@PathVariable Long accountID) {
         return accountService.getSingleAccount(accountID);
     }
+    
+    @DeleteMapping("/{accountID}")
+    public ResponseEntity<?> deleteAccount(@PathVariable Long accountID){
+        return accountService.deleteAccount(accountID);
+    }
+
+    @PostMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<?> createAccount(@Valid @RequestBody Account account) {
+        return accountService.createAccount(account);
+    }
+
+    @PutMapping("/{accountID}")
+    public ResponseEntity<?> updateCustomer(@PathVariable Long accountID, @Valid @RequestBody Account account){
+        return accountService.updateAccount(account, accountID);
+    }
+
+//    @GetMapping("/customers/{customerId}/accounts")
+//    public Iterable<Account> getEveryAccountByID(@PathVariable("customerId") Long accountID) {
+//        return accountService.getAllAccountsByCustomer(accountID);
+//    }
+
+
+
+    @GetMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<Object> getEveryAccountByID(@PathVariable("customerId") Long accountID) {
+        return accountService.getAllAccountsByCustomer(accountID);
+    }
+
+//    @PostMapping("/customers/{customerId}/accounts")
+//    public void postCustomerAccount(@RequestBody Account account, @PathVariable("customerId") Long accountID) {
+//        accountService.createCustomerAccount(account, accountID);
+//    }
 
 }

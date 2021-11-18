@@ -20,5 +20,7 @@ public class CustomerNotFoundById extends RuntimeException {
     }
 
     public CustomerNotFoundById() {
+
     }
+
 }
