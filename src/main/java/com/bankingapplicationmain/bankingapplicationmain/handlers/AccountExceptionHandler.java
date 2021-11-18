@@ -64,5 +64,17 @@ public class AccountExceptionHandler extends AccountNotFoundException {
         return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
 
     }
+    
+    @ExceptionHandler(AccountDeleteException.class)
+    public ResponseEntity<?> handleAccountDeleteException() {
+
+        int errorCode = HttpStatus.NOT_FOUND.value();
+
+        NotFoundError accountError = new NotFoundError();
+        accountError.setCode(errorCode);
+        accountError.setMessage("Account does not exist");
+
+        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
+    }
 
 }
