@@ -1,7 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
-import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Medium;
+import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
 
 import javax.persistence.Entity;
@@ -10,21 +10,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Deposits {
+public class Withdrawals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Medium medium;
+    
     private String transaction_date;
-    private int amount;
+    private Double amount;
     private String description;
     private Status status;
-    private Long payee_id;
+    private Long payer_id;
     private Type type;
 
-    public Deposits(Long id, Medium medium, String transaction_date, int amount, String description, Status status, Long payee_id, Type type) {
+    public Withdrawals(Long id, Medium medium, String transaction_date, Double amount, String description, Status status, Long payer_id, Type type) {
 
         this.id = id;
         this.medium = medium;
@@ -32,12 +33,12 @@ public class Deposits {
         this.amount = amount;
         this.description = description;
         this.status = status;
-        this.payee_id = payee_id;
+        this.payer_id = payer_id;
         this.type = type;
 
     }
 
-    public Deposits() {
+    public Withdrawals() {
 
     }
 
@@ -65,11 +66,11 @@ public class Deposits {
         this.transaction_date = transaction_date;
     }
 
-    public int getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -89,12 +90,12 @@ public class Deposits {
         this.status = status;
     }
 
-    public Long getPayee_id() {
-        return payee_id;
+    public Long getPayer_id() {
+        return payer_id;
     }
 
-    public void setPayee_id(Long payee_id) {
-        this.payee_id = payee_id;
+    public void setPayer_id(Long payer_id) {
+        this.payer_id = payer_id;
     }
 
     public Type getType() {

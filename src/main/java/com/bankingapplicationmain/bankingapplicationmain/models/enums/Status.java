@@ -11,7 +11,9 @@ public enum Status {
     @JsonProperty("Completed")
     COMPLETED,
     @JsonProperty("Recurring")
-    RECURRING;
+    RECURRING,
+    @JsonProperty("Executed")
+    EXECUTED;
 
     Status() {
 
