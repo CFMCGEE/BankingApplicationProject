@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -13,7 +14,6 @@ public class BillController {
 
     @Autowired
     private BillService billService;
-
 
     @GetMapping("bills/{billID}")
     public Bill getSingleBill(@PathVariable Long billID){
@@ -30,6 +30,15 @@ public class BillController {
         return billService.getAllBillsByCustomerID(customerID);
     }
 
+    @PostMapping("accounts/{accountID}/bills")
+    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill){
+        return billService.createBill(bill);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBill( @PathVariable Long id){
+        billService.deleteBill(id);
+    }
 
 
 }

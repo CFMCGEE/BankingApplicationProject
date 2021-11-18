@@ -17,6 +17,7 @@ public class Withdrawals {
     private Long id;
 
     private Medium medium;
+    
     private String transaction_date;
     private Double amount;
     private String description;

@@ -11,10 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,12 +60,40 @@ public class BillService {
             logger.info("All Bills For This Customer Successfully Found!");
             BillByIDSuccessfullyFound billByIdSuccessfullyFound = new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Success!", billsByCustomerID);
             return new ResponseEntity<>(billByIdSuccessfullyFound, HttpStatus.OK);
-        }  catch (BillByIDNotFoundException e) {
-        throw new BillByIDNotFoundException();
+        } catch (BillByIDNotFoundException e) {
+            throw new BillByIDNotFoundException();
+        }
     }
-}
+
+    public ResponseEntity<?> createBill(Bill bill) {
+        logger.info("Bill created Successfully");
+        billRepository.save(bill);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newBillURI = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{accountId}")
+                .buildAndExpand(bill.getId())
+                .toUri();
+        responseHeaders.setLocation(newBillURI);
 
 
+        return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
 
+    }
+
+    public ResponseEntity<?> updateBill(Bill bill, Long id) {
+        logger.info("Accepted bill modification");
+        billRepository.save(bill);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    public ResponseEntity<?> deleteBill( Long id) {
+        billRepository.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

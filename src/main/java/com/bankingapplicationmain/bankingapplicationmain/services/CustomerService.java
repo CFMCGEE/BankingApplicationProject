@@ -24,7 +24,6 @@ import java.util.List;
 @Service
 public class CustomerService {
 
-
     private CustomerRepository customerRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
