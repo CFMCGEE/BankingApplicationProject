@@ -9,7 +9,13 @@ public enum Type {
     @JsonProperty("Checking")
     CHECKING,
     @JsonProperty("Credit")
-    CREDIT;
+    CREDIT,
+    @JsonProperty("P2P")
+    P2P,
+    @JsonProperty("Deposit")
+    DEPOSIT,
+    @JsonProperty("Withdrawal")
+    WITHDRAWAL;
 
     Type() {
 

@@ -1,4 +1,4 @@
-package com.bankingapplicationmain.bankingapplicationmain.models.moreenums;
+package com.bankingapplicationmain.bankingapplicationmain.models.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
