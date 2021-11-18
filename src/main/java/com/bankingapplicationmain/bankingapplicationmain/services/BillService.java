@@ -24,8 +24,6 @@ public class BillService {
     @Autowired
     private BillRepository billRepository;
 
-
-
     private static final Logger logger = LoggerFactory.getLogger(BillService.class);
 
     public ResponseEntity<Object> getAllBillsByAccountID(Long accountID) {

@@ -1,4 +1,4 @@
-package com.bankingapplicationmain.bankingapplicationmain.models.enums;
+package com.bankingapplicationmain.bankingapplicationmain.models.moreenums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,9 +9,7 @@ public enum Status {
     @JsonProperty("Cancelled")
     CANCELLED,
     @JsonProperty("Completed")
-    COMPLETED,
-    @JsonProperty("Recurring")
-    RECURRING;
+    COMPLETED;
 
     Status() {
 
