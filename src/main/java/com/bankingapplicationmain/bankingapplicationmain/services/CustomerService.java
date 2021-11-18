@@ -1,5 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
+import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleCustomerSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomerAccountSuccessfullyCreated;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
@@ -84,10 +85,10 @@ public class CustomerService {
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
 
         logger.info("Customer successfully updated");
-        customerRepository.save(customer);
 
+        SingleCustomerSuccessfullyFound customerSuccessfullyUpdated = new SingleCustomerSuccessfullyFound(HttpStatus.OK.value(), "Customer Info Successfully Updated!", customerRepository.save(customer));
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(customerSuccessfullyUpdated, HttpStatus.OK);
     }
 
     public ResponseEntity<?> getCustomerByAccountId(Long customerId) {
