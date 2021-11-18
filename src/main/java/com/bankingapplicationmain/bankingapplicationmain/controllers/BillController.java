@@ -30,9 +30,5 @@ public class BillController {
         return billService.getAllBillsByCustomerId(customerID);
     }
 
-    @PostMapping("/accounts/{accountID}/bills")
-    public ResponseEntity<?> createBill(@Valid Bill bill){
-        return billService.createBill(bill);
-    }
 
 }

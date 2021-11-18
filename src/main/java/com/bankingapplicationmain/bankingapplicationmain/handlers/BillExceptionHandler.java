@@ -14,7 +14,7 @@ public class BillExceptionHandler extends BillNotFoundException {
     @ExceptionHandler(BillNotFoundException.class)
     public ResponseEntity<?> handleBillByAccountIDNotFoundException() {
 
-        int errorCode = HttpStatus.NOT_FOUND.value(); //404
+        int errorCode = HttpStatus.NOT_FOUND.value();
 
         NotFoundError billError = new NotFoundError();
         billError.setCode(errorCode);

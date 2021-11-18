@@ -62,34 +62,4 @@ public class BillService {
         }
     }
 
-    public ResponseEntity<?> createBill(Bill bill){
-        logger.info("Bill created Successfully");
-        billRepository.save(bill);
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newBillURI = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{accountId}")
-                .buildAndExpand(bill.getId())
-                .toUri();
-        responseHeaders.setLocation(newBillURI);
-
-
-        return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
-
-    }
-
-    public ResponseEntity<?> updateBill(Bill bill, Long id){
-        logger.info("Accepted bill modification");
-        billRepository.save(bill);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }
-
-    public ResponseEntity<?> deleteBill( Long id){
-        billRepository.deleteById(id);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
