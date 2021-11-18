@@ -2,10 +2,7 @@ package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundError;
 //import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleAccountNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
