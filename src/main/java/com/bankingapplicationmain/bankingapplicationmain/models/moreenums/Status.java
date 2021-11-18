@@ -9,7 +9,9 @@ public enum Status {
     @JsonProperty("Cancelled")
     CANCELLED,
     @JsonProperty("Completed")
-    COMPLETED;
+    COMPLETED,
+    @JsonProperty("Executed")
+    EXECUTED;
 
     Status() {
 

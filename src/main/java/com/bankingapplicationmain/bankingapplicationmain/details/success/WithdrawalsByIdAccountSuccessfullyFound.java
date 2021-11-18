@@ -5,19 +5,19 @@ import com.bankingapplicationmain.bankingapplicationmain.models.Withdrawals;
 
 import java.util.List;
 
-public class WithdrawalsByAccountSuccessfullyFound {
+public class WithdrawalsByIdAccountSuccessfullyFound {
 
     private Integer code;
-    private List<Withdrawals> data;
+    private Withdrawals data;
 
-    public WithdrawalsByAccountSuccessfullyFound(Integer code, List<Withdrawals> data) {
+    public WithdrawalsByIdAccountSuccessfullyFound(Integer code, Withdrawals data) {
 
         this.code = code;
         this.data = data;
 
     }
 
-    public WithdrawalsByAccountSuccessfullyFound() {
+    public WithdrawalsByIdAccountSuccessfullyFound() {
 
     }
 
@@ -29,11 +29,11 @@ public class WithdrawalsByAccountSuccessfullyFound {
         this.code = code;
     }
 
-    public List<Withdrawals> getData() {
+    public Withdrawals getData() {
         return data;
     }
 
-    public void setData(List<Withdrawals> data) {
+    public void setData(Withdrawals data) {
         this.data = data;
     }
 
