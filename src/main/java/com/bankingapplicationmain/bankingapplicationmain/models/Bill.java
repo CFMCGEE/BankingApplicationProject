@@ -1,6 +1,8 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,14 +16,15 @@ public class Bill {
     private Status status;
     private String payee;
     private String nickname;
+
+    @CreatedDate
     private String creation_date;
+
     private String payment_date;
-    private String recurring_id;
+    private Integer recurring_date;
     private String upcoming_payment_date;
     private Double payment_amount;
-
-
-    private String account_id;
+    private Integer account_id;
 
     public Bill() {
     }
@@ -74,12 +77,12 @@ public class Bill {
         this.payment_date = payment_date;
     }
 
-    public String getRecurring_id() {
-        return recurring_id;
+    public Integer getRecurring_date() {
+        return recurring_date;
     }
 
-    public void setRecurring_id(String recurring_id) {
-        this.recurring_id = recurring_id;
+    public void setRecurring_date(Integer recurring_date) {
+        this.recurring_date = recurring_date;
     }
 
     public String getUpcoming_payment_date() {
@@ -98,11 +101,11 @@ public class Bill {
         this.payment_amount = payment_amount;
     }
 
-    public String getAccount_id() {
+    public Integer getAccount_id() {
         return account_id;
     }
 
-    public void setAccount_id(String account_id) {
+    public void setAccount_id(Integer account_id) {
         this.account_id = account_id;
     }
 }

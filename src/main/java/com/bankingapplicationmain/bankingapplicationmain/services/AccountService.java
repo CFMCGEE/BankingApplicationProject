@@ -77,13 +77,8 @@ public class AccountService {
 
     }
 
-    public ResponseEntity<?> deleteAccount(Long id) {
-        logger.info("Account deleted");
-        accountRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     public ResponseEntity<?> createAccount(Account account) {
+
         logger.info("Account created");
         accountRepository.save(account);
 
@@ -96,6 +91,7 @@ public class AccountService {
         responseHeaders.setLocation(newAccountUri);
 
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+
     }
 
     public ResponseEntity<?> updateAccount(Account account, Long accountId) {
@@ -104,5 +100,15 @@ public class AccountService {
         accountRepository.save(account);
 
         return new ResponseEntity<>(HttpStatus.OK);
+
     }
+
+    public ResponseEntity<?> deleteAccount(Long id) {
+
+        logger.info("Account deleted");
+        accountRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
 }

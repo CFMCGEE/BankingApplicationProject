@@ -3,27 +3,42 @@ package com.bankingapplicationmain.bankingapplicationmain.controllers;
 import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
 import com.bankingapplicationmain.bankingapplicationmain.services.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bills")
 public class BillController {
 
     @Autowired
     private BillService billService;
 
-    @GetMapping
-    public List<Bill> getAllBills(){
-        return billService.getAllBills();
+    @GetMapping("bills/{billID}")
+    public Bill getSingleBill(@PathVariable Long billID){
+        return billService.getBillById(billID);
     }
 
-    @GetMapping("/{id}")
-    public Bill getBill(@PathVariable Long id){
-        return billService.getBillById(id);
+    @GetMapping("accounts/{accountID}/bills")
+    public ResponseEntity<?> getBillsByAccountID(@PathVariable Long accountID){
+        return billService.getAllBillsByAccountID(accountID);
     }
 
+    @GetMapping("/customers/{customerID}/bills")
+    public ResponseEntity<?> getBillsByCustomerID(@PathVariable Long customerID){
+        return billService.getAllBillsByCustomerID(customerID);
+    }
+
+    @PostMapping("accounts/{accountID}/bills")
+    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill){
+        return billService.createBill(bill);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBill( @PathVariable Long id){
+        billService.deleteBill(id);
+    }
 
 
 }
