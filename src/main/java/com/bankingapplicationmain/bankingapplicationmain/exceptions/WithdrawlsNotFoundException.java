@@ -1,0 +1,19 @@
+package com.bankingapplicationmain.bankingapplicationmain.exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class WithdrawlsNotFoundException  extends RuntimeException {
+
+    public WithdrawlsNotFoundException() {
+    }
+
+    public WithdrawlsNotFoundException(String message) {
+        super(message);
+    }
+
+    public WithdrawlsNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
