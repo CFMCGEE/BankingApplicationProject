@@ -1,5 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
+import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleCustomerSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomerAccountSuccessfullyCreated;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
@@ -13,12 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -32,12 +32,6 @@ public class CustomerService {
     @Autowired
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-    }
-    protected void verifyCustomer(Long customerId) throws CustomerNotFoundException {
-        Optional<Customer> customer = customerRepository.findById(customerId);
-        if(customer.isEmpty()) {
-            throw new CustomerNotFoundException();
-        }
     }
 
     // Get all customerss
@@ -53,13 +47,12 @@ public class CustomerService {
 
     //get customer by id
     public Customer getCustomerById(Long customerId) {
-        verifyCustomer(customerId);
-
 
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer Not Found");
             throw new CustomerNotFoundById();
         }
+        logger.info("Customer successfully found");
         return customerRepository.findById(customerId).get();
     }
 
@@ -79,7 +72,7 @@ public class CustomerService {
                     .toUri();
             responseHeaders.setLocation(newCustomerUri);
 
-            CustomerAccountSuccessfullyCreated customerAccountSuccessfullyCreated = new CustomerAccountSuccessfullyCreated(successCode, "Success!", customerRepository.save(customer));
+            CustomerAccountSuccessfullyCreated customerAccountSuccessfullyCreated = new CustomerAccountSuccessfullyCreated(successCode, "Customer Successfully Created!", customerRepository.save(customer));
 
             return new ResponseEntity<>(customerAccountSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
 
@@ -90,31 +83,21 @@ public class CustomerService {
     }
 
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
-        verifyCustomer(customerId);
-
 
         logger.info("Customer successfully updated");
-        customerRepository.save(customer);
 
+        SingleCustomerSuccessfullyFound customerSuccessfullyUpdated = new SingleCustomerSuccessfullyFound(HttpStatus.OK.value(), "Customer Info Successfully Updated!", customerRepository.save(customer));
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(customerSuccessfullyUpdated, HttpStatus.OK);
     }
 
     public ResponseEntity<?> getCustomerByAccountId(Long customerId) {
-        verifyCustomer(customerId);
         if (customerRepository.findById(customerId).isPresent()) {
             //logger
             logger.info("Customer successfully found");
             customerRepository.findById(customerId);
         }
         throw new CustomerNotFoundById();
-    }
-
-    public ResponseEntity<?> deleteCustomer(Long id) {
-        logger.info("Customer successfully deleted");
-        customerRepository.deleteById(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
