@@ -35,12 +35,11 @@ public class AccountController {
     public ResponseEntity<?> createAccount(@Valid @RequestBody Account account, @PathVariable("customerId") Long customerId) {
         return accountService.createAccount(account, customerId);
     }
-
+    
     @PutMapping("/{accountID}")
-    public ResponseEntity<?> updateCustomer(@PathVariable Long accountID, @Valid @RequestBody Account account){
+    public ResponseEntity<?> updateAccount(@PathVariable Long accountID, @Valid @RequestBody Account account){
         return accountService.updateAccount(account, accountID);
     }
-
 //    @GetMapping("/customers/{customerId}/accounts")
 //    public Iterable<Account> getEveryAccountByID(@PathVariable("customerId") Long accountID) {
 //        return accountService.getAllAccountsByCustomer(accountID);

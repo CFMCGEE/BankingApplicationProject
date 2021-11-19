@@ -4,6 +4,7 @@ import com.bankingapplicationmain.bankingapplicationmain.details.success.Account
 import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleAccountSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
+import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
 import org.slf4j.Logger;
@@ -28,7 +29,18 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
     private CustomerRepository customerRepository;
+
+    protected void verifyCustomer(Long customerId) throws AccountByIDNotFoundException {
+
+        Customer customer = customerRepository.findById(customerId).orElse(null);
+
+        if(customer == null) {
+            throw new AccountByIDNotFoundException("Customer with id " + customerId + " not found");
+        }
+
+    }
 
     public List<Account> getAllAccounts() {
 
@@ -80,28 +92,27 @@ public class AccountService {
 
     }
 
-    public ResponseEntity<?> createAccount(Account account, Long customerId) {
-        if (customerRepository.findById(customerId).isPresent()) {
+    public ResponseEntity<?> createAccount(Account account) {
+        verifyCustomer((long) account.getCustomer_id());
+        logger.info("Account created");
+       // accountRepository.save(account);
 
-            logger.info("Account created");
-            accountRepository.save(account);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newAccountUri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(account.getId())
+                .toUri();
+        responseHeaders.setLocation(newAccountUri);
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newAccountUri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(account.getId())
-                    .toUri();
-            responseHeaders.setLocation(newAccountUri);
 
-            return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
-        }
-        throw new CustomerNotFoundException();
+
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 
     }
 
     public ResponseEntity<?> updateAccount(Account account, Long accountId) {
-
+        verifyCustomer(accountId);
         logger.info("Account updated");
         accountRepository.save(account);
 
@@ -111,10 +122,16 @@ public class AccountService {
 
     public ResponseEntity<?> deleteAccount(Long id) {
 
-        logger.info("Account deleted");
-        accountRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (accountRepository.findById(id).isPresent()) {
+            int successCode = HttpStatus.OK.value();
+            logger.info("Account deleted");
+            accountRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        throw new AccountDeleteException();
 
     }
+
 
 }

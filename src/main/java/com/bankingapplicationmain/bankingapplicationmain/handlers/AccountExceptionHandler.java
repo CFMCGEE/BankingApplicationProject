@@ -2,10 +2,7 @@ package com.bankingapplicationmain.bankingapplicationmain.handlers;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.error.NotFoundError;
 //import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountByIDNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.AccountNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleAccountNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -63,6 +60,18 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
 
+    }
+    
+    @ExceptionHandler(AccountDeleteException.class)
+    public ResponseEntity<?> handleAccountDeleteException() {
+
+        int errorCode = HttpStatus.NOT_FOUND.value();
+
+        NotFoundError accountError = new NotFoundError();
+        accountError.setCode(errorCode);
+        accountError.setMessage("Account does not exist");
+
+        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
     }
 
 }

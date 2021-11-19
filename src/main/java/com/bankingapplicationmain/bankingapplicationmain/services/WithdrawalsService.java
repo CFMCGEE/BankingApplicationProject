@@ -69,7 +69,7 @@ public class WithdrawalsService {
     }
 
     //Update withdrawals
-    public void updateWithdrawals(Long withdrawalId, Withdrawals withdrawals) {
+    public void updateWithdrawals(Withdrawals withdrawals, Long withdrawalId) {
         withdrawalsRepository.save(withdrawals);
         logger.info("Withdrawals updated successfully");
     }
