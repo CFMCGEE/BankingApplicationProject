@@ -111,7 +111,7 @@ public class CustomerService {
 
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
-            throw new CustomerNotFoundById();
+            throw new AccountByIDNotFoundException();
         }
 
         Customer customer = customerRepository.findById(customerId).get();
