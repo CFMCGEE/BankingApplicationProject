@@ -4,6 +4,7 @@ import com.bankingapplicationmain.bankingapplicationmain.details.success.Custome
 import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomersSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
+import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
@@ -39,97 +40,78 @@ public class CustomerService {
 
     // Get all customers
     public ResponseEntity<Object> getAllCustomers() {
-
         List<Customer> customers = customerRepository.findAll();
-        try {
-            if (customers.isEmpty()) {
-                logger.info("No customers found");
-                CustomersSuccessfullyFound customersSuccessfullyFound = new CustomersSuccessfullyFound(HttpStatus.OK.value(),
-                        "Customers Successfully Found!", customers);
 
-                return new ResponseEntity<>(customersSuccessfullyFound, HttpStatus.OK);
-            }
-        } catch (CustomerNotFoundException e) {
-            logger.info("Customers not found");
+        if (customers.isEmpty()) {
+            logger.info("No customers found");
+            throw new CustomerNotFoundException();
         }
-        return null;
+
+        logger.info("Customers successfully found");
+        CustomersSuccessfullyFound customersSuccessfullyFound = new CustomersSuccessfullyFound(HttpStatus.OK.value(),
+                "Customers Successfully Found!", customers);
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     //get customer by id
-    public Customer getCustomerById(Long customerId) {
-        try {
-            if (customerRepository.findById(customerId).isPresent()) {
-                logger.info("Customer successfully found");
-
-                return customerRepository.findById(customerId).get();
-            }
-        } catch (CustomerNotFoundException e) {
+    public ResponseEntity<Object> getCustomerById(Long customerId) {
+        if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
-            throw new CustomerNotFoundException();
+            throw new SingleCustomerNotFoundException();
         }
-        return null;
+
+        Customer customer = customerRepository.findById(customerId).get();
+        logger.info("Customer successfully found");
+        CustomerSuccessfullyFound customerSuccessfullyFound = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
+                "Customer Successfully Found!", customer);
+        return new ResponseEntity<>(customerSuccessfullyFound, HttpStatus.OK);
     }
 
     public ResponseEntity<?> createCustomer(Customer customer){
+        logger.info("Customer successfully created!");
 
-        try {
+        int successCode = HttpStatus.CREATED.value();
 
-            logger.info("Customer successfully created!");
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newCustomerUri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(customer.getId())
+                .toUri();
+        responseHeaders.setLocation(newCustomerUri);
 
-            int successCode = HttpStatus.CREATED.value();
-
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newCustomerUri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(customer.getId())
-                    .toUri();
-            responseHeaders.setLocation(newCustomerUri);
-
-            CustomerSuccessfullyFound customerSuccessfullyCreated = new CustomerSuccessfullyFound(successCode,
-                    "Customer Successfully Created!",
-                    customerRepository.save(customer));
-            return new ResponseEntity<>(customerSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
-
-        } catch (UnableToCreateAccountException e) {
-           throw new UnableToCreateAccountException();
-        }
-
+        CustomerSuccessfullyFound customerSuccessfullyCreated = new CustomerSuccessfullyFound(successCode,
+                "Customer Successfully Created!",
+                customerRepository.save(customer));
+        return new ResponseEntity<>(customerSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
     }
 
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
-
-        try {
-            logger.info("Customer successfully updated");
-
-            CustomerSuccessfullyFound customerSuccessfullyUpdated = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
-                    "Customer Info Successfully Updated!",
-                    customerRepository.save(customer));
-
-            return new ResponseEntity<>(customerSuccessfullyUpdated, HttpStatus.OK);
-        } catch (UnableToUpdateCustomerException e) {
-            throw new UnableToUpdateCustomerException();
+        if (customerRepository.findById(customerId).isEmpty()) {
+            logger.info("Customer not found");
+            throw new SingleCustomerNotFoundException();
         }
+
+        logger.info("Customer successfully updated!");
+        CustomerSuccessfullyFound customerSuccessfullyUpdated = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
+                "Customer Successfully Updated!",
+                customerRepository.save(customer));
+        return new ResponseEntity<>(customerSuccessfullyUpdated, HttpStatus.OK);
     }
 
     public ResponseEntity<?> getCustomerByAccountId(Long accountId, Long customerId) {
 
-        try {
-            if (accountRepository.findById(accountId).isPresent()) {
-                logger.info("Customer successfully found");
-
-                CustomerSuccessfullyFound customerSuccessfullyUpdated = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
-                        "Customer Found By Account!",
-                        customerRepository.findById(customerId).get());
-
-                return new ResponseEntity<>(customerSuccessfullyUpdated, HttpStatus.OK);
-            }
-
-        } catch (CustomerNotFoundById e) {
-            logger.info("Customer Not Found");
-            throw new CustomerNotFoundById();
+        if (customerRepository.findById(customerId).isEmpty() || accountRepository.findById(accountId).isEmpty()) {
+            logger.info("Customer not found");
+            throw new SingleCustomerNotFoundException();
         }
-        return null;
+
+        Customer customer = customerRepository.findById(customerId).get();
+//        Account account = accountRepository.findById(accountId).get();
+        logger.info("Customer successfully found");
+        CustomerSuccessfullyFound customerSuccessfullyFound = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
+                "Customer Successfully Found!", customer);
+        return new ResponseEntity<>(customerSuccessfullyFound, HttpStatus.OK);
     }
 
 }
