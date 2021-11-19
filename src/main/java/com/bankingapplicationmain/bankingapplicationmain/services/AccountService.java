@@ -31,15 +31,15 @@ public class AccountService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-    protected void verifyCustomer(Long customerId) throws AccountPutException {
+//     protected void verifyCustomer(Long customerId) throws AccountPutException {
 
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+//         Customer customer = customerRepository.findById(customerId).orElse(null);
 
-        if(customer == null) {
-           throw new AccountPutException();
-        }
+//         if(customer == null) {
+//            throw new AccountPutException();
+//         }
 
-    }
+//     }
     @Autowired
     private AccountRepository accountRepository;
 
@@ -117,9 +117,10 @@ public class AccountService {
         return new ResponseEntity<>(accountPostSuccess, responseHeaders, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateAccount(Long accountId, Account account) {
-
-        verifyCustomer(accountId);
+   public ResponseEntity<?> updateAccount(Account account, long accountId) {
+        if (accountRepository.findById(accountId).isEmpty()) {
+            throw new AccountPutException();
+        }
 
         logger.info("Account updated");
         accountRepository.save(account);
