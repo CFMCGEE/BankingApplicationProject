@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class AccountService {
 
     }
 
-    public ResponseEntity<?> createAccount(Account account) {
+    public ResponseEntity<?> createAccount(Account account, Long customerID) {
         verifyCustomer((long) account.getCustomer_id());
         logger.info("Account created");
        // accountRepository.save(account);

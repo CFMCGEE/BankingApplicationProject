@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomerSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.CustomersSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateAccountException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -35,19 +37,20 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    // Get all customerss
-    public ResponseEntity<List<Customer>> getAllCustomers() {
+    // Get all customers
+    public ResponseEntity<Object> getAllCustomers() {
+
         List<Customer> customers = customerRepository.findAll();
         try {
-            for (Customer customer : customers) {
-                logger.info("Customer successfully found");
-                return new ResponseEntity<>(customers, HttpStatus.OK);
-            }
+            if (customers.isEmpty()) {
+                logger.info("No customers found");
+                CustomersSuccessfullyFound customersSuccessfullyFound = new CustomersSuccessfullyFound(HttpStatus.OK.value(),
+                        "Customers Successfully Found!", customers);
 
-        }
-        catch (CustomerNotFoundException e) {
-            logger.info("Customer not found");
-            throw new CustomerNotFoundException();
+                return new ResponseEntity<>(customersSuccessfullyFound, HttpStatus.OK);
+            }
+        } catch (CustomerNotFoundException e) {
+            logger.info("Customers not found");
         }
         return null;
     }
