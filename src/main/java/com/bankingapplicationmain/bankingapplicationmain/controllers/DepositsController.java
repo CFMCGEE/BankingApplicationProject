@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/deposits")
 public class DepositsController {
@@ -28,20 +30,20 @@ public class DepositsController {
 
     //works
     @PostMapping("/deposits")
-    public ResponseEntity<?> createDeposit(@RequestBody Deposits deposit){
+    public ResponseEntity<?> createDeposit(@Valid @RequestBody Deposits deposit){
         return depositsService.createDeposit(deposit);
     }
 
     //works
     @PutMapping("/deposits/{depositId}")
-    public void updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
-        depositsService.updateDeposit(depositId,deposits);
+    public ResponseEntity<?> updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
+        return depositsService.updateDeposit(deposits,depositId);
     }
 
     //works
     @DeleteMapping("/deposits/{depositId}")
-    public void deleteDeposits(@PathVariable Long depositId){
-        depositsService.deleteDeposit(depositId);
+    public ResponseEntity<?> deleteDeposits(@PathVariable Long depositId){
+        return depositsService.deleteDeposit(depositId);
     }
 
 
