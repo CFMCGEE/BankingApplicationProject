@@ -32,8 +32,8 @@ public class AccountController {
     }
 
     @PostMapping("/customers/{customerId}/accounts")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody Account account) {
-        return accountService.createAccount(account);
+    public ResponseEntity<?> createAccount(@Valid @RequestBody Account account, @PathVariable("customerId") Long customerId) {
+        return accountService.createAccount(account, customerId);
     }
 
     @PutMapping("/{accountID}")

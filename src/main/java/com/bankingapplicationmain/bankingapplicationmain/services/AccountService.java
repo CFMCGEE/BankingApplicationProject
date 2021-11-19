@@ -5,6 +5,7 @@ import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleA
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
+import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    private CustomerRepository customerRepository;
 
     public List<Account> getAllAccounts() {
 
@@ -77,20 +80,23 @@ public class AccountService {
 
     }
 
-    public ResponseEntity<?> createAccount(Account account) {
+    public ResponseEntity<?> createAccount(Account account, Long customerId) {
+        if (customerRepository.findById(customerId).isPresent()) {
 
-        logger.info("Account created");
-        accountRepository.save(account);
+            logger.info("Account created");
+            accountRepository.save(account);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newAccountUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(account.getId())
-                .toUri();
-        responseHeaders.setLocation(newAccountUri);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            URI newAccountUri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(account.getId())
+                    .toUri();
+            responseHeaders.setLocation(newAccountUri);
 
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+            return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+        }
+        throw new CustomerNotFoundException();
 
     }
 

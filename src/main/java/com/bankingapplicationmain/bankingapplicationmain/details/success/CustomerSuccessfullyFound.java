@@ -9,12 +9,13 @@ public class CustomerSuccessfullyFound {
 
     private Integer code;
     private String message;
-    private List<Customer> data;
+    private Customer data;
 
     public CustomerSuccessfullyFound() {
     }
 
-    public CustomerSuccessfullyFound(Integer code, String message, List<Customer> data) {
+
+    public CustomerSuccessfullyFound(Integer code, String message, Customer data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -36,12 +37,11 @@ public class CustomerSuccessfullyFound {
         this.message = message;
     }
 
-    public List<Customer> getData() {
+    public Customer getData() {
         return data;
     }
 
-    public void setData(List<Customer> data) {
+    public void setData(Customer data) {
         this.data = data;
     }
-
 }
