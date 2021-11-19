@@ -16,7 +16,7 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("bills/{billID}")
-    public Bill getSingleBill(@PathVariable Long billID){
+    public ResponseEntity<?> getSingleBill(@PathVariable Long billID){
         return billService.getBillById(billID);
     }
 
@@ -31,8 +31,8 @@ public class BillController {
     }
 
     @PostMapping("accounts/{accountID}/bills")
-    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill){
-        return billService.createBill(bill);
+    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill, @PathVariable(name = "accountID") Long billID){
+        return billService.createBill(bill, billID);
     }
 
     @DeleteMapping("/bills/{id}")
