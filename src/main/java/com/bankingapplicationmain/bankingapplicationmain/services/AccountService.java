@@ -117,7 +117,7 @@ public class AccountService {
         return new ResponseEntity<>(accountPostSuccess, responseHeaders, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateAccount(Account account, Long accountId) {
+    public ResponseEntity<?> updateAccount(Long accountId, Account account) {
 
         verifyCustomer(accountId);
 

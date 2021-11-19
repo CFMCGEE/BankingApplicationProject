@@ -72,7 +72,7 @@ public class BillService {
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newBillURI = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{accountId}")
+                .path("/{id}")
                 .buildAndExpand(bill.getId())
                 .toUri();
         responseHeaders.setLocation(newBillURI);
@@ -82,7 +82,7 @@ public class BillService {
 
     }
 
-    public ResponseEntity<?> updateBill(Bill bill, Long id) {
+    public ResponseEntity<?> updateBill(Long billID, Bill bill) {
         logger.info("Accepted bill modification");
         billRepository.save(bill);
 
@@ -90,7 +90,7 @@ public class BillService {
 
     }
 
-    public ResponseEntity<?> deleteBill( Long id) {
+    public ResponseEntity<?> deleteBill(Long id) {
         billRepository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

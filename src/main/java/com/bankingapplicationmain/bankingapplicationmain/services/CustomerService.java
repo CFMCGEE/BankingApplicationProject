@@ -50,7 +50,7 @@ public class CustomerService {
         logger.info("Customers successfully found");
         CustomersSuccessfullyFound customersSuccessfullyFound = new CustomersSuccessfullyFound(HttpStatus.OK.value(),
                 "Customers Successfully Found!", customers);
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+        return new ResponseEntity<>(customersSuccessfullyFound, HttpStatus.OK);
     }
 
     //get customer by id
@@ -68,22 +68,30 @@ public class CustomerService {
     }
 
     public ResponseEntity<?> createCustomer(Customer customer){
-        logger.info("Customer successfully created!");
 
-        int successCode = HttpStatus.CREATED.value();
+        try {
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newCustomerUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(customer.getId())
-                .toUri();
-        responseHeaders.setLocation(newCustomerUri);
+            logger.info("Customer successfully created!");
 
-        CustomerSuccessfullyFound customerSuccessfullyCreated = new CustomerSuccessfullyFound(successCode,
-                "Customer Successfully Created!",
-                customerRepository.save(customer));
-        return new ResponseEntity<>(customerSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
+            int successCode = HttpStatus.CREATED.value();
+
+            HttpHeaders responseHeaders = new HttpHeaders();
+            URI newCustomerUri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(customer.getId())
+                    .toUri();
+            responseHeaders.setLocation(newCustomerUri);
+
+            CustomerSuccessfullyFound customerSuccessfullyCreated = new CustomerSuccessfullyFound(successCode,
+                    "Customer Successfully Created!",
+                    customerRepository.save(customer));
+            return new ResponseEntity<>(customerSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
+        }
+        catch (UnableToCreateAccountException e) {
+            logger.error("Unable to create customer");
+            throw new UnableToCreateAccountException();
+        }
     }
 
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
@@ -99,19 +107,17 @@ public class CustomerService {
         return new ResponseEntity<>(customerSuccessfullyUpdated, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getCustomerByAccountId(Long accountId, Long customerId) {
+    public ResponseEntity<Object> getCustomerByAccount(Long customerId) {
 
-        if (customerRepository.findById(customerId).isEmpty() || accountRepository.findById(accountId).isEmpty()) {
+        if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
             throw new SingleCustomerNotFoundException();
         }
 
         Customer customer = customerRepository.findById(customerId).get();
-//        Account account = accountRepository.findById(accountId).get();
         logger.info("Customer successfully found");
         CustomerSuccessfullyFound customerSuccessfullyFound = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
                 "Customer Successfully Found!", customer);
         return new ResponseEntity<>(customerSuccessfullyFound, HttpStatus.OK);
     }
-
 }
