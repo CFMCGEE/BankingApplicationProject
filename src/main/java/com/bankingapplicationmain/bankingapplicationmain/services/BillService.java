@@ -2,21 +2,21 @@ package com.bankingapplicationmain.bankingapplicationmain.services;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.success.BillByIDSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.BillSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleBillSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.BillByIDNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.BillNotFoundException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleBillNotFoundException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateBillException;
 import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.BillRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -31,42 +31,50 @@ public class BillService {
 
     public ResponseEntity<Object> getAllBillsByAccountID(Long accountID) {
         List<Bill> billsByCustomerID = billRepository.findAllById(Collections.singleton(accountID));
-
         if (billsByCustomerID.isEmpty()) {
+            logger.info("Error Trying To Get All Account Bill(s)");
             throw new BillNotFoundException();
         } else {
-            try {
-                logger.info("All bills for this Account successfully found.");
-                BillSuccessfullyFound billSuccessfullyFound = new BillSuccessfullyFound(HttpStatus.OK.value(), "Success!", billsByCustomerID);
-                return new ResponseEntity<>(billSuccessfullyFound, HttpStatus.OK);
-
-            } catch (BillNotFoundException e) {
-                    throw new BillNotFoundException();
-                }
-        }
+                logger.info("All Bills For This Account Successfully Found.");
+                BillByIDSuccessfullyFound billByIDSuccessfullyFound = new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Bills Successfully Found!", billsByCustomerID);
+                return new ResponseEntity<>(billByIDSuccessfullyFound, HttpStatus.OK);
+            }
     }
 
-    public Bill getBillById(Long billID){
+    public ResponseEntity<Object> getBillById(Long billID){
+        Bill singleBill = billRepository.findById(billID).orElseThrow(() -> new SingleBillNotFoundException());
         if (billRepository.findById(billID).isEmpty()) {
             logger.info("Bill Not Found.");
         }
 
-        return billRepository.findById(billID).orElseThrow(() -> new SingleBillNotFoundException());
+        logger.info("Bill Found At This ID.");
+        SingleBillSuccessfullyFound singleBillSuccessfullyFound = new SingleBillSuccessfullyFound(HttpStatus.OK.value(), "Bills Successfully Found!", singleBill);
+        singleBillSuccessfullyFound.setCode(HttpStatus.OK.value());
+        singleBillSuccessfullyFound.setMessage("Bill Found Successfully");
+        singleBillSuccessfullyFound.setData(singleBill);
+        return new ResponseEntity<>(singleBillSuccessfullyFound, HttpStatus.OK);
     }
 
     public ResponseEntity<Object> getAllBillsByCustomerID(Long customerID) {
         Iterable<Bill> billsByCustomerID = billRepository.findAllById(Collections.singleton(customerID));
+
         try {
             logger.info("All Bills For This Customer Successfully Found!");
-            BillByIDSuccessfullyFound billByIdSuccessfullyFound = new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Success!", billsByCustomerID);
+            BillByIDSuccessfullyFound billByIdSuccessfullyFound = new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Bills Successfully Found!", billsByCustomerID);
             return new ResponseEntity<>(billByIdSuccessfullyFound, HttpStatus.OK);
         } catch (BillByIDNotFoundException e) {
+            logger.info("Error Trying To Get All Customer Bill(s)");
             throw new BillByIDNotFoundException();
         }
     }
 
-    public ResponseEntity<?> createBill(Bill bill) {
-        logger.info("Bill created Successfully");
+    public ResponseEntity<?> createBill(Bill bill, Long billID) {
+        if(billRepository.findById(billID).isEmpty()){
+            logger.info("Error Trying To Create a Bill");
+            throw new UnableToCreateBillException();
+        }
+
+        logger.info("Bill Created");
         billRepository.save(bill);
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -82,15 +90,17 @@ public class BillService {
 
     }
 
-    public ResponseEntity<?> updateBill(Long billID, Bill bill) {
-        logger.info("Accepted bill modification");
+    public ResponseEntity<?> updateBill(Bill bill, Long id) {
+        logger.info("Bill Successfully Modified");
         billRepository.save(bill);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
-    public ResponseEntity<?> deleteBill(Long id) {
+
+    public ResponseEntity<?> deleteBill( Long id) {
+        logger.info("Deleted Bill");
         billRepository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
