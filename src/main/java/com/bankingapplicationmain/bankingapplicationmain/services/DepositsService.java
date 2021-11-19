@@ -115,8 +115,8 @@ public class DepositsService {
         logger.info("Deposit Deleted");
         depositsRepository.deleteById(depositId);
 
-        DepositDeleteSuccessFull depositDeleteSuccessFull = new DepositDeleteSuccessFull(HttpStatus.ACCEPTED.value(), "Deposit successfully deleted");
-        return new ResponseEntity<>(depositDeleteSuccessFull,HttpStatus.ACCEPTED);
+        DepositDeleteSuccessFull depositDeleteSuccessFull = new DepositDeleteSuccessFull(HttpStatus.OK.value(), "Deposit successfully deleted");
+        return new ResponseEntity<>(depositDeleteSuccessFull,HttpStatus.OK);
 
     }
 
