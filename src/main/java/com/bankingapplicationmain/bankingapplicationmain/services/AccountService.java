@@ -42,7 +42,6 @@ public class AccountService {
 
     }
 
-
     public List<Account> getAllAccounts() {
 
         List<Account> accounts = accountRepository.findAll();

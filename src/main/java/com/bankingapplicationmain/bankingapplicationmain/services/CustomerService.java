@@ -61,7 +61,7 @@ public class CustomerService {
 
             logger.info("Customer successfully created!");
 
-            int successCode = HttpStatus.OK.value();
+            int successCode = HttpStatus.CREATED.value();
 
             HttpHeaders responseHeaders = new HttpHeaders();
             URI newCustomerUri = ServletUriComponentsBuilder
