@@ -41,8 +41,8 @@ public class CustomerController {
 
     //Get customer that owns the specified account
     @GetMapping("/account/{customerId}/customer")
-    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId, @PathVariable("customerId") Long customerId){
-        return customerService.getCustomerByAccountId(accountId, customerId);
+    public ResponseEntity<Object> getCustomerByAccount(@PathVariable Long customerId){
+        return customerService.getCustomerByAccount(customerId);
     }
 
 
