@@ -1,21 +1,22 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
-import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
+import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 
-public class SingleCustomerSuccessfullyFound {
+import java.util.List;
+
+public class DepositSuccessfullyUpdated {
 
     private Integer code;
     private String message;
-    private Customer data;
+    private List<Deposits> data;
 
-    public SingleCustomerSuccessfullyFound(Integer code, String message, Customer data) {
-
+    public DepositSuccessfullyUpdated(Integer code, String message, List<Deposits> data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public SingleCustomerSuccessfullyFound() {
+    public DepositSuccessfullyUpdated() {
     }
 
     public Integer getCode() {
@@ -34,12 +35,11 @@ public class SingleCustomerSuccessfullyFound {
         this.message = message;
     }
 
-    public Customer getData() {
+    public List<Deposits> getData() {
         return data;
     }
 
-    public void setData(Customer data) {
+    public void setData(List<Deposits> data) {
         this.data = data;
     }
-
 }

@@ -61,7 +61,6 @@ public class AccountExceptionHandler extends AccountNotFoundException {
         return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
 
     }
-    
     @ExceptionHandler(AccountDeleteException.class)
     public ResponseEntity<?> handleAccountDeleteException() {
 
@@ -73,5 +72,30 @@ public class AccountExceptionHandler extends AccountNotFoundException {
 
         return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(AccountPostException.class)
+    public ResponseEntity<?> handleAccountPostException() {
+
+        int errorCode = HttpStatus.NOT_FOUND.value();
+
+        NotFoundError accountError = new NotFoundError();
+        accountError.setCode(errorCode);
+        accountError.setMessage("error fetching creating customers account");
+
+        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccountPutException.class)
+    public ResponseEntity<?> handleAccountPutException() {
+
+        int errorCode = HttpStatus.NOT_FOUND.value();
+
+        NotFoundError accountError = new NotFoundError();
+        accountError.setCode(errorCode);
+        accountError.setMessage("Error");
+
+        return new ResponseEntity<>(accountError, null, HttpStatus.NOT_FOUND);
+    }
+
 
 }

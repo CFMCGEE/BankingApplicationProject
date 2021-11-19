@@ -4,21 +4,21 @@ import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 
 import java.util.List;
 
-
-public class CustomerSuccessfullyFound {
+public class CustomersSuccessfullyFound {
 
     private Integer code;
     private String message;
-    private Customer data;
+    private List<Customer> data;
 
-    public CustomerSuccessfullyFound() {
-    }
+    public CustomersSuccessfullyFound(Integer code, String message, List<Customer> data) {
 
-
-    public CustomerSuccessfullyFound(Integer code, String message, Customer data) {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public CustomersSuccessfullyFound() {
+
     }
 
     public Integer getCode() {
@@ -37,11 +37,12 @@ public class CustomerSuccessfullyFound {
         this.message = message;
     }
 
-    public Customer getData() {
+    public List<Customer> getData() {
         return data;
     }
 
-    public void setData(Customer data) {
+    public void setData(List<Customer> data) {
         this.data = data;
     }
+
 }

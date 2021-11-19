@@ -1,6 +1,8 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountByIDSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountPostSuccess;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountSuccessfulMethods;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleAccountSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
@@ -23,25 +25,23 @@ import java.util.List;
 
 @Service
 public class AccountService {
-
-    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
-
-    @Autowired
-    private AccountRepository accountRepository;
-
     @Autowired
     private CustomerRepository customerRepository;
 
-    protected void verifyCustomer(Long customerId) throws AccountByIDNotFoundException {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+
+    protected void verifyCustomer(Long customerId) throws AccountPutException {
 
         Customer customer = customerRepository.findById(customerId).orElse(null);
 
         if(customer == null) {
-            throw new AccountByIDNotFoundException("Customer with id " + customerId + " not found");
+           throw new AccountPutException();
         }
 
     }
-
+    @Autowired
+    private AccountRepository accountRepository;
 
     public List<Account> getAllAccounts() {
 
@@ -93,10 +93,13 @@ public class AccountService {
 
     }
 
-    public ResponseEntity<?> createAccount(Account account) {
-        verifyCustomer((long) account.getCustomer_id());
+    public ResponseEntity<?> createAccount(Account account, long customerId) {
+
+        if (customerRepository.findById(customerId).isEmpty()) {
+            throw new AccountPostException();
+        }
+
         logger.info("Account created");
-       // accountRepository.save(account);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newAccountUri = ServletUriComponentsBuilder
@@ -106,31 +109,40 @@ public class AccountService {
                 .toUri();
         responseHeaders.setLocation(newAccountUri);
 
+        Customer customer = customerRepository.findById((long) account.getCustomer_id()).orElse(null);
 
 
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+        AccountPostSuccess accountPostSuccess = new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Created", accountRepository.save(account));
 
+        return new ResponseEntity<>(accountPostSuccess, responseHeaders, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateAccount(Account account, Long accountId) {
+    public ResponseEntity<?> updateAccount(Long accountId, Account account) {
+
         verifyCustomer(accountId);
+
         logger.info("Account updated");
         accountRepository.save(account);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        AccountSuccessfulMethods accountSuccessfulMethods = new AccountSuccessfulMethods(HttpStatus.OK.value(),"Customer Account Updated");
+
+
+        return new ResponseEntity<>(accountSuccessfulMethods,HttpStatus.OK);
 
     }
 
     public ResponseEntity<?> deleteAccount(Long id) {
 
-        if (accountRepository.findById(id).isPresent()) {
-            int successCode = HttpStatus.OK.value();
-            logger.info("Account deleted");
-            accountRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (accountRepository.findById(id).isEmpty()) {
+            throw new AccountDeleteException();
         }
 
-        throw new AccountDeleteException();
+        logger.info("Account deleted");
+        accountRepository.deleteById(id);
+
+        AccountSuccessfulMethods accountSuccessfulMethods = new AccountSuccessfulMethods(HttpStatus.ACCEPTED.value(),"Account successfully deleted");
+
+        return new ResponseEntity<>(accountSuccessfulMethods, HttpStatus.ACCEPTED);
 
     }
 

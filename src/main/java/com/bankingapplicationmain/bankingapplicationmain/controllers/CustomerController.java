@@ -17,13 +17,13 @@ public class CustomerController {
     CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers(){
+    public ResponseEntity<Object> getAllCustomers(){
         return customerService.getAllCustomers();
     }
 
     //get customer by id
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id){
+    public ResponseEntity<Object> getCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id);
     }
 
@@ -41,8 +41,8 @@ public class CustomerController {
 
     //Get customer that owns the specified account
     @GetMapping("/account/{customerId}/customer")
-    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long customerId){
-        return customerService.getCustomerByAccountId(customerId);
+    public ResponseEntity<Object> getCustomerByAccount(@PathVariable Long customerId){
+        return customerService.getCustomerByAccount(customerId);
     }
 
 

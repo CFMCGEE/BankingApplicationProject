@@ -19,7 +19,7 @@ public class WithdrawalsController {
     private WithdrawalsService withdrawalsService;
 
     @GetMapping("/{withdrawalId}")
-    public ResponseEntity<Object> getWithdrawalByID(@PathVariable("accountID") Long withdrawalId) {
+    public ResponseEntity<Object> getWithdrawalByID(@PathVariable Long withdrawalId) {
         return withdrawalsService.getSingleWithdrawals(withdrawalId);
     }
 
@@ -34,13 +34,13 @@ public class WithdrawalsController {
     }
 
     @PutMapping("/{withdrawalId}")
-    public void updateWithdrawals(@PathVariable Long id, @Valid @RequestBody Withdrawals withdrawals){
-        withdrawalsService.updateWithdrawals(id, withdrawals);
+    public void updateWithdrawals(@Valid @RequestBody Withdrawals withdrawals, @PathVariable Long withdrawalId){
+        withdrawalsService.updateWithdrawals(withdrawals, withdrawalId);
     }
 
     @DeleteMapping("/{withdrawalId}")
-    public void deleteWithdrawal( @PathVariable Long id){
-        withdrawalsService.deleteWithdrawals(id);
+    public void deleteWithdrawal( @PathVariable Long withdrawalId){
+        withdrawalsService.deleteWithdrawals(withdrawalId);
     }
 
 }
