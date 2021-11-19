@@ -33,7 +33,7 @@ public class BillController {
 
     @PutMapping("bills/{billID}")
     public ResponseEntity<?> updateBill(@PathVariable Long billID, @Valid @RequestBody Bill bill) {
-        return billService.updateBill(billID, bill);
+        return billService.updateBill(bill, billID);
     }
 
     @PostMapping("accounts/{accountID}/bills")
