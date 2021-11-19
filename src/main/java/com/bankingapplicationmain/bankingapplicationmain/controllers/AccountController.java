@@ -26,9 +26,9 @@ public class AccountController {
         return accountService.getSingleAccount(accountID);
     }
 
-    @GetMapping("/customers/{customerId}/accounts")
-    public ResponseEntity<Object> getEveryAccountByID(@PathVariable("customerId") Long accountID) {
-        return accountService.getAllAccountsByCustomer(accountID);
+    @GetMapping("/customers/{customerId}/accounts") //
+    public ResponseEntity<Object> getEveryAccountByID(@PathVariable("customerId") Long customerId) {
+        return accountService.getAllAccountsByCustomer(customerId);
     }
 
     @PostMapping("/customers/{customerId}/accounts")
