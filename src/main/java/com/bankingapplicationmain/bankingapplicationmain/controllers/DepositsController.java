@@ -29,15 +29,13 @@ public class DepositsController {
     //works
     @PostMapping("/deposits")
     public ResponseEntity<?> createDeposit(@RequestBody Deposits deposit){
-        depositsService.createDeposit(deposit);
-        return ResponseEntity.created(null).build();
+        return depositsService.createDeposit(deposit);
     }
 
     //works
     @PutMapping("/deposits/{depositId}")
     public void updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
         depositsService.updateDeposit(depositId,deposits);
-
     }
 
     //works
