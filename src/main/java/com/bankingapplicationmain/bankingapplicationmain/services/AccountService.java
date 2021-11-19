@@ -31,7 +31,7 @@ public class AccountService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-    protected void verifyCustomer(Long customerId) throws AccountPutException{
+    protected void verifyCustomer(Long customerId) throws AccountPutException {
 
         Customer customer = customerRepository.findById(customerId).orElse(null);
 
@@ -98,6 +98,7 @@ public class AccountService {
         if (customerRepository.findById(customerId).isEmpty()) {
             throw new AccountPostException();
         }
+
         logger.info("Account created");
         accountRepository.save(account);
 
@@ -118,7 +119,9 @@ public class AccountService {
     }
 
     public ResponseEntity<?> updateAccount(Account account, Long accountId) {
+
         verifyCustomer(accountId);
+
         logger.info("Account updated");
         accountRepository.save(account);
 
