@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UnableToCreateBillException extends RuntimeException {
-
+//adding this only from laptop
     public UnableToCreateBillException(){
 
     }
