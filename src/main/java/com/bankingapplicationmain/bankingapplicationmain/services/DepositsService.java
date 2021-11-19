@@ -1,9 +1,11 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 
+import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyCreated;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
 
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateDepositException;
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.DepositsRepository;
 import org.slf4j.Logger;
@@ -60,18 +62,29 @@ public class DepositsService {
     //we need a post method
     public ResponseEntity<?>createDeposit(Deposits deposits){
 
-        depositsRepository.save(deposits);
-        logger.info("Deposit successfully completed");
+        try {
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newDepositUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(deposits.getId())
-                .toUri();
-        responseHeaders.setLocation(newDepositUri);
+            depositsRepository.save(deposits);
+            logger.info("Deposit successfully completed");
+            int successCode = HttpStatus.CREATED.value();
 
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            URI newDepositUri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(deposits.getId())
+                    .toUri();
+            responseHeaders.setLocation(newDepositUri);
+
+
+            DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
+
+
+            return new ResponseEntity<>(depositSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
+
+        }catch (UnableToCreateDepositException e){
+            throw new UnableToCreateDepositException();
+        }
     }
 
     //a put method as well
