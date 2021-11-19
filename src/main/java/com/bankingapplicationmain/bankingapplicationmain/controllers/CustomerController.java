@@ -23,7 +23,7 @@ public class CustomerController {
 
     //get customer by id
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id){
+    public ResponseEntity<Object> getCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id);
     }
 
@@ -41,7 +41,7 @@ public class CustomerController {
 
     //Get customer that owns the specified account
     @GetMapping("/account/{customerId}/customer")
-    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId, @PathVariable Long customerId){
+    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId, @PathVariable("customerId") Long customerId){
         return customerService.getCustomerByAccountId(accountId, customerId);
     }
 

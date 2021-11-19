@@ -99,7 +99,6 @@ public class AccountService {
             throw new AccountPostException();
         }
         logger.info("Account created");
-        accountRepository.save(account);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newAccountUri = ServletUriComponentsBuilder
@@ -112,7 +111,7 @@ public class AccountService {
         Customer customer = customerRepository.findById((long) account.getCustomer_id()).orElse(null);
 
 
-        AccountPostSuccess accountPostSuccess = new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Created", account);
+        AccountPostSuccess accountPostSuccess = new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Created", accountRepository.save(account));
 
         return new ResponseEntity<>(accountPostSuccess, responseHeaders, HttpStatus.CREATED);
     }
