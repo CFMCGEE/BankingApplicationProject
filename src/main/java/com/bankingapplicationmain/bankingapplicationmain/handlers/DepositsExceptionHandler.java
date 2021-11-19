@@ -43,5 +43,29 @@ public class DepositsExceptionHandler extends DepositsNotFoundException {
 
     }
 
+    @ExceptionHandler(DepositDeleteException.class)
+    public ResponseEntity<?> handleDepositDeleteException() {
+
+        int errorCode = HttpStatus.NOT_FOUND.value();
+
+        NotFoundError depositError = new NotFoundError();
+        depositError.setCode(errorCode);
+        depositError.setMessage("Deposit does not exist");
+
+        return new ResponseEntity<>(depositError, null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnableToCreateDepositException.class)
+    public ResponseEntity<?> handleUnableToCreateDepositException() {
+
+        int errorCode = HttpStatus.NOT_FOUND.value();
+
+        NotFoundError depositError = new NotFoundError();
+        depositError.setCode(errorCode);
+        depositError.setMessage("Unable to create Deposit");
+
+        return new ResponseEntity<>(depositError, null, HttpStatus.NOT_FOUND);
+    }
+
 
 }
