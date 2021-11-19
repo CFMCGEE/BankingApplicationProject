@@ -73,9 +73,9 @@ public class AccountService {
 
     }
 
-    public ResponseEntity<Object> getAllAccountsByCustomer(Long accountID) {
+    public ResponseEntity<Object> getAllAccountsByCustomer(Long customerId) {
 
-        Iterable<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(accountID));
+        Iterable<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(customerId));
 
         try {
 
@@ -109,7 +109,7 @@ public class AccountService {
                 .toUri();
         responseHeaders.setLocation(newAccountUri);
 
-        Customer customer = customerRepository.findById((long) account.getCustomer_id()).orElse(null);
+        Customer customer = customerRepository.findById(account.getCustomer_id()).orElse(null);
 
 
         AccountPostSuccess accountPostSuccess = new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Created", accountRepository.save(account));
@@ -117,7 +117,7 @@ public class AccountService {
         return new ResponseEntity<>(accountPostSuccess, responseHeaders, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateAccount(Account account, Long accountId) {
+    public ResponseEntity<?> updateAccount(Long accountId, Account account) {
 
         verifyCustomer(accountId);
 

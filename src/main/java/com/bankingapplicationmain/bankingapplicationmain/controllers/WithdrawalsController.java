@@ -39,7 +39,7 @@ public class WithdrawalsController {
     }
 
     @DeleteMapping("/{withdrawalId}")
-    public void deleteWithdrawal( @PathVariable Long withdrawalId){
+    public void deleteWithdrawal(@PathVariable Long withdrawalId){
         withdrawalsService.deleteWithdrawals(withdrawalId);
     }
 
