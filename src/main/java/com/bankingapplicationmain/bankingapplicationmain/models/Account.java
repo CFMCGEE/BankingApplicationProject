@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -17,18 +18,16 @@ public class Account {
     private Integer rewards;
     private Double balance;
 
-    @JoinColumn(name = "CUSTOMER_ID")
-    private Long customer_id;
 
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Long customer_id) {
+    private Long customerId;
 
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Long customerId) {
         this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
-        this.customer_id = customer_id;
-
+        this.customerId = customerId;
     }
 
     public Account() {
@@ -75,24 +74,24 @@ public class Account {
         this.balance = balance;
     }
 
-    public Long getCustomer_id() {
-        return customer_id;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(Long customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
+
 
     @Override
     public String toString() {
-        return "{\n" +
-                "id: " + id + ", \n" +
-                "type: " + type + ", \n" +
-                "nickname: " + nickname + ", \n" +
-                "rewards: " + rewards + ", \n" +
-                "balance: " + balance + ", \n" +
-               "customer_id: " + customer_id +
-                "\n}";
+        return "Account{" +
+                "id=" + id +
+                ", type=" + type +
+                ", nickname='" + nickname + '\'' +
+                ", rewards=" + rewards +
+                ", balance=" + balance +
+                ", customerId=" + customerId +
+                '}';
     }
-
 }

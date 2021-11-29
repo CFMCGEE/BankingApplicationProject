@@ -1,7 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -9,19 +12,13 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
     private Long id;
 
     private String first_Name;
     private String last_Name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "customer_id")
-    @OrderBy
-    private Set<Address> address;
-
-    public Customer() {
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Address> addresses;
 
     public Long getId() {
         return id;
@@ -48,11 +45,19 @@ public class Customer {
     }
 
     public Set<Address> getAddress() {
-        return address;
+        return addresses;
     }
 
     public void setAddress(Set<Address> address) {
-        this.address = address;
+        this.addresses = address;
     }
 
+
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+    }
+
+    public void removeAddress(Address address) {
+        this.addresses.remove(address);
+    }
 }

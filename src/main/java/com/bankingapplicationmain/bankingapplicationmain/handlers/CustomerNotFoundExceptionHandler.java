@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class CustomerNotFoundExceptionHandler extends CustomerNotFoundException {
+public class CustomerNotFoundExceptionHandler{
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<?> handleCustomerNotFoundException() {
@@ -38,7 +38,7 @@ public class CustomerNotFoundExceptionHandler extends CustomerNotFoundException 
 
         NotFoundError customerError = new NotFoundError();
         customerError.setCode(HttpStatus.NOT_FOUND.value());
-        customerError.setMessage("ERROR FETCHING CUSTOMER");
+        customerError.setMessage("CUSTOMER WITH ID DOES NOT EXIST");
 
         return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
 
@@ -49,7 +49,7 @@ public class CustomerNotFoundExceptionHandler extends CustomerNotFoundException 
 
         NotFoundError customerError = new NotFoundError();
         customerError.setCode(HttpStatus.NOT_FOUND.value());
-        customerError.setMessage("ERROR CREATING CUSTOMER");
+        customerError.setMessage("ERROR UPDATING CUSTOMER INFO");
 
         return new ResponseEntity<>(customerError, null, HttpStatus.NOT_FOUND);
 

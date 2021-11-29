@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "hibernate.globally_quoted_identifiers",
+      "type": "java.lang.String",
+      "description": "Description for hibernate.globally_quoted_identifiers."
+  }
+] }
