@@ -92,21 +92,21 @@ public class DepositsService {
 
     //a put method as well
   
-    public ResponseEntity<?> updateDeposit(Deposits deposits,Long depositId){
-       if(depositsRepository.findById(depositId).isEmpty()){
-           logger.info("Deposit Not found");
-           throw new DepositsNotFoundException();
-       }
-       logger.info("Deposit Successfully Updated...");
-        DepositSuccessfullyUpdated depositSuccessfullyUpdated = new DepositSuccessfullyUpdated(HttpStatus.OK.value(),
-                "Deposit Successfully Updated",
-                depositsRepository.save(deposits));
-        return new ResponseEntity<>(depositSuccessfullyUpdated,HttpStatus.OK);
+    public Object updateDeposit(Deposits deposits,Long depositId){
+
+        if(depositsRepository.findById(depositId).isEmpty()){
+            throw new DepositsNotFoundException();
+        }
+        logger.info("Deposit Deleted!");
+        depositsRepository.save(deposits);
+
+        return new DepositSuccessfullyUpdated(HttpStatus.OK.value(), "Deposit Successfully Updated");
+
 
     }
 
     //delete method
-    public ResponseEntity<?> deleteDeposit(Long depositId){
+    public Object deleteDeposit(Long depositId){
 
         if (depositsRepository.findById(depositId).isEmpty()){
             throw new DepositDeleteException();
