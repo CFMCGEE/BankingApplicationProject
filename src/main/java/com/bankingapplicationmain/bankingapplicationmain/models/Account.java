@@ -25,13 +25,20 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Customer customer;
 
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Long customerId, Customer customer) {
 
-    public Long getCustomerId() {
-        return customerId;
+        this.id = id;
+        this.type = type;
+        this.nickname = nickname;
+        this.rewards = rewards;
+        this.balance = balance;
+        this.customerId = customerId;
+        this.customer = customer;
+
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public Account() {
+
     }
 
     public Long getId() {
@@ -81,4 +88,5 @@ public class Account {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
 }

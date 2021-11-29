@@ -89,12 +89,12 @@ public class AccountService {
 
     public Object createAccount(Account account, long customerId) {
 
-        if (customerRepository.findById(customerId).isEmpty()) {
-            throw new AccountPostException();
-        }
-
+    try {
         logger.info("Account created!");
         return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", accountRepository.save(account));
+    } catch (AccountPostException e) {
+        throw new AccountPostException();
+    }
 
     }
 

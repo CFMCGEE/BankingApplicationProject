@@ -67,21 +67,10 @@ public class DepositsService {
 
         try {
 
-            depositsRepository.save(deposits);
             logger.info("Deposit successfully completed");
             int successCode = HttpStatus.CREATED.value();
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newDepositUri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(deposits.getId())
-                    .toUri();
-            responseHeaders.setLocation(newDepositUri);
-
-            DepositSuccessfullyCreated depositSuccessfullyCreated =
-                    new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
-
+            DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
 
 
          return depositSuccessfullyCreated;

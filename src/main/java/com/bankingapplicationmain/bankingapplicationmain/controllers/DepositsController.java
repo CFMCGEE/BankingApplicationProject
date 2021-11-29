@@ -5,11 +5,14 @@ import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.services.DepositsService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/deposits")
@@ -34,7 +37,15 @@ public class DepositsController {
     //works
     @PostMapping("/deposits")
     public ResponseEntity<DepositSuccessfullyCreated> createDeposit(@Valid @RequestBody Deposits deposit){
-        return ResponseEntity.status(HttpStatus.CREATED).body(depositsService.createDeposit(deposit));
+
+        URI newDepositUri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(deposit.getId())
+                .toUri();
+
+        return ResponseEntity.status(HttpStatus.CREATED).location(newDepositUri).body(depositsService.createDeposit(deposit));
+
     }
 
     //works
