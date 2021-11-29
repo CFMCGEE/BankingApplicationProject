@@ -18,17 +18,17 @@ public class BillController {
 
     @GetMapping("bills/{billID}")
     public ResponseEntity<?> getSingleBill(@PathVariable Long billID){
-        return billService.getBillById(billID);
+        return ResponseEntity.ok(billService.getBillById(billID));
     }
 
     @GetMapping("accounts/{accountID}/bills")
     public ResponseEntity<?> getBillsByAccountID(@PathVariable Long accountID){
-        return billService.getAllBillsByAccountID(accountID);
+        return ResponseEntity.ok(billService.getAllBillsByAccountID(accountID));
     }
 
     @GetMapping("/customers/{customerID}/bills")
     public ResponseEntity<?> getBillsByCustomerID(@PathVariable Long customerID){
-        return billService.getAllBillsByCustomerID(customerID);
+        return ResponseEntity.ok(billService.getAllBillsByCustomerID(customerID));
     }
 
     @PutMapping("bills/{billID}")
@@ -45,6 +45,8 @@ public class BillController {
     public void deleteBill( @PathVariable Long id){
         billService.deleteBill(id);
     }
+
+
 
 
 }
