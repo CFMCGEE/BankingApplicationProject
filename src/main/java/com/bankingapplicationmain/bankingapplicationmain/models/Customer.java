@@ -12,6 +12,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id")
     private Long id;
 
     private String first_Name;
@@ -19,6 +20,9 @@ public class Customer {
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Address> addresses;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Collection<Account> accounts;
 
     public Long getId() {
         return id;
@@ -44,7 +48,7 @@ public class Customer {
         this.last_Name = last_Name;
     }
 
-    public Set<Address> getAddress() {
+    public Collection<Address> getAddress() {
         return addresses;
     }
 
@@ -52,6 +56,21 @@ public class Customer {
         this.addresses = address;
     }
 
+    public Collection<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public void addAccount(Account account) {
+        this.accounts.add(account);
+    }
+
+    public void removeAccount(Account account) {
+        this.accounts.remove(account);
+    }
 
     public void addAddress(Address address) {
         this.addresses.add(address);
