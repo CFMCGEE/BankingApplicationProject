@@ -45,7 +45,6 @@ public class DepositsController {
                 .toUri();
 
         return ResponseEntity.status(HttpStatus.CREATED).location(newDepositUri).body(depositsService.createDeposit(deposit));
-
     }
 
     //works
@@ -59,7 +58,6 @@ public class DepositsController {
     public ResponseEntity<Object> deleteDeposits(@PathVariable Long depositId){
         return ResponseEntity.accepted().body(depositsService.deleteDeposit(depositId)) ;
     }
-
 
 
 }
