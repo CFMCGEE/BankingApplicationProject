@@ -30,12 +30,11 @@ public class AccountController {
 
     @GetMapping("/customers/{customerId}/accounts") //
     public ResponseEntity<Object> getEveryAccountByID(@PathVariable("customerId") Long customerId) {
-
         return ResponseEntity.ok(accountService.getAllAccountsByCustomer(customerId));
     }
 
     @PostMapping("/customers/{customerId}/accounts")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody Account account, @PathVariable("customerId") Long customerId) {
+    public ResponseEntity<Object> createAccount(@Valid @RequestBody Account account, @PathVariable("customerId") Long customerId) {
 
         URI newAccount = ServletUriComponentsBuilder
                 .fromCurrentRequest()

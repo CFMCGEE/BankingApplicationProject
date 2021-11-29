@@ -94,7 +94,7 @@ public class AccountService {
         }
 
         logger.info("Account created!");
-        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account !", accountRepository.save(account));
+        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", accountRepository.save(account));
 
     }
 
