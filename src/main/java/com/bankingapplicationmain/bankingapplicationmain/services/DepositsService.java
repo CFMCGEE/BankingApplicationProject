@@ -67,18 +67,8 @@ public class DepositsService {
 
         try {
 
-            depositsRepository.save(deposits);
             logger.info("Deposit successfully completed");
             int successCode = HttpStatus.CREATED.value();
-
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newDepositUri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(deposits.getId())
-                    .toUri();
-            responseHeaders.setLocation(newDepositUri);
-
 
             DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
 
@@ -91,18 +81,17 @@ public class DepositsService {
     }
 
     //a put method as well
-  
     public DepositSuccessfullyUpdated updateDeposit(Deposits deposits,Long depositId){
        if(depositsRepository.findById(depositId).isEmpty()){
            logger.info("Deposit Not found");
            throw new DepositsNotFoundException();
        }
+      
        logger.info("Deposit Successfully Updated...");
         DepositSuccessfullyUpdated depositSuccessfullyUpdated = new DepositSuccessfullyUpdated(HttpStatus.OK.value(),
                 "Deposit Successfully Updated",
                 depositsRepository.save(deposits));
         return depositSuccessfullyUpdated;
-
     }
 
     //delete method

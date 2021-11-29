@@ -68,42 +68,35 @@ public class BillService {
         }
     }
 
-    public ResponseEntity<?> createBill(Bill bill, Long billID) {
+    public Bill createBill(Bill bill, Long billID) {
         if(billRepository.findById(billID).isEmpty()){
             logger.info("Error Trying To Create a Bill");
             throw new UnableToCreateBillException();
         }
 
         logger.info("Bill Created");
-        billRepository.save(bill);
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newBillURI = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(bill.getId())
-                .toUri();
-        responseHeaders.setLocation(newBillURI);
 
 
-        return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
+
+
+        return billRepository.save(bill);
 
     }
 
-    public ResponseEntity<?> updateBill(Bill bill, Long id) {
+    public Bill updateBill(Bill bill, Long id) {
         logger.info("Bill Successfully Modified");
-        billRepository.save(bill);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return billRepository.save(bill);
 
     }
 
 
-    public ResponseEntity<?> deleteBill( Long id) {
+    public void deleteBill( Long id) {
         logger.info("Deleted Bill");
         billRepository.deleteById(id);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
 }

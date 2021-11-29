@@ -1,7 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -15,13 +18,11 @@ public class Customer {
     private String first_Name;
     private String last_Name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "customer_id")
-    @OrderBy
-    private Set<Address> address;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Address> addresses;
 
-    public Customer() {
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Collection<Account> accounts;
 
     public Long getId() {
         return id;
@@ -47,12 +48,35 @@ public class Customer {
         this.last_Name = last_Name;
     }
 
-    public Set<Address> getAddress() {
-        return address;
+    public Collection<Address> getAddress() {
+        return addresses;
     }
 
     public void setAddress(Set<Address> address) {
-        this.address = address;
+        this.addresses = address;
     }
 
+    public Collection<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public void addAccount(Account account) {
+        this.accounts.add(account);
+    }
+
+    public void removeAccount(Account account) {
+        this.accounts.remove(account);
+    }
+
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+    }
+
+    public void removeAddress(Address address) {
+        this.addresses.remove(address);
+    }
 }

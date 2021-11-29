@@ -12,6 +12,7 @@ public class CustomerSuccessfullyFound {
     private Customer data;
 
     public CustomerSuccessfullyFound() {
+
     }
 
 
@@ -20,6 +21,7 @@ public class CustomerSuccessfullyFound {
         this.message = message;
         this.data = data;
     }
+
 
     public Integer getCode() {
         return code;

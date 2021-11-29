@@ -97,7 +97,7 @@ public class CustomerService {
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
-            throw new SingleCustomerNotFoundException();
+            throw new UnableToUpdateCustomer();
         }
 
         logger.info("Customer successfully updated!");
@@ -111,7 +111,7 @@ public class CustomerService {
 
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
-            throw new SingleCustomerNotFoundException();
+            throw new AccountByIDNotFoundException();
         }
 
         Customer customer = customerRepository.findById(customerId).get();
