@@ -73,7 +73,7 @@ public class DepositsService {
             DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
 
 
-         return depositSuccessfullyCreated;
+            return depositSuccessfullyCreated;
 
         }catch (UnableToCreateDepositException e){
             throw new UnableToCreateDepositException();
@@ -81,22 +81,21 @@ public class DepositsService {
     }
 
     //a put method as well
-  
-    public Object updateDeposit(Deposits deposits,Long depositId){
-
-        if(depositsRepository.findById(depositId).isEmpty()){
-            throw new DepositsNotFoundException();
-        }
-        logger.info("Deposit Deleted!");
-        depositsRepository.save(deposits);
-
-        return new DepositSuccessfullyUpdated(HttpStatus.OK.value(), "Deposit Successfully Updated");
-
-
+    public DepositSuccessfullyUpdated updateDeposit(Deposits deposits,Long depositId){
+       if(depositsRepository.findById(depositId).isEmpty()){
+           logger.info("Deposit Not found");
+           throw new DepositsNotFoundException();
+       }
+      
+       logger.info("Deposit Successfully Updated...");
+        DepositSuccessfullyUpdated depositSuccessfullyUpdated = new DepositSuccessfullyUpdated(HttpStatus.OK.value(),
+                "Deposit Successfully Updated",
+                depositsRepository.save(deposits));
+        return depositSuccessfullyUpdated;
     }
 
     //delete method
-    public Object deleteDeposit(Long depositId){
+    public DepositDeleteSuccessFull deleteDeposit(Long depositId){
 
         if (depositsRepository.findById(depositId).isEmpty()){
             throw new DepositDeleteException();
@@ -106,7 +105,7 @@ public class DepositsService {
         depositsRepository.deleteById(depositId);
 
         DepositDeleteSuccessFull depositDeleteSuccessFull = new DepositDeleteSuccessFull(HttpStatus.OK.value(), "Deposit successfully deleted");
-        return new ResponseEntity<>(depositDeleteSuccessFull,HttpStatus.OK);
+        return depositDeleteSuccessFull;
 
     }
 

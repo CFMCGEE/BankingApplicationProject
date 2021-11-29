@@ -1,23 +1,23 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
-import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleAccountSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.details.success.WithdrawalsByAccountSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.details.success.WithdrawalsByIdAccountSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
-import com.bankingapplicationmain.bankingapplicationmain.models.Account;
-import com.bankingapplicationmain.bankingapplicationmain.models.Withdrawals;
-import com.bankingapplicationmain.bankingapplicationmain.repositories.WithdrawalsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bankingapplicationmain.bankingapplicationmain.details.success.WithdrawalsByAccountSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.WithdrawalsByIdAccountSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
+import com.bankingapplicationmain.bankingapplicationmain.models.Withdrawals;
+import com.bankingapplicationmain.bankingapplicationmain.repositories.WithdrawalsRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class WithdrawalsService {
+
 
     //Initialize logger
     private static final Logger logger = LoggerFactory.getLogger(WithdrawalsService.class);
@@ -27,7 +27,7 @@ public class WithdrawalsService {
     private WithdrawalsRepository withdrawalsRepository;
 
     //Get all withdrawals
-    public ResponseEntity<Object> getAllWithdrawals() {
+    public WithdrawalsByAccountSuccessfullyFound getAllWithdrawals() {
 
         List<Withdrawals> withdrawals = withdrawalsRepository.findAll();
 
@@ -39,7 +39,7 @@ public class WithdrawalsService {
 
             WithdrawalsByAccountSuccessfullyFound withdrawalsByAccountSuccessfullyFound = new WithdrawalsByAccountSuccessfullyFound(successCode, withdrawals);
 
-            return new ResponseEntity<>(withdrawalsByAccountSuccessfullyFound, HttpStatus.OK);
+            return withdrawalsByAccountSuccessfullyFound;
 
         } catch (WithdrawalsByAccountNotFoundException e) {
             throw new WithdrawalsByAccountNotFoundException();
@@ -48,7 +48,7 @@ public class WithdrawalsService {
     }
 
     //Get withdrawals by id
-    public ResponseEntity<Object> getSingleWithdrawals(Long withdrawalsID) {
+    public WithdrawalsByIdAccountSuccessfullyFound getSingleWithdrawals(Long withdrawalsID) {
 
         Withdrawals singleWithdrawals = withdrawalsRepository.findById(withdrawalsID).orElseThrow(() -> new WithdrawalsByIdAccountNotFoundException());
 
@@ -58,7 +58,7 @@ public class WithdrawalsService {
 
         WithdrawalsByIdAccountSuccessfullyFound withdrawalsByIdAccountSuccessfullyFound = new WithdrawalsByIdAccountSuccessfullyFound(successCode, singleWithdrawals);
 
-        return new ResponseEntity<>(withdrawalsByIdAccountSuccessfullyFound, HttpStatus.OK);
+        return withdrawalsByIdAccountSuccessfullyFound;
 
     }
 
@@ -79,5 +79,4 @@ public class WithdrawalsService {
         withdrawalsRepository.deleteById(withdrawalId);
         logger.info("Withdrawals deleted successfully");
     }
-
 }
