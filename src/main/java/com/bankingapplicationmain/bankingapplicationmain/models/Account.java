@@ -16,9 +16,11 @@ public class Account {
     private String nickname;
     private Integer rewards;
     private Double balance;
-    private int customer_id;
 
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, int customer_id) {
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Long customer_id;
+
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Long customer_id) {
 
         this.id = id;
         this.type = type;
@@ -73,11 +75,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public int getCustomer_id() {
+    public Long getCustomer_id() {
         return customer_id;
     }
 
-    public void setCustomer_id(int customer_id) {
+    public void setCustomer_id(Long customer_id) {
         this.customer_id = customer_id;
     }
 

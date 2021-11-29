@@ -17,34 +17,36 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("bills/{billID}")
-    public Bill getSingleBill(@PathVariable Long billID){
-        return billService.getBillById(billID);
+    public ResponseEntity<?> getSingleBill(@PathVariable Long billID){
+        return ResponseEntity.ok(billService.getBillById(billID));
     }
 
     @GetMapping("accounts/{accountID}/bills")
     public ResponseEntity<?> getBillsByAccountID(@PathVariable Long accountID){
-        return billService.getAllBillsByAccountID(accountID);
+        return ResponseEntity.ok(billService.getAllBillsByAccountID(accountID));
     }
 
     @GetMapping("/customers/{customerID}/bills")
     public ResponseEntity<?> getBillsByCustomerID(@PathVariable Long customerID){
-        return billService.getAllBillsByCustomerID(customerID);
+        return ResponseEntity.ok(billService.getAllBillsByCustomerID(customerID));
     }
 
     @PutMapping("bills/{billID}")
     public ResponseEntity<?> updateBill(@PathVariable Long billID, @Valid @RequestBody Bill bill) {
-        return billService.updateBill(billID, bill);
+        return billService.updateBill(bill, billID);
     }
 
     @PostMapping("accounts/{accountID}/bills")
-    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill){
-        return billService.createBill(bill);
+    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill, @PathVariable(name = "accountID") Long billID){
+        return billService.createBill(bill, billID);
     }
 
     @DeleteMapping("/bills/{id}")
     public void deleteBill( @PathVariable Long id){
         billService.deleteBill(id);
     }
+
+
 
 
 }
