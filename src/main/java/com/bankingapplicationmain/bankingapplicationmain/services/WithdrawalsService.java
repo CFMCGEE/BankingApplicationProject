@@ -62,20 +62,6 @@ public class WithdrawalsService {
 
     }
 
-    public WithdrawalsByIdAccountSuccessfullyFound getWithdrawalsByID(Long withdrawalsID) {
-
-        Withdrawals singleWithdrawals = withdrawalsRepository.findById(withdrawalsID).orElseThrow(() -> new WithdrawalsByIdAccountNotFoundException());
-
-        logger.info("One withdrawals successfully found!");
-
-        int successCode = HttpStatus.OK.value();
-
-        WithdrawalsByIdAccountSuccessfullyFound withdrawalsByIdAccountSuccessfullyFound = new WithdrawalsByIdAccountSuccessfullyFound(successCode, singleWithdrawals);
-
-        return withdrawalsByIdAccountSuccessfullyFound;
-
-    }
-
     //Create withdrawals
     public void createWithdrawals(Withdrawals withdrawals) {
         withdrawalsRepository.save(withdrawals);
