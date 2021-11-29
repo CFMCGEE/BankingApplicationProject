@@ -2,6 +2,7 @@ package com.bankingapplicationmain.bankingapplicationmain.controllers;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.services.DepositsService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +37,14 @@ public class DepositsController {
 
     //works
     @PutMapping("/deposits/{depositId}")
-    public ResponseEntity<?> updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
-        return depositsService.updateDeposit(deposits,depositId);
+    public ResponseEntity<Object> updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
+        return ResponseEntity.ok(depositsService.updateDeposit(deposits,depositId));
     }
 
     //works
     @DeleteMapping("/deposits/{depositId}")
-    public ResponseEntity<?> deleteDeposits(@PathVariable Long depositId){
-        return depositsService.deleteDeposit(depositId);
+    public ResponseEntity<Object> deleteDeposits(@PathVariable Long depositId){
+        return ResponseEntity.accepted().body(depositsService.deleteDeposit(depositId)) ;
     }
 
 
