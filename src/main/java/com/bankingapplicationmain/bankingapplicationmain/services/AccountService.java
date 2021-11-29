@@ -76,10 +76,6 @@ public class AccountService {
 
     public Object getAllAccountsByCustomer(Long customerId) {
 
-//        Iterable<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(customerId));
-
-
-
         try {
             logger.info("All customer accounts successfully found!");
             return new AccountByIDSuccessfullyFound(HttpStatus.OK.value(), "Success!", accountRepository.findAllByCustomerId(customerId));
