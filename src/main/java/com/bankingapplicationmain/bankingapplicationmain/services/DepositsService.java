@@ -63,27 +63,17 @@ public class DepositsService {
     }
 
     //we need a post method
-    public ResponseEntity<?>createDeposit(Deposits deposits){
+    public DepositSuccessfullyCreated createDeposit(Deposits deposits){
 
         try {
 
-            depositsRepository.save(deposits);
             logger.info("Deposit successfully completed");
             int successCode = HttpStatus.CREATED.value();
-
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newDepositUri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(deposits.getId())
-                    .toUri();
-            responseHeaders.setLocation(newDepositUri);
-
 
             DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
 
 
-            return new ResponseEntity<>(depositSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
+         return depositSuccessfullyCreated;
 
         }catch (UnableToCreateDepositException e){
             throw new UnableToCreateDepositException();
