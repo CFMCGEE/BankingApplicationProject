@@ -25,6 +25,15 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Customer customer;
 
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
     public Long getId() {
         return id;
     }
