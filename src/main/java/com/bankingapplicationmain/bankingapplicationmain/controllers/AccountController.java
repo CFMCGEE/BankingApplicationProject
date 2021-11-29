@@ -5,8 +5,10 @@ import com.bankingapplicationmain.bankingapplicationmain.services.AccountService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,26 +25,35 @@ public class AccountController {
 
     @GetMapping("/{accountID}")
     public ResponseEntity<Object> getAccount(@PathVariable Long accountID) {
-        return accountService.getSingleAccount(accountID);
+        return ResponseEntity.ok(accountService.getSingleAccount(accountID));
     }
 
     @GetMapping("/customers/{customerId}/accounts") //
     public ResponseEntity<Object> getEveryAccountByID(@PathVariable("customerId") Long customerId) {
-        return accountService.getAllAccountsByCustomer(customerId);
+
+        return ResponseEntity.ok(accountService.getAllAccountsByCustomer(customerId));
     }
 
     @PostMapping("/customers/{customerId}/accounts")
     public ResponseEntity<?> createAccount(@Valid @RequestBody Account account, @PathVariable("customerId") Long customerId) {
-        return accountService.createAccount(account, customerId);
+
+        URI newAccount = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(account.getId())
+                .toUri();
+
+        return ResponseEntity.created(newAccount).body(accountService.createAccount(account, customerId));
+
     }
 
     @PutMapping("/{accountID}")
-    public ResponseEntity<?> updateAccount(@PathVariable Long accountID, @Valid @RequestBody Account account){
-        return accountService.updateAccount(accountID, account);
+    public ResponseEntity<Object> updateAccount(@PathVariable Long accountID, @Valid @RequestBody Account account){
+        return ResponseEntity.ok(accountService.updateAccount(accountID, account));
     }
     
     @DeleteMapping("/{accountID}")
-    public ResponseEntity<?> deleteAccount(@PathVariable Long accountID){
-        return accountService.deleteAccount(accountID);
+    public ResponseEntity<Object> deleteAccount(@PathVariable Long accountID){
+        return ResponseEntity.accepted().body(accountService.deleteAccount(accountID));
     }
 }
