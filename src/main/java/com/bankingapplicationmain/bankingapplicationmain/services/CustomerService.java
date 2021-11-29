@@ -114,10 +114,9 @@ public class CustomerService {
             throw new AccountByIDNotFoundException();
         }
 
-        Customer customer = customerRepository.findById(customerId).get();
         logger.info("Customer successfully found");
         CustomerSuccessfullyFound customerSuccessfullyFound = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
-                "Customer Successfully Found!", customer);
+                "Customer Successfully Found!", customerRepository.findCustomerByAccountId(customerId));
         return new ResponseEntity<>(customerSuccessfullyFound, HttpStatus.OK);
     }
 }
