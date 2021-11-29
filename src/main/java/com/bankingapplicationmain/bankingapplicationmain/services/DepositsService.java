@@ -1,7 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 
+import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositDeleteSuccessFull;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyCreated;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyUpdated;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositDeleteException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
 
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundException;
@@ -89,20 +92,32 @@ public class DepositsService {
 
     //a put method as well
   
-    public ResponseEntity<?> updateDeposit(Long depositId, Deposits deposits){
-        deposits.setId(depositId);
-        verifyDeposit(depositId);
+    public ResponseEntity<?> updateDeposit(Deposits deposits,Long depositId){
+       if(depositsRepository.findById(depositId).isEmpty()){
+           logger.info("Deposit Not found");
+           throw new DepositsNotFoundException();
+       }
+       logger.info("Deposit Successfully Updated...");
+        DepositSuccessfullyUpdated depositSuccessfullyUpdated = new DepositSuccessfullyUpdated(HttpStatus.OK.value(),
+                "Deposit Successfully Updated",
+                depositsRepository.save(deposits));
+        return new ResponseEntity<>(depositSuccessfullyUpdated,HttpStatus.OK);
 
-        depositsRepository.save(deposits);
-        logger.info("Deposit successfully Updated");
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //delete method
     public ResponseEntity<?> deleteDeposit(Long depositId){
-        logger.info("Deposit successfully deleted");
-        depositsRepository.delete(depositsRepository.getById(depositId));
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        if (depositsRepository.findById(depositId).isEmpty()){
+            throw new DepositDeleteException();
+        }
+
+        logger.info("Deposit Deleted");
+        depositsRepository.deleteById(depositId);
+
+        DepositDeleteSuccessFull depositDeleteSuccessFull = new DepositDeleteSuccessFull(HttpStatus.OK.value(), "Deposit successfully deleted");
+        return new ResponseEntity<>(depositDeleteSuccessFull,HttpStatus.OK);
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.controllers;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
+import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.services.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("bills/{billID}")
-    public Bill getSingleBill(@PathVariable Long billID){
+    public ResponseEntity<?> getSingleBill(@PathVariable Long billID){
         return billService.getBillById(billID);
     }
 
@@ -30,9 +31,14 @@ public class BillController {
         return billService.getAllBillsByCustomerID(customerID);
     }
 
+    @PutMapping("bills/{billID}")
+    public ResponseEntity<?> updateBill(@PathVariable Long billID, @Valid @RequestBody Bill bill) {
+        return billService.updateBill(bill, billID);
+    }
+
     @PostMapping("accounts/{accountID}/bills")
-    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill){
-        return billService.createBill(bill);
+    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill, @PathVariable(name = "accountID") Long billID){
+        return billService.createBill(bill, billID);
     }
 
     @DeleteMapping("/bills/{id}")

@@ -22,17 +22,19 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountService {
+
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Autowired
     private CustomerRepository customerRepository;
 
-
     private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-    protected void verifyCustomer(Long customerId) throws AccountPutException{
+    protected void verifyCustomer(Long customerId) throws AccountPutException {
 
         Customer customer = customerRepository.findById(customerId).orElse(null);
 
@@ -41,8 +43,6 @@ public class AccountService {
         }
 
     }
-    @Autowired
-    private AccountRepository accountRepository;
 
     public List<Account> getAllAccounts() {
 
@@ -57,7 +57,7 @@ public class AccountService {
 
     }
 
-    public ResponseEntity<Object> getSingleAccount(Long accountID) {
+    public Object getSingleAccount(Long accountID) {
 
         Account singleAccount = accountRepository.findById(accountID).orElseThrow(() -> new SingleAccountNotFoundException());
 
@@ -70,80 +70,55 @@ public class AccountService {
         singleAccountSuccessfullyFound.setMessage("Success!");
         singleAccountSuccessfullyFound.setData(singleAccount);
 
-        return new ResponseEntity<>(singleAccountSuccessfullyFound, HttpStatus.OK);
+        return singleAccountSuccessfullyFound;
 
     }
 
-    public ResponseEntity<Object> getAllAccountsByCustomer(Long accountID) {
+    public Object getAllAccountsByCustomer(Long customerId) {
 
-        Iterable<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(accountID));
+        Iterable<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(customerId));
 
         try {
-
             logger.info("All customer accounts successfully found!");
-
-            int successCode = HttpStatus.OK.value();
-
-            AccountByIDSuccessfullyFound accountByIDSuccessfullyFound = new AccountByIDSuccessfullyFound(successCode, "Success!", accountOfCustomersByID);
-
-            return new ResponseEntity<>(accountByIDSuccessfullyFound, HttpStatus.OK);
-
+            return new AccountByIDSuccessfullyFound(HttpStatus.OK.value(), "Success!", accountOfCustomersByID);
         } catch (AccountByIDNotFoundException e) {
             throw new AccountByIDNotFoundException();
         }
 
     }
 
-    public ResponseEntity<?> createAccount(Account account, long customerId) {
-
-        Optional<Customer> customers = customerRepository.
-                findById(account.getCustomer().getId());
+    public Object createAccount(Account account, long customerId) {
 
         if (customerRepository.findById(customerId).isEmpty()) {
             throw new AccountPostException();
         }
-        logger.info("Account created");
 
-        account.setCustomer(customers.get());
-        Account newAccount = accountRepository.save(account);
+        logger.info("Account created!");
+        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account !", accountRepository.save(account));
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newAccountUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newAccount.getId())
-                .toUri();
-        responseHeaders.setLocation(newAccountUri);
-
-        AccountPostSuccess accountPostSuccess = new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Created", newAccount);
-
-        return new ResponseEntity<>(accountPostSuccess, responseHeaders, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateAccount(Account account, Long accountId) {
+    public Object updateAccount(Long accountId, Account account) {
+
         verifyCustomer(accountId);
-        logger.info("Account updated");
+
+        logger.info("Account updated!");
         accountRepository.save(account);
 
-        AccountSuccessfulMethods accountSuccessfulMethods = new AccountSuccessfulMethods(HttpStatus.OK.value(),"Customer Account Updated");
-
-
-        return new ResponseEntity<>(accountSuccessfulMethods,HttpStatus.OK);
+        return new AccountSuccessfulMethods(HttpStatus.OK.value(),"Customer Account Updated!");
 
     }
 
-    public ResponseEntity<?> deleteAccount(Long id) {
+    public Object deleteAccount(Long id) {
 
         if (accountRepository.findById(id).isEmpty()) {
             throw new AccountDeleteException();
         }
 
-        logger.info("Account deleted");
+        logger.info("Account deleted!");
         accountRepository.deleteById(id);
 
-        AccountSuccessfulMethods accountSuccessfulMethods = new AccountSuccessfulMethods(HttpStatus.ACCEPTED.value(),"Account successfully deleted");
-
-        return new ResponseEntity<>(accountSuccessfulMethods, HttpStatus.ACCEPTED);
+        return new AccountSuccessfulMethods(HttpStatus.ACCEPTED.value(),"Account successfully deleted!");
 
     }
 
