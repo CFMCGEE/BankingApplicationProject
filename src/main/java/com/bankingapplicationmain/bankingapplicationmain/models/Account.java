@@ -17,17 +17,17 @@ public class Account {
     private String nickname;
     private Integer rewards;
     private Double balance;
-
-
     private Long customerId;
 
     public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Long customerId) {
+
         this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
         this.customerId = customerId;
+
     }
 
     public Account() {
@@ -82,7 +82,6 @@ public class Account {
         this.customerId = customerId;
     }
 
-
     @Override
     public String toString() {
         return "Account{" +
@@ -94,4 +93,5 @@ public class Account {
                 ", customerId=" + customerId +
                 '}';
     }
+
 }
