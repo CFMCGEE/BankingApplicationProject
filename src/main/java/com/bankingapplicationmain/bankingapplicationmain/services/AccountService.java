@@ -22,6 +22,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -95,23 +96,26 @@ public class AccountService {
 
     public ResponseEntity<?> createAccount(Account account, long customerId) {
 
+        Optional<Customer> customers = customerRepository.
+                findById(account.getCustomer().getId());
+
         if (customerRepository.findById(customerId).isEmpty()) {
             throw new AccountPostException();
         }
         logger.info("Account created");
 
+        account.setCustomer(customers.get());
+        Account newAccount = accountRepository.save(account);
+
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newAccountUri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(account.getId())
+                .buildAndExpand(newAccount.getId())
                 .toUri();
         responseHeaders.setLocation(newAccountUri);
 
-        Customer customer = customerRepository.findById((long) account.getCustomer_id()).orElse(null);
-
-
-        AccountPostSuccess accountPostSuccess = new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Created", accountRepository.save(account));
+        AccountPostSuccess accountPostSuccess = new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Created", newAccount);
 
         return new ResponseEntity<>(accountPostSuccess, responseHeaders, HttpStatus.CREATED);
     }

@@ -1,6 +1,8 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -16,22 +18,10 @@ public class Account {
     private String nickname;
     private Integer rewards;
     private Double balance;
-    private int customer_id;
 
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, int customer_id) {
-
-        this.id = id;
-        this.type = type;
-        this.nickname = nickname;
-        this.rewards = rewards;
-        this.balance = balance;
-        this.customer_id = customer_id;
-
-    }
-
-    public Account() {
-
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Customer customer;
 
     public Long getId() {
         return id;
@@ -73,24 +63,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public int getCustomer_id() {
-        return customer_id;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
-
-    @Override
-    public String toString() {
-        return "{\n" +
-                "id: " + id + ", \n" +
-                "type: " + type + ", \n" +
-                "nickname: " + nickname + ", \n" +
-                "rewards: " + rewards + ", \n" +
-                "balance: " + balance + ", \n" +
-               "customer_id: " + customer_id +
-                "\n}";
-    }
-
 }

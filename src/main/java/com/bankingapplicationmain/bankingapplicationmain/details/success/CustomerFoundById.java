@@ -2,24 +2,25 @@ package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 
-import java.util.List;
+public class CustomerFoundById {
 
-
-public class CustomerSuccessfullyFound {
 
     private Integer code;
     private String message;
-    private Customer data;
+    private int customer_id;
 
-    public CustomerSuccessfullyFound() {
-
+    public CustomerFoundById() {
     }
 
-
-    public CustomerSuccessfullyFound(Integer code, String message, Customer data) {
+    public CustomerFoundById(Integer code, String message, int customer_id) {
         this.code = code;
         this.message = message;
-        this.data = data;
+        this.customer_id = customer_id;
+    }
+
+    public CustomerFoundById(Integer code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
 
@@ -39,11 +40,15 @@ public class CustomerSuccessfullyFound {
         this.message = message;
     }
 
-    public Customer getData() {
-        return data;
+    public int getCustomer_id() {
+        return customer_id;
     }
 
-    public void setData(Customer data) {
-        this.data = data;
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
     }
+
+
+
+
 }
