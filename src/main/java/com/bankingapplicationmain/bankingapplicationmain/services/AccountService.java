@@ -100,6 +100,7 @@ public class AccountService {
 
     public Object updateAccount(Long accountId, Account account) {
 
+
         verifyCustomer(accountId);
 
         logger.info("Account updated!");
