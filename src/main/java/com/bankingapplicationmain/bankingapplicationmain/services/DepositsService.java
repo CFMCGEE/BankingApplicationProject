@@ -63,7 +63,7 @@ public class DepositsService {
     }
 
     //we need a post method
-    public ResponseEntity<?>createDeposit(Deposits deposits){
+    public DepositSuccessfullyCreated createDeposit(Deposits deposits){
 
         try {
 
@@ -79,11 +79,12 @@ public class DepositsService {
                     .toUri();
             responseHeaders.setLocation(newDepositUri);
 
+            DepositSuccessfullyCreated depositSuccessfullyCreated =
+                    new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
 
-            DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
 
 
-            return new ResponseEntity<>(depositSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
+         return depositSuccessfullyCreated;
 
         }catch (UnableToCreateDepositException e){
             throw new UnableToCreateDepositException();
