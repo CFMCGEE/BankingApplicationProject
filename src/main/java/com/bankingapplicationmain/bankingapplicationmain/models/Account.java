@@ -19,20 +19,10 @@ public class Account {
     private Integer rewards;
     private Double balance;
 
-    private Long customerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Customer customer;
-
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
 
     public Long getId() {
         return id;
