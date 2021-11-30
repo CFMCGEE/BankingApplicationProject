@@ -28,7 +28,7 @@ public class Withdrawals {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Account account;
 
-    public Withdrawals(Long id, Medium medium, String transaction_date, Double amount, String description, Status status, Long payer_id, Type type) {
+    public Withdrawals(Long id, Medium medium, String transaction_date, Double amount, String description, Status status, Long payer_id, Type type, Account account) {
 
         this.id = id;
         this.medium = medium;
@@ -39,6 +39,7 @@ public class Withdrawals {
         this.payer_id = payer_id;
         this.type = type;
 
+        this.account = account;
     }
 
     public Withdrawals() {
@@ -107,6 +108,14 @@ public class Withdrawals {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
 }
