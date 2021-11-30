@@ -43,7 +43,7 @@ public class CustomerService {
         List<Customer> customers = customerRepository.findAll();
 
         if (customers.isEmpty()) {
-            throw new CustomerNotFoundException();
+            throw new CustomerNotFoundException("No customers found");
         }
         return customers;
     }
@@ -52,7 +52,7 @@ public class CustomerService {
     public Customer getCustomerById(Long customerId) {
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
-            throw new SingleCustomerNotFoundException();
+            throw new SingleCustomerNotFoundException("Customer not found");
         }
         return customerRepository.findById(customerId).get();
     }
@@ -66,7 +66,7 @@ public class CustomerService {
         Customer customerToUpdate = customerRepository.findById(customerId).get();
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
-            throw new UnableToUpdateCustomer();
+            throw new UnableToUpdateCustomer("Customer not found");
         }
 
         customerToUpdate.setFirst_Name(customer.getFirst_Name());
@@ -75,14 +75,14 @@ public class CustomerService {
         return customerToUpdate;
     }
 
-    public Customer getCustomerByAccount(Long customerId) {
+    public Customer getCustomerByAccount(Long accountId) {
 
-        if (customerRepository.findById(customerId).isEmpty()) {
+        if (customerRepository.findById(accountId).isEmpty()) {
             logger.info("Customer not found");
-            throw new AccountByIDNotFoundException();
+            throw new AccountByIDNotFoundException("Customer not found");
         }
 
-        Customer customer = customerRepository.findById(customerId).get();
+        Customer customer = customerRepository.findCustomerByAccountId(accountId);
         logger.info("Customer successfully found");
 
         return customer;

@@ -1,9 +1,12 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Set;
 
+@RequiredArgsConstructor
 @Entity
 public class Customer {
 

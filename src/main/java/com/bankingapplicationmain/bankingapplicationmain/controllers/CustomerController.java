@@ -23,6 +23,7 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<?> getAllCustomers(){
+
         try {
             logger.info("Getting all customers");
             return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
@@ -71,11 +72,11 @@ public class CustomerController {
     }
 
     //Get customer that owns the specified account
-    @GetMapping("/account/{customerId}/customer")
-    public ResponseEntity<?> getCustomerByAccount(@PathVariable Long customerId){
+    @GetMapping("/account/{accountId}/customer")
+    public ResponseEntity<?> getCustomerByAccount(@PathVariable Long accountId){
         try {
             logger.info("Getting customer by account");
-            return new ResponseEntity<>(customerService.getCustomerByAccount(customerId), HttpStatus.OK);
+            return new ResponseEntity<>(customerService.getCustomerByAccount(accountId), HttpStatus.OK);
         } catch (CustomerNotFoundException e) {
             logger.error("Customer not found");
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
