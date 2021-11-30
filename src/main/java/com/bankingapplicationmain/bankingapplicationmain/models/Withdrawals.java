@@ -3,11 +3,10 @@ package com.bankingapplicationmain.bankingapplicationmain.models;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Medium;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Withdrawals {
@@ -24,6 +23,10 @@ public class Withdrawals {
     private Status status;
     private Long payer_id;
     private Type type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Account account;
 
     public Withdrawals(Long id, Medium medium, String transaction_date, Double amount, String description, Status status, Long payer_id, Type type) {
 
