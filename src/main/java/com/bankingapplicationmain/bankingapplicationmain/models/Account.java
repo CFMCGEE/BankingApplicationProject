@@ -1,10 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 public class Account {
@@ -71,4 +71,5 @@ public class Account {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
 }

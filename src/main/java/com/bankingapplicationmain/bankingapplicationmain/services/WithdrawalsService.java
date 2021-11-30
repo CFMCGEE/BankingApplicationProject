@@ -27,9 +27,7 @@ public class WithdrawalsService {
     private WithdrawalsRepository withdrawalsRepository;
 
     //Get all withdrawals
-    public WithdrawalsByAccountSuccessfullyFound getAllWithdrawals() {
-
-        List<Withdrawals> withdrawals = withdrawalsRepository.findAll();
+    public WithdrawalsByAccountSuccessfullyFound getAllWithdrawalsByAccountID(Long accountId) {
 
         try {
 
@@ -37,7 +35,7 @@ public class WithdrawalsService {
 
             int successCode = HttpStatus.OK.value();
 
-            WithdrawalsByAccountSuccessfullyFound withdrawalsByAccountSuccessfullyFound = new WithdrawalsByAccountSuccessfullyFound(successCode, withdrawals);
+            WithdrawalsByAccountSuccessfullyFound withdrawalsByAccountSuccessfullyFound = new WithdrawalsByAccountSuccessfullyFound(successCode, withdrawalsRepository.findWithdrawalsByAccountId(accountId));
 
             return withdrawalsByAccountSuccessfullyFound;
 
@@ -63,9 +61,9 @@ public class WithdrawalsService {
     }
 
     //Create withdrawals
-    public void createWithdrawals(Withdrawals withdrawals) {
-        withdrawalsRepository.save(withdrawals);
+    public Withdrawals createWithdrawals(Long accountId, Withdrawals withdrawals) {
         logger.info("Withdrawals created successfully");
+        return withdrawalsRepository.save(withdrawals);
     }
 
     //Update withdrawals
