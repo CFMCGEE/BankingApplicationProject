@@ -1,12 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
 import com.bankingapplicationmain.bankingapplicationmain.details.success.BillByIDSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.BillSuccessMethods;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.BillSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleBillSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.BillByIDNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.BillNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.SingleBillNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateBillException;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.BillRepository;
 import org.slf4j.Logger;
@@ -28,6 +26,16 @@ public class BillService {
     private BillRepository billRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(BillService.class);
+
+
+    protected void verifyBill(Long billId) throws UnableToUpdateBillException {
+        Bill bill = billRepository.findById(billId).orElse(null);
+
+        if(bill == null){
+            throw new UnableToUpdateBillException();
+        }
+    }
+
 
     public List<Bill> getAllBillsByAccountID(Long accountID) {
         List<Bill> billsByCustomerID = billRepository.findAllById(Collections.singleton(accountID));
@@ -84,18 +92,26 @@ public class BillService {
     }
 
     public Bill updateBill(Bill bill, Long id) {
+        //shout out to whoever did the account this jawn is wild
+        verifyBill(id);
+        
         logger.info("Bill Successfully Modified");
-
+        
 
         return billRepository.save(bill);
 
     }
 
 
-    public void deleteBill( Long id) {
+    public Object deleteBill( Long id) {
         logger.info("Deleted Bill");
         billRepository.deleteById(id);
+        
+        if(billRepository.findById(id).isEmpty()){
+            throw new UnableToDeleteBillException();
+        }
 
+        return new BillSuccessMethods(HttpStatus.ACCEPTED.value(), "Bill Successfully Deleted");
 
     }
 
