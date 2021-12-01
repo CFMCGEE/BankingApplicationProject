@@ -39,84 +39,52 @@ public class CustomerService {
     }
 
     // Get all customers
-    public ResponseEntity<Object> getAllCustomers() {
+    public List<Customer> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
 
         if (customers.isEmpty()) {
-            logger.info("No customers found");
-            throw new CustomerNotFoundException();
+            throw new CustomerNotFoundException("No customers found");
         }
-
-        logger.info("Customers successfully found");
-        CustomersSuccessfullyFound customersSuccessfullyFound = new CustomersSuccessfullyFound(HttpStatus.OK.value(),
-                "Customers Successfully Found!", customers);
-        return new ResponseEntity<>(customersSuccessfullyFound, HttpStatus.OK);
+        return customers;
     }
 
     //get customer by id
-    public ResponseEntity<Object> getCustomerById(Long customerId) {
+    public Customer getCustomerById(Long customerId) {
         if (customerRepository.findById(customerId).isEmpty()) {
             logger.info("Customer not found");
-            throw new SingleCustomerNotFoundException();
+            throw new SingleCustomerNotFoundException("Customer not found");
+        }
+        return customerRepository.findById(customerId).get();
+    }
+
+    public Customer createCustomer(Customer customer){
+        return customerRepository.save(customer);
+    }
+
+    public Customer updateCustomer(Customer customer, Long customerId) {
+
+        Customer customerToUpdate = customerRepository.findById(customerId).get();
+        if (customerRepository.findById(customerId).isEmpty()) {
+            logger.info("Customer not found");
+            throw new UnableToUpdateCustomer("Customer not found");
         }
 
-        Customer customer = customerRepository.findById(customerId).get();
+        customerToUpdate.setFirst_Name(customer.getFirst_Name());
+        customerToUpdate.setLast_Name(customer.getLast_Name());
+
+        return customerToUpdate;
+    }
+
+    public Customer getCustomerByAccount(Long accountId) {
+
+        if (customerRepository.findById(accountId).isEmpty()) {
+            logger.info("Customer not found");
+            throw new AccountByIDNotFoundException("Customer not found");
+        }
+
+        Customer customer = customerRepository.findCustomerByAccountId(accountId);
         logger.info("Customer successfully found");
-        CustomerSuccessfullyFound customerSuccessfullyFound = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
-                "Customer Successfully Found!", customer);
-        return new ResponseEntity<>(customerSuccessfullyFound, HttpStatus.OK);
-    }
 
-    public ResponseEntity<?> createCustomer(Customer customer){
-
-        try {
-
-            logger.info("Customer successfully created!");
-
-            int successCode = HttpStatus.CREATED.value();
-
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newCustomerUri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(customer.getId())
-                    .toUri();
-            responseHeaders.setLocation(newCustomerUri);
-
-            CustomerSuccessfullyFound customerSuccessfullyCreated = new CustomerSuccessfullyFound(successCode,
-                    "Customer Successfully Created!",
-                    customerRepository.save(customer));
-            return new ResponseEntity<>(customerSuccessfullyCreated, responseHeaders, HttpStatus.CREATED);
-        }
-        catch (UnableToCreateAccountException e) {
-            logger.error("Unable to create customer");
-            throw new UnableToCreateAccountException();
-        }
-    }
-
-    public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
-        if (customerRepository.findById(customerId).isEmpty()) {
-            logger.info("Customer not found");
-            throw new UnableToUpdateCustomer();
-        }
-
-        logger.info("Customer successfully updated!");
-        CustomerSuccessfullyFound customerSuccessfullyUpdated = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
-                "Customer Successfully Updated!",
-                customerRepository.save(customer));
-        return new ResponseEntity<>(customerSuccessfullyUpdated, HttpStatus.OK);
-    }
-
-    public ResponseEntity<Object> getCustomerByAccount(Long customerId) {
-
-        if (customerRepository.findById(customerId).isEmpty()) {
-            logger.info("Customer not found");
-            throw new AccountByIDNotFoundException();
-        }
-
-        logger.info("Customer successfully found");
-        CustomerSuccessfullyFound customerSuccessfullyFound = new CustomerSuccessfullyFound(HttpStatus.OK.value(),
-                "Customer Successfully Found!", customerRepository.findCustomerByAccountId(customerId));
-        return new ResponseEntity<>(customerSuccessfullyFound, HttpStatus.OK);
+        return customer;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    @Query(value = "SELECT c FROM Customer c JOIN c.accounts a WHERE a.id = ?1")
+    @Query("SELECT c FROM Customer c JOIN c.accounts a WHERE a.id = ?1")
     Customer findCustomerByAccountId(Long accountId);
 
 }

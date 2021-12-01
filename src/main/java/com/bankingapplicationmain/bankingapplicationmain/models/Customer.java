@@ -1,18 +1,18 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
+@RequiredArgsConstructor
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
+
     private Long id;
 
     private String first_Name;
@@ -22,7 +22,7 @@ public class Customer {
     private Set<Address> addresses;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Collection<Account> accounts;
+    private Set<Account> accounts;
 
     public Long getId() {
         return id;
@@ -48,7 +48,7 @@ public class Customer {
         this.last_Name = last_Name;
     }
 
-    public Collection<Address> getAddress() {
+    public Set<Address> getAddress() {
         return addresses;
     }
 
@@ -56,7 +56,7 @@ public class Customer {
         this.addresses = address;
     }
 
-    public Collection<Account> getAccounts() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
