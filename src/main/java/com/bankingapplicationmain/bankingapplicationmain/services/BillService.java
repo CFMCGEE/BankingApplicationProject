@@ -62,8 +62,15 @@ public class BillService {
 //           logger.info("Error Trying To Create a Bill");
 //           throw new UnableToCreateBillException();
 //       }
-        logger.info("Bill Created");
-        return billRepository.save(bill);
+
+        try{
+            logger.info("Bill Created");
+            return billRepository.save(bill);
+        }
+        catch(UnableToCreateBillException e){
+            throw new UnableToCreateBillException();
+        }
+
     }
 
     public Bill updateBill(Long id, Bill bill) {

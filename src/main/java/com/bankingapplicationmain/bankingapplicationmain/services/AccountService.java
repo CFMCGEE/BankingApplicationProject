@@ -117,7 +117,7 @@ public class AccountService {
         logger.info("Account deleted!");
         accountRepository.deleteById(id);
 
-        return new AccountSuccessfulMethods(HttpStatus.ACCEPTED.value(),"Account successfully deleted!");
+        return new AccountSuccessfulMethods(HttpStatus.ACCEPTED.value(), "Account successfully deleted!");
 
     }
 
