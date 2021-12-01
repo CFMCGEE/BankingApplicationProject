@@ -24,6 +24,9 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Account> accounts;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Set<Bill> bills;
+
     public Long getId() {
         return id;
     }
