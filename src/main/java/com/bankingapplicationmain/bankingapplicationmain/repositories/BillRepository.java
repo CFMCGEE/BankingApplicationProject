@@ -10,10 +10,6 @@ import java.util.List;
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Long> {
 
-    @Query("SELECT b FROM Bill b WHERE b.account.id = ?1")
-    List<Bill> findBillsByAccountId(Long id);
-
-//    @Query(value = "SELECT b FROM Bill b JOIN b b.account.customer_id = ?1")
-//    List<Bill> findBillsByCustomerId(Long id);
-
+    @Query("SELECT b.customer FROM Bill b WHERE b.id = ?1")
+     List<Long> findCustomerByBillId(Long id);
 }
