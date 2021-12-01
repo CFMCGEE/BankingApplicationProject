@@ -66,10 +66,10 @@ public class BillService {
         return billRepository.save(bill);
     }
 
-    public Bill updateBill(Bill bill, Long id) {
+    public Bill updateBill(Long id, Bill bill) {
         //shout out to whoever did the account this jawn is wild
         verifyBill(id);
-        
+
         logger.info("Bill Successfully Modified");
         return billRepository.save(bill);
     }

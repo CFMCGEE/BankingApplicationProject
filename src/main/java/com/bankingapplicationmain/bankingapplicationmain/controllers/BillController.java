@@ -14,12 +14,13 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/bills/")
 public class BillController {
 
     @Autowired
     private BillService billService;
 
-    @GetMapping("bills/{billID}")
+    @GetMapping("{billID}")
     public ResponseEntity<?> getSingleBill(@PathVariable Long billID){
         return ResponseEntity.ok(billService.getBillById(billID));
     }
@@ -34,9 +35,9 @@ public class BillController {
 //        return ResponseEntity.ok(billService.getAllBillsByCustomerId(customerId));
 //    }
 
-    @PutMapping("bills/{billID}")
-    public ResponseEntity<Object> updateBill(@PathVariable Long billId, @Valid @RequestBody Bill bill) {
-        return ResponseEntity.ok(billService.updateBill(bill, billId));
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateBill(@PathVariable Long id, @Valid @RequestBody Bill bill) {
+        return ResponseEntity.ok(billService.updateBill(id, bill));
     }
 
     @PostMapping("accounts/{accountId}/bills")
@@ -44,7 +45,7 @@ public class BillController {
         return ResponseEntity.status(HttpStatus.CREATED).body(billService.createBill(bill, accountId));
     }
 
-    @DeleteMapping("/bills/{id}")
+    @DeleteMapping("{id}")
     public void deleteBill( @PathVariable Long id){
         billService.deleteBill(id);
     }
