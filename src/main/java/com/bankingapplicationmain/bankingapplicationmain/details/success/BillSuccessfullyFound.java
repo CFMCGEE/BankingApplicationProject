@@ -4,25 +4,22 @@ import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
 
 import java.util.List;
 
-public class BillSuccessfullyFound {
+public class BillSuccessfullyFound  {
 
     private Integer code;
     private String message;
     private List<Bill> data;
 
-    public BillSuccessfullyFound(Integer code, String message, List<Bill> data) {
-
+    public BillSuccessfullyFound(Integer code, String message, List<Bill> data){
         this.code = code;
         this.message = message;
         this.data = data;
+
+
     }
 
-    public BillSuccessfullyFound(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
+    public  BillSuccessfullyFound(){
 
-    public BillSuccessfullyFound() {
     }
 
     public Integer getCode() {

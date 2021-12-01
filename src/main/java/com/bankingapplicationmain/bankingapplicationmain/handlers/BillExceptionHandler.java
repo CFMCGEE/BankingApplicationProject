@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class BillExceptionHandler extends BillNotFoundException {
 
     @ExceptionHandler(BillNotFoundException.class)
-    public ResponseEntity<?> handleBillByAccountIDNotFoundException() {
+    public ResponseEntity<?> handleBillNotFoundException() {
 
-        int errorCode = HttpStatus.NOT_FOUND.value();
+        int errorCode = HttpStatus.NOT_FOUND.value(); //404
 
         NotFoundError billError = new NotFoundError();
         billError.setCode(errorCode);
-        billError.setMessage("ERROR WHILE TRYING TO FETCH BILL(S) AT THIS ACCOUNT ID");
+        billError.setMessage("ERROR WHILE TRYING TO FETCH ALL BILLS");
 
         return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
 
@@ -37,31 +37,20 @@ public class BillExceptionHandler extends BillNotFoundException {
 
     }
 
-    @ExceptionHandler(BillByIDNotFoundException.class)
-    public ResponseEntity<?> handleBillByCustomerIDNotFoundException() {
+//    @ExceptionHandler(BillNotFoundException.class)
+//    public ResponseEntity<?> handleBillByIDNotFoundException() {
+//
+//        int errorCode = HttpStatus.NOT_FOUND.value();
+//
+//        NotFoundError billError = new NotFoundError();
+//        billError.setCode(errorCode);
+//        billError.setMessage("Error creating bill: Account not found.");
+//
+//        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
+//    }
 
-        int errorCode = HttpStatus.NOT_FOUND.value();
 
-        NotFoundError billError = new NotFoundError();
-        billError.setCode(errorCode);
-        billError.setMessage("ERROR WHILE TRYING TO FETCH CUSTOMER BILL(S)");
 
-        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
-
-    }
-
-    @ExceptionHandler(UnableToCreateBillException.class)
-    public ResponseEntity<?> handleCreatingBillException() {
-
-        int errorCode = HttpStatus.NOT_FOUND.value();
-
-        NotFoundError billError = new NotFoundError();
-        billError.setCode(errorCode);
-        billError.setMessage("ERROR TRYING TO CREATE A BILL");
-
-        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
-
-    }
 
 
 }

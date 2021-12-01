@@ -1,50 +1,27 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.*;
 
 @Entity
 public class Bill {
-
-    private Status status;
-    private String payee;
-    private String nickname;
-
-    @CreatedDate
-    private String creation_date;
-
-    private String payment_date;
-    private Integer recurring_date;
-    private String upcoming_payment_date;
-    private Double payment_amount;
-    private Integer account_id;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BILL_ID")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Customer customer;
+    private Status status;
+    private String payee;
+    private String nickname;
+    private String creation_date;
+    private String payment_date;
+    private Integer recurring_id;
+    private String upcoming_payment_date;
+    private Double payment_amount;
 
-    public Bill(Status status, String payee, String nickname, String creation_date, String payment_date, Integer recurring_date, String upcoming_payment_date, Double payment_amount, Integer account_id, Long id) {
 
-        this.status = status;
-        this.payee = payee;
-        this.nickname = nickname;
-        this.creation_date = creation_date;
-        this.payment_date = payment_date;
-        this.recurring_date = recurring_date;
-        this.upcoming_payment_date = upcoming_payment_date;
-        this.payment_amount = payment_amount;
-        this.account_id = account_id;
-        this.id = id;
-
-    }
+    private Integer account_id;
 
     public Bill() {
     }
@@ -97,12 +74,12 @@ public class Bill {
         this.payment_date = payment_date;
     }
 
-    public Integer getRecurring_date() {
-        return recurring_date;
+    public Integer getRecurring_id() {
+        return recurring_id;
     }
 
-    public void setRecurring_date(Integer recurring_date) {
-        this.recurring_date = recurring_date;
+    public void setRecurring_id(Integer recurring_id) {
+        this.recurring_id = recurring_id;
     }
 
     public String getUpcoming_payment_date() {
