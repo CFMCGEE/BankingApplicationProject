@@ -1,10 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.controllers;
 
-import com.bankingapplicationmain.bankingapplicationmain.details.success.WithdrawalsByAccountSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
-import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.models.Withdrawals;
-import com.bankingapplicationmain.bankingapplicationmain.services.BillService;
 import com.bankingapplicationmain.bankingapplicationmain.services.WithdrawalsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/withdrawals")
 public class WithdrawalsController {

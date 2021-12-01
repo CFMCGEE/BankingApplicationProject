@@ -3,9 +3,7 @@ package com.bankingapplicationmain.bankingapplicationmain.controllers;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyCreated;
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 import com.bankingapplicationmain.bankingapplicationmain.services.DepositsService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/deposits")
 public class DepositsController {
@@ -22,14 +21,14 @@ public class DepositsController {
     private DepositsService depositsService;
 
     //works
-    @GetMapping("/deposits/{depositId}")
+    @GetMapping("{depositId}")
     public ResponseEntity<?> getDepositById(@PathVariable Long depositId){
         return ResponseEntity.ok(depositsService.getDepositById(depositId));
 
     }
 
     //works
-    @RequestMapping(value="/accounts/{accountId}/deposits",method = RequestMethod.GET)
+    @GetMapping("/accounts/{accountId}/deposits")
     public ResponseEntity<?> getDepositsByAccountId(@PathVariable Long accountId) {
         return ResponseEntity.ok(depositsService.getDepositsByAccountId(accountId));
     }
@@ -48,13 +47,13 @@ public class DepositsController {
     }
 
     //works
-    @PutMapping("/deposits/{depositId}")
+    @PutMapping("{depositId}")
     public ResponseEntity<Object> updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
         return ResponseEntity.ok(depositsService.updateDeposit(deposits,depositId));
     }
 
     //works
-    @DeleteMapping("/deposits/{depositId}")
+    @DeleteMapping("{depositId}")
     public ResponseEntity<Object> deleteDeposits(@PathVariable Long depositId){
         return ResponseEntity.accepted().body(depositsService.deleteDeposit(depositId)) ;
     }

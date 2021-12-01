@@ -76,12 +76,12 @@ public class AccountService {
 
     public Object getAllAccountsByCustomer(Long customerId) {
 
-        try {
+            if (accountRepository.findAllByCustomerId(customerId).isEmpty()) {
+                throw new AccountByIDNotFoundException();
+            }
+
             logger.info("All customer accounts successfully found!");
             return new AccountByIDSuccessfullyFound(HttpStatus.OK.value(), "Success!", accountRepository.findAllByCustomerId(customerId));
-        } catch (AccountByIDNotFoundException e) {
-            throw new AccountByIDNotFoundException();
-        }
 
     }
 

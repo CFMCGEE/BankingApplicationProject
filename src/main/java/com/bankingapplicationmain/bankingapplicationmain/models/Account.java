@@ -17,7 +17,7 @@ public class Account {
     private Type type;
     private String nickname;
     private Integer rewards;
-    private Double balance;
+    private Integer balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -35,7 +35,7 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private Set<Deposits> deposits;
   
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, Set<Withdrawals> withdrawals, Set<Bill> bills, Set<Deposits> deposits) {
+    public Account(Long id, Type type, String nickname, Integer rewards, Integer balance, Customer customer, Set<Withdrawals> withdrawals, Set<Bill> bills, Set<Deposits> deposits) {
      
         this.id = id;
         this.type = type;
@@ -85,11 +85,11 @@ public class Account {
         this.rewards = rewards;
     }
 
-    public Double getBalance() {
+    public Integer getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(Integer balance) {
         this.balance = balance;
     }
 
