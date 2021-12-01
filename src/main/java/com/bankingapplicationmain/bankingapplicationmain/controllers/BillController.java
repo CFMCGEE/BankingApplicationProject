@@ -24,10 +24,10 @@ public class BillController {
         return ResponseEntity.ok(billService.getBillById(billID));
     }
 
-//    @GetMapping("accounts/{accountId}/bills")
-//    public ResponseEntity<?> getBillsByAccountId(@PathVariable Long accountId){
-//        return ResponseEntity.ok(billService.getAllBillsByAccountId(accountId));
-//    }
+    @GetMapping("accounts/{accountId}/bills")
+    public ResponseEntity<?> getBillsByAccountId(@PathVariable Long accountId){
+        return ResponseEntity.ok(billService.getAllBillsByAccountId(accountId));
+    }
 
 //    @GetMapping("/customers/{customerId}/bills")
 //    public ResponseEntity<?> getBillsByCustomerId(@PathVariable Long customerId){
@@ -35,18 +35,13 @@ public class BillController {
 //    }
 
     @PutMapping("bills/{billID}")
-    public ResponseEntity<?> updateBill(@PathVariable Long billId, @Valid @RequestBody Bill bill) {
+    public ResponseEntity<Object> updateBill(@PathVariable Long billId, @Valid @RequestBody Bill bill) {
         return ResponseEntity.ok(billService.updateBill(bill, billId));
     }
 
     @PostMapping("accounts/{accountId}/bills")
-    public ResponseEntity<?> createBill(@Valid @RequestBody Bill bill, @PathVariable Long accountId){
-        URI newBill = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{accountId}")
-                .buildAndExpand(bill.getId())
-                .toUri();
-        return ResponseEntity.created(newBill).body(billService.createBill(bill, accountId));
+    public ResponseEntity<Object> createBill(@Valid @RequestBody Bill bill, @PathVariable Long accountId){
+        return ResponseEntity.status(HttpStatus.CREATED).body(billService.createBill(bill, accountId));
     }
 
     @DeleteMapping("/bills/{id}")
