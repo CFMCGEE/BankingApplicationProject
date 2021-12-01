@@ -20,15 +20,37 @@ public class Account {
     @JoinColumn(name = "CUSTOMER_ID")
     private Long customer_id;
 
+<<<<<<< Updated upstream
     public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Long customer_id) {
+=======
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<Withdrawals> withdrawals;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<Bill> bills;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private Set<Deposits> deposits;
+>>>>>>> Stashed changes
+
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, List<Withdrawals> withdrawals, List<Bill> bills, Set<Deposits> deposits) {
         this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
+<<<<<<< Updated upstream
         this.customer_id = customer_id;
 
+=======
+        this.customer = customer;
+        this.withdrawals = withdrawals;
+        this.bills = bills;
+        this.deposits = deposits;
+>>>>>>> Stashed changes
     }
 
     public Account() {
@@ -95,4 +117,22 @@ public class Account {
                 "\n}";
     }
 
+<<<<<<< Updated upstream
+=======
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
+    }
+
+    public Set<Deposits> getDeposits() {
+        return deposits;
+    }
+
+    public void setDeposits(Set<Deposits> deposits) {
+        this.deposits = deposits;
+    }
+>>>>>>> Stashed changes
 }
