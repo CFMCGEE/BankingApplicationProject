@@ -1,27 +1,16 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
-import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
-
-import java.util.List;
-
-
-public class CustomerSuccessfullyFound {
-
+public class BillSuccessMethods {
     private Integer code;
     private String message;
-    private Customer data;
 
-    public CustomerSuccessfullyFound() {
+    public BillSuccessMethods(Integer code, String message){
 
-    }
-
-
-    public CustomerSuccessfullyFound(Integer code, String message, Customer data) {
         this.code = code;
-        this.message = message;
-        this.data = data;
-    }
 
+        this.message = message;
+
+    }
 
     public Integer getCode() {
         return code;
@@ -37,13 +26,5 @@ public class CustomerSuccessfullyFound {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public Customer getData() {
-        return data;
-    }
-
-    public void setData(Customer data) {
-        this.data = data;
     }
 }

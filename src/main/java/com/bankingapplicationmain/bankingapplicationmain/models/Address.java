@@ -1,9 +1,9 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 
 @Entity
 public class Address {
@@ -18,8 +18,11 @@ public class Address {
     private String state;
     private String zip;
 
-    public Address() {
-    }
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "customer_id")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private Customer customer;
+
 
     public Long getId() {
         return id;
@@ -68,4 +71,5 @@ public class Address {
     public void setZip(String zip) {
         this.zip = zip;
     }
+
 }

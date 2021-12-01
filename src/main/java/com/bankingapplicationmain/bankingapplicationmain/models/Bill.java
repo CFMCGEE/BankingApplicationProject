@@ -1,12 +1,19 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 
 @Entity
 public class Bill {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BILL_ID")
+    private Long id;
 
     private Status status;
     private String payee;
@@ -19,15 +26,13 @@ public class Bill {
     private Integer recurring_date;
     private String upcoming_payment_date;
     private Double payment_amount;
-    private Integer account_id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BILL_ID")
-    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY) //many bills to one account
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Account account;
 
-    public Bill(Status status, String payee, String nickname, String creation_date, String payment_date, Integer recurring_date, String upcoming_payment_date, Double payment_amount, Integer account_id, Long id) {
-
+    public Bill(Long id, Status status, String payee, String nickname, String creation_date, String payment_date, Integer recurring_date, String upcoming_payment_date, Double payment_amount, Account account) {
+        this.id = id;
         this.status = status;
         this.payee = payee;
         this.nickname = nickname;
@@ -36,9 +41,7 @@ public class Bill {
         this.recurring_date = recurring_date;
         this.upcoming_payment_date = upcoming_payment_date;
         this.payment_amount = payment_amount;
-        this.account_id = account_id;
-        this.id = id;
-
+        this.account = account;
     }
 
     public Bill() {
@@ -116,11 +119,12 @@ public class Bill {
         this.payment_amount = payment_amount;
     }
 
-    public Integer getAccount_id() {
-        return account_id;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccount_id(Integer account_id) {
-        this.account_id = account_id;
+    public void setAccount(Account account) {
+        this.account = account;
     }
+
 }

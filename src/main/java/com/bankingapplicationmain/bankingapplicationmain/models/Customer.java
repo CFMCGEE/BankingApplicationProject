@@ -1,27 +1,28 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
+
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
+@RequiredArgsConstructor
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
+
     private Long id;
 
     private String first_Name;
     private String last_Name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "customer_id")
-    @OrderBy
-    private Set<Address> address;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Address> addresses;
 
-    public Customer() {
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Set<Account> accounts;
 
     public Long getId() {
         return id;
@@ -48,11 +49,34 @@ public class Customer {
     }
 
     public Set<Address> getAddress() {
-        return address;
+        return addresses;
     }
 
     public void setAddress(Set<Address> address) {
-        this.address = address;
+        this.addresses = address;
     }
 
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public void addAccount(Account account) {
+        this.accounts.add(account);
+    }
+
+    public void removeAccount(Account account) {
+        this.accounts.remove(account);
+    }
+
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+    }
+
+    public void removeAddress(Address address) {
+        this.addresses.remove(address);
+    }
 }
