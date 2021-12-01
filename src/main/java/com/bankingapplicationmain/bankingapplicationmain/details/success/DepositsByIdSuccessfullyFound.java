@@ -1,28 +1,20 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
-import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
+import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
 
-import java.util.List;
-
-public class BillSuccessfullyFound {
+public class DepositsByIdSuccessfullyFound {
 
     private Integer code;
     private String message;
-    private List<Bill> data;
+    private Iterable<Deposits> data;
 
-    public BillSuccessfullyFound(Integer code, String message, List<Bill> data) {
-
+    public DepositsByIdSuccessfullyFound(Integer code, String message, Iterable<Deposits> data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public BillSuccessfullyFound(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public BillSuccessfullyFound() {
+    public DepositsByIdSuccessfullyFound() {
     }
 
     public Integer getCode() {
@@ -41,11 +33,11 @@ public class BillSuccessfullyFound {
         this.message = message;
     }
 
-    public List<Bill> getData() {
+    public Iterable<Deposits> getData() {
         return data;
     }
 
-    public void setData(List<Bill> data) {
+    public void setData(Iterable<Deposits> data) {
         this.data = data;
     }
 }

@@ -1,13 +1,13 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
-import com.bankingapplicationmain.bankingapplicationmain.models.Account;
+import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
 
 public class BillCreatedSuccessfully {
     private Integer code;
     private String message;
-    private Account data;
+    private Bill data;
 
-    public BillCreatedSuccessfully(Integer code, String message, Account data) {
+    public BillCreatedSuccessfully(Integer code, String message, Bill data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -29,11 +29,11 @@ public class BillCreatedSuccessfully {
         this.message = message;
     }
 
-    public Account getData() {
+    public Bill getData() {
         return data;
     }
 
-    public void setData(Account data) {
+    public void setData(Bill data) {
         this.data = data;
     }
 }

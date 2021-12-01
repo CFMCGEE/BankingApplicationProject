@@ -7,47 +7,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/bills/")
 public class BillController {
 
     @Autowired
     private BillService billService;
 
-    @GetMapping("bills/{billID}")
+    @GetMapping("{billID}")
     public ResponseEntity<?> getSingleBill(@PathVariable Long billID){
         return ResponseEntity.ok(billService.getBillById(billID));
     }
 
-    @GetMapping("accounts/{accountID}/bills")
-    public ResponseEntity<?> getBillsByAccountID(@PathVariable Long accountID){
-        return ResponseEntity.ok(billService.getAllBillsByAccountID(accountID));
+    @GetMapping("accounts/{accountId}/bills")
+    public ResponseEntity<?> getBillsByAccountId(@PathVariable Long accountId){
+        return ResponseEntity.ok(billService.getAllBillsByAccountId(accountId));
     }
 
-    @GetMapping("/customers/{customerID}/bills")
-    public ResponseEntity<?> getBillsByCustomerID(@PathVariable Long customerID){
-        return ResponseEntity.ok(billService.getAllBillsByCustomerID(customerID));
+//    @GetMapping("/customers/{customerId}/bills")
+//    public ResponseEntity<?> getBillsByCustomerId(@PathVariable Long customerId){
+//        return ResponseEntity.ok(billService.getAllBillsByCustomerId(customerId));
+//    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateBill(@PathVariable Long id, @Valid @RequestBody Bill bill) {
+        return ResponseEntity.ok(billService.updateBill(id, bill));
     }
 
-    @PutMapping("bills/{billID}")
-    public ResponseEntity<?> updateBill(@PathVariable Long billID, @Valid @RequestBody Bill bill) {
-        return ResponseEntity.ok(billService.updateBill(bill, billID));
+    @PostMapping("accounts/{accountId}/bills")
+    public ResponseEntity<Object> createBill(@Valid @RequestBody Bill bill, @PathVariable Long accountId){
+        return ResponseEntity.status(HttpStatus.CREATED).body(billService.createBill(bill, accountId));
     }
 
-    @PostMapping("accounts/{accountID}/bills")
-    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill, @PathVariable(name = "accountID") Long billID){
-        return ResponseEntity.status(HttpStatus.CREATED).body(billService.createBill(bill, billID));
-    }
-
-    @DeleteMapping("/bills/{id}")
+    @DeleteMapping("{id}")
     public void deleteBill( @PathVariable Long id){
         billService.deleteBill(id);
     }
-
-
-
 
 }

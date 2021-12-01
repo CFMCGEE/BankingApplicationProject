@@ -22,21 +22,21 @@ public class DepositsController {
     private DepositsService depositsService;
 
     //works
-    @GetMapping("/deposits/{depositId}")
+    @GetMapping("{depositId}")
     public ResponseEntity<?> getDepositById(@PathVariable Long depositId){
         return ResponseEntity.ok(depositsService.getDepositById(depositId));
 
     }
 
     //works
-    @RequestMapping(value="/accounts/{accountId}/deposits",method = RequestMethod.GET)
+    @GetMapping("/accounts/{accountId}/deposits")
     public ResponseEntity<?> getDepositsByAccountId(@PathVariable Long accountId) {
         return ResponseEntity.ok(depositsService.getDepositsByAccountId(accountId));
     }
 
     //works
-    @PostMapping("/deposits")
-    public ResponseEntity<DepositSuccessfullyCreated> createDeposit(@Valid @RequestBody Deposits deposit){
+    @PostMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<DepositSuccessfullyCreated> createDeposit(@Valid @PathVariable Long accountId , @RequestBody Deposits deposit){
 
         URI newDepositUri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -44,17 +44,17 @@ public class DepositsController {
                 .buildAndExpand(deposit.getId())
                 .toUri();
 
-        return ResponseEntity.status(HttpStatus.CREATED).location(newDepositUri).body(depositsService.createDeposit(deposit));
+        return ResponseEntity.status(HttpStatus.CREATED).location(newDepositUri).body(depositsService.createDeposit(accountId, deposit));
     }
 
     //works
-    @PutMapping("/deposits/{depositId}")
+    @PutMapping("{depositId}")
     public ResponseEntity<Object> updateDeposits(@RequestBody Deposits deposits, @PathVariable Long depositId){
         return ResponseEntity.ok(depositsService.updateDeposit(deposits,depositId));
     }
 
     //works
-    @DeleteMapping("/deposits/{depositId}")
+    @DeleteMapping("{depositId}")
     public ResponseEntity<Object> deleteDeposits(@PathVariable Long depositId){
         return ResponseEntity.accepted().body(depositsService.deleteDeposit(depositId)) ;
     }
