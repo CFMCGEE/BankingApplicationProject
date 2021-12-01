@@ -58,10 +58,6 @@ public class BillService {
 //    }
 
     public Bill createBill(Bill bill, Long billId) {
-//       if(billRepository.findById(billId).isEmpty()){
-//           logger.info("Error Trying To Create a Bill");
-//           throw new UnableToCreateBillException();
-//       }
 
         try{
             logger.info("Bill Created");
