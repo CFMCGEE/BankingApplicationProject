@@ -17,6 +17,11 @@ public class BillSuccessfullyFound {
         this.data = data;
     }
 
+    public BillSuccessfullyFound(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
     public BillSuccessfullyFound() {
     }
 
