@@ -28,12 +28,6 @@ public class BillService {
     @Autowired
     private BillRepository billRepository;
 
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
     private static final Logger logger = LoggerFactory.getLogger(BillService.class);
 
 
@@ -45,13 +39,13 @@ public class BillService {
         }
     }
 
-//    public BillByIDSuccessfullyFound getAllBillsByAccountId(Long accountId) {
-//        return new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Successfully Found Account " + accountId + " Bills", billRepository.findBillsByAccountId(accountId));
-//    }
+    public BillByIDSuccessfullyFound getAllBillsByAccountId(Long accountId) {
+        return new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Successfully Found Account " + accountId + " Bills", billRepository.findBillsByAccountId(accountId));
+    }
 
-    public SingleBillSuccessfullyFound getBillById(Long billID){
-        Bill singleBill = billRepository.findById(billID).orElseThrow(() -> new SingleBillNotFoundException());
-        if (billRepository.findById(billID).isEmpty()) {
+    public SingleBillSuccessfullyFound getBillById(Long billId){
+        Bill singleBill = billRepository.findById(billId).orElseThrow(() -> new SingleBillNotFoundException());
+        if (billRepository.findById(billId).isEmpty()) {
             logger.info("Bill Not Found.");
         }
         logger.info("Bill Found At This ID.");
@@ -59,8 +53,8 @@ public class BillService {
         return singleBillSuccessfullyFound;
     }
 
-//    public  BillByIDSuccessfullyFound getAllBillsByCustomerId(Long customerID) {
-//        return new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Successfully Found Account " + customerID + " Bills", billRepository.findBillsByCustomerId(customerID));
+//    public  BillByIDSuccessfullyFound getAllBillsByCustomerId(Long customerId) {
+//        return new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Successfully Found Account " + customerId + " Bills", billRepository.findBillsByCustomerId(customerId));
 //    }
 
     public Bill createBill(Bill bill, Long billId) {

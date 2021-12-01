@@ -27,7 +27,11 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private List<Withdrawals> withdrawals;
 
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, List<Withdrawals> withdrawals) {
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<Bill> bills;
+
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, List<Withdrawals> withdrawals, List<Bill> bills) {
 
         this.id = id;
         this.type = type;
@@ -36,6 +40,7 @@ public class Account {
         this.balance = balance;
         this.customer = customer;
         this.withdrawals = withdrawals;
+        this.bills = bills;
 
     }
 
@@ -99,4 +104,11 @@ public class Account {
         this.withdrawals = withdrawals;
     }
 
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
+    }
 }
