@@ -63,18 +63,5 @@ public class BillExceptionHandler extends BillNotFoundException {
 
     }
 
-    @ExceptionHandler(UnableToUpdateBillException.class)
-    public ResponseEntity<?> handleUpdatingBillException() {
-
-        int errorCode = HttpStatus.NOT_FOUND.value();
-
-        NotFoundError billError = new NotFoundError();
-        billError.setCode(errorCode);
-        billError.setMessage("ERROR TRYING TO UPDATE BILL");
-
-        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
-
-    }
-
 
 }

@@ -78,10 +78,6 @@ public class BillService {
         //shout out to whoever did the account this jawn is wild
         verifyBill(id);
 
-        if (!billRepository.findById(id).equals(bill.getId())){
-            throw new UnableToUpdateBillException();
-        }
-
         logger.info("Bill Successfully Modified");
         return billRepository.save(bill);
     }
