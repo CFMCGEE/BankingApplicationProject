@@ -31,8 +31,12 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private Set<Bill> bills;
 
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, Set<Withdrawals> withdrawals, Set<Bill> bills) {
-
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private Set<Deposits> deposits;
+  
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, Set<Withdrawals> withdrawals, Set<Bill> bills, Set<Deposits> deposits) {
+     
         this.id = id;
         this.type = type;
         this.nickname = nickname;
@@ -41,6 +45,7 @@ public class Account {
         this.customer = customer;
         this.withdrawals = withdrawals;
         this.bills = bills;
+        this.deposits = deposits;
 
     }
 
@@ -111,4 +116,13 @@ public class Account {
     public void setBills(Set<Bill> bills) {
         this.bills = bills;
     }
+
+    public Set<Deposits> getDeposits() {
+        return deposits;
+    }
+
+    public void setDeposits(Set<Deposits> deposits) {
+        this.deposits = deposits;
+    }
+
 }
