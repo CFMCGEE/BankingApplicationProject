@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/withdrawals")
@@ -26,13 +28,20 @@ public class WithdrawalsController {
     }
 
     @GetMapping("/accounts/{accountID}/withdrawals")
-    public ResponseEntity<Object> getEveryWithdrawalByID(@PathVariable("accountID") Long accountID) {
-        return new ResponseEntity<>(withdrawalsService.getAllWithdrawals(),HttpStatus.OK);
+    public ResponseEntity<Object> getEveryWithdrawalByID(@PathVariable Long accountID) {
+        return ResponseEntity.ok(withdrawalsService.getAllWithdrawalsByAccountID(accountID));
     }
 
     @PostMapping("accounts/{accountID}/withdrawals")
-    public void postWithdrawals(@Valid @RequestBody Withdrawals withdrawals){
-        withdrawalsService.createWithdrawals(withdrawals);
+    public ResponseEntity<Object> postWithdrawals(@PathVariable Long accountID, @Valid @RequestBody Withdrawals withdrawals){
+
+        URI newWithdrawals = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(withdrawals.getId())
+                .toUri();
+
+        return ResponseEntity.created(newWithdrawals).body(withdrawalsService.createWithdrawals(accountID, withdrawals));
     }
 
     @PutMapping("/{withdrawalId}")

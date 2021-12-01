@@ -1,10 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 public class Account {
@@ -19,10 +19,29 @@ public class Account {
     private Integer rewards;
     private Double balance;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Customer customer;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<Withdrawals> withdrawals;
+
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, List<Withdrawals> withdrawals) {
+
+        this.id = id;
+        this.type = type;
+        this.nickname = nickname;
+        this.rewards = rewards;
+        this.balance = balance;
+        this.customer = customer;
+        this.withdrawals = withdrawals;
+
+    }
+
+    public Account() {
+
+    }
 
     public Long getId() {
         return id;
@@ -71,4 +90,13 @@ public class Account {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public List<Withdrawals> getWithdrawals() {
+        return withdrawals;
+    }
+
+    public void setWithdrawals(List<Withdrawals> withdrawals) {
+        this.withdrawals = withdrawals;
+    }
+
 }
