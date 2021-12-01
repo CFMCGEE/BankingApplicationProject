@@ -35,8 +35,8 @@ public class DepositsController {
     }
 
     //works
-    @PostMapping("/deposits")
-    public ResponseEntity<DepositSuccessfullyCreated> createDeposit(@Valid @RequestBody Deposits deposit){
+    @PostMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<DepositSuccessfullyCreated> createDeposit(@Valid @PathVariable Long accountId , @RequestBody Deposits deposit){
 
         URI newDepositUri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -44,7 +44,7 @@ public class DepositsController {
                 .buildAndExpand(deposit.getId())
                 .toUri();
 
-        return ResponseEntity.status(HttpStatus.CREATED).location(newDepositUri).body(depositsService.createDeposit(deposit));
+        return ResponseEntity.status(HttpStatus.CREATED).location(newDepositUri).body(depositsService.createDeposit(accountId, deposit));
     }
 
     //works

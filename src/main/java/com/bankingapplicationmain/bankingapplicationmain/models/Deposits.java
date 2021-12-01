@@ -3,17 +3,16 @@ package com.bankingapplicationmain.bankingapplicationmain.models;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Medium;
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Deposits {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DEPOSITS_ID")
     private Long id;
 
     private Medium medium;
@@ -23,6 +22,10 @@ public class Deposits {
     private Status status;
     private Long payee_id;
     private Type type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Account account;
 
     public Deposits(Long id, Medium medium, String transaction_date, int amount, String description, Status status, Long payee_id, Type type) {
 
@@ -105,4 +108,11 @@ public class Deposits {
         this.type = type;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

@@ -4,6 +4,7 @@ package com.bankingapplicationmain.bankingapplicationmain.services;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositDeleteSuccessFull;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyCreated;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyUpdated;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositsByIdSuccessfullyFound;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositDeleteException;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
 
@@ -51,19 +52,15 @@ public class DepositsService {
         logger.info("Deposits successfully found");
         return depositsRepository.getById(id);
     }
-    public List<Deposits> getDepositsByAccountId(Long id) {
+    public DepositsByIdSuccessfullyFound getDepositsByAccountId(Long accountId) {
 
-        if(depositsRepository.findAllById(Collections.singleton(id)).isEmpty()){
-            logger.info("Deposits not found");
-            throw new DepositsNotFoundById();
-        }
-        logger.info("Account Deposits successfully found");
-        return depositsRepository.findAllById(Collections.singleton(id));
+        return new DepositsByIdSuccessfullyFound(HttpStatus.OK.value(),
+                " Successfully Found Account " + accountId + " Deposits", depositsRepository.findDepositsByAccountId(accountId));
 
     }
 
     //we need a post method
-    public DepositSuccessfullyCreated createDeposit(Deposits deposits){
+    public DepositSuccessfullyCreated createDeposit(Long accountId ,Deposits deposits){
 
         try {
 

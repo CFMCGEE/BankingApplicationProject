@@ -25,14 +25,21 @@ public class Account {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<Withdrawals> withdrawals;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private Set<Withdrawals> withdrawals;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private Set<Bill> bills;
 
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, Set<Withdrawals> withdrawals, Set<Bill> bills) {
-
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private Set<Deposits> deposits;
+  
+    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, List<Withdrawals> withdrawals, List<Bill> bills, Set<Deposits> deposits) {
+     
         this.id = id;
         this.type = type;
         this.nickname = nickname;
@@ -41,6 +48,7 @@ public class Account {
         this.customer = customer;
         this.withdrawals = withdrawals;
         this.bills = bills;
+        this.deposits = deposits;
 
     }
 
@@ -104,11 +112,4 @@ public class Account {
         this.withdrawals = withdrawals;
     }
 
-    public Set<Bill> getBills() {
-        return bills;
-    }
-
-    public void setBills(Set<Bill> bills) {
-        this.bills = bills;
-    }
 }
