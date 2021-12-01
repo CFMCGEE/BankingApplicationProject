@@ -40,6 +40,11 @@ public class BillService {
     }
 
     public BillByIDSuccessfullyFound getAllBillsByAccountId(Long accountId) {
+
+        if (billRepository.findBillsByAccountId(accountId).isEmpty()) {
+            throw new BillNotFoundException();
+        }
+
         return new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Successfully Found Account " + accountId + " Bills", billRepository.findBillsByAccountId(accountId));
     }
 

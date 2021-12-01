@@ -54,8 +54,13 @@ public class DepositsService {
     }
     public DepositsByIdSuccessfullyFound getDepositsByAccountId(Long accountId) {
 
+        if (depositsRepository.findDepositsByAccountId(accountId).isEmpty()) {
+            throw new DepositsNotFoundException();
+        }
+
         return new DepositsByIdSuccessfullyFound(HttpStatus.OK.value(),
-                " Successfully Found Account " + accountId + " Deposits", depositsRepository.findDepositsByAccountId(accountId));
+                    " Successfully Found Account " + accountId + " Deposits", depositsRepository.findDepositsByAccountId(accountId));
+
 
     }
 

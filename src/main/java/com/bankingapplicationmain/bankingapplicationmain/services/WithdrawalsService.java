@@ -29,19 +29,16 @@ public class WithdrawalsService {
     //Get all withdrawals
     public WithdrawalsByAccountSuccessfullyFound getAllWithdrawalsByAccountID(Long accountId) {
 
-        try {
-
-            logger.info("All withdrawals successfully found!");
+            if (withdrawalsRepository.findWithdrawalsByAccountId(accountId).isEmpty()) {
+                throw new WithdrawalsByAccountNotFoundException();
+            }
 
             int successCode = HttpStatus.OK.value();
 
             WithdrawalsByAccountSuccessfullyFound withdrawalsByAccountSuccessfullyFound = new WithdrawalsByAccountSuccessfullyFound(successCode, withdrawalsRepository.findWithdrawalsByAccountId(accountId));
 
+            logger.info("All withdrawals successfully found!");
             return withdrawalsByAccountSuccessfullyFound;
-
-        } catch (WithdrawalsByAccountNotFoundException e) {
-            throw new WithdrawalsByAccountNotFoundException();
-        }
 
     }
 
