@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class BillExceptionHandler extends BillNotFoundException {
 
     @ExceptionHandler(BillNotFoundException.class)
-    public ResponseEntity<?> handleBillNotFoundException() {
+    public ResponseEntity<?> handleBillByAccountIDNotFoundException() {
 
-        int errorCode = HttpStatus.NOT_FOUND.value(); //404
+        int errorCode = HttpStatus.NOT_FOUND.value();
 
         NotFoundError billError = new NotFoundError();
         billError.setCode(errorCode);
-        billError.setMessage("ERROR WHILE TRYING TO FETCH ALL BILLS");
+        billError.setMessage("ERROR WHILE TRYING TO FETCH BILL(S) AT THIS ACCOUNT ID");
 
         return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
 
@@ -37,20 +37,17 @@ public class BillExceptionHandler extends BillNotFoundException {
 
     }
 
-//    @ExceptionHandler(BillNotFoundException.class)
-//    public ResponseEntity<?> handleBillByIDNotFoundException() {
-//
-//        int errorCode = HttpStatus.NOT_FOUND.value();
-//
-//        NotFoundError billError = new NotFoundError();
-//        billError.setCode(errorCode);
-//        billError.setMessage("Error creating bill: Account not found.");
-//
-//        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
-//    }
+    @ExceptionHandler(BillByAccountIDNotFoundException.class)
+    public ResponseEntity<?> handleBillByAccountIdNotFoundException() {
 
+        int errorCode = HttpStatus.NOT_FOUND.value();
 
+        NotFoundError billError = new NotFoundError();
+        billError.setCode(errorCode);
+        billError.setMessage("ERROR WHILE TRYING TO FETCH CUSTOMER BILL(S)");
 
+        return new ResponseEntity<>(billError, null, HttpStatus.NOT_FOUND);
 
+    }
 
 }

@@ -1,30 +1,36 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 
 @Entity
 public class Bill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "BILL_ID")
     private Long id;
 
     private Status status;
     private String payee;
     private String nickname;
+
+    @CreatedDate
     private String creation_date;
+
     private String payment_date;
-    private Integer recurring_id;
+    private Integer recurring_date;
     private String upcoming_payment_date;
     private Double payment_amount;
 
-
+    //@JoinColumn(name = "ACCOUNT_ID")
     private Integer account_id;
 
     public Bill() {
     }
+
 
     public Long getId() {
         return id;
@@ -74,14 +80,6 @@ public class Bill {
         this.payment_date = payment_date;
     }
 
-    public Integer getRecurring_id() {
-        return recurring_id;
-    }
-
-    public void setRecurring_id(Integer recurring_id) {
-        this.recurring_id = recurring_id;
-    }
-
     public String getUpcoming_payment_date() {
         return upcoming_payment_date;
     }
@@ -96,6 +94,14 @@ public class Bill {
 
     public void setPayment_amount(Double payment_amount) {
         this.payment_amount = payment_amount;
+    }
+
+    public Integer getRecurring_date() {
+        return recurring_date;
+    }
+
+    public void setRecurring_date(Integer recurring_date) {
+        this.recurring_date = recurring_date;
     }
 
     public Integer getAccount_id() {

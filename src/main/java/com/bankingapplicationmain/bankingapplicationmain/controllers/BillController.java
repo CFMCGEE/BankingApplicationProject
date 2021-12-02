@@ -10,31 +10,25 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bills")
 public class BillController {
 
     @Autowired
     private BillService billService;
 
-    @GetMapping()
-    public List<Bill> getAllBills(){
-        return billService.getAllBills();
+    @GetMapping("bills/{billID}")
+    public Bill getSingleBill(@PathVariable Long billID){
+        return billService.getBillById(billID);
     }
 
-    @GetMapping("/{id}")
-    public Bill getBill(@PathVariable Long id){
-        return billService.getBillById(id);
+    @GetMapping("/accounts/{accountID}/bills")
+    public ResponseEntity<?> getBillsByAccountID(@PathVariable Long accountID){
+        return billService.getAllBillsByAccountId(accountID);
     }
 
-    @PostMapping
-    @RequestMapping
-    public ResponseEntity<?> postBill(@Valid @RequestBody Bill bill){
+    @GetMapping("/customers/{customerID}/bills")
+    public ResponseEntity<?> getBillsByCustomerID(@PathVariable Long customerID){
+        return billService.getAllBillsByCustomerId(customerID);
+    }
 
-        return billService.createBill(bill);
-    }
-    @DeleteMapping("/{id}")
-    public void deleteBill( @PathVariable Long id){
-        billService.deleteBill(id);
-    }
 
 }
