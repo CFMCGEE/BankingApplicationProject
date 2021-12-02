@@ -5,12 +5,11 @@ import com.bankingapplicationmain.bankingapplicationmain.details.success.Deposit
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyCreated;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyUpdated;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositsByIdSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositDeleteException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateDepositException;
+import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
+import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.DepositsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +30,9 @@ import java.util.Optional;
 public class DepositsService {
 
     private static final Logger logger = LoggerFactory.getLogger(DepositsService.class);
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private DepositsRepository depositsRepository;
@@ -54,34 +56,34 @@ public class DepositsService {
     }
     public DepositsByIdSuccessfullyFound getDepositsByAccountId(Long accountId) {
 
+        if (depositsRepository.findDepositsByAccountId(accountId).isEmpty()) {
+            throw new DepositsNotFoundException();
+        }
+
         return new DepositsByIdSuccessfullyFound(HttpStatus.OK.value(),
-                " Successfully Found Account " + accountId + " Deposits", depositsRepository.findDepositsByAccountId(accountId));
+                    " Successfully Found Account " + accountId + " Deposits", depositsRepository.findDepositsByAccountId(accountId));
+
 
     }
 
     //we need a post method
-    public DepositSuccessfullyCreated createDeposit(Long accountId ,Deposits deposits){
+    public Deposits createDeposit(Deposits deposits){
+
+     Optional<Account> account = accountRepository.findById(deposits.getAccount().getId()); //.orElseThrow(() -> new SingleAccountNotFoundException());
+
+      deposits.setAccount(account.get());
+
+      Deposits newDeposits = depositsRepository.save(deposits);
 
         try {
 
-            depositsRepository.save(deposits);
             logger.info("Deposit successfully completed");
             int successCode = HttpStatus.CREATED.value();
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newDepositUri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(deposits.getId())
-                    .toUri();
-            responseHeaders.setLocation(newDepositUri);
-
-            DepositSuccessfullyCreated depositSuccessfullyCreated =
-                    new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
+           // DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created");
 
 
-
-         return depositSuccessfullyCreated;
+            return newDeposits;
 
         }catch (UnableToCreateDepositException e){
             throw new UnableToCreateDepositException();
@@ -89,22 +91,21 @@ public class DepositsService {
     }
 
     //a put method as well
-  
-    public Object updateDeposit(Deposits deposits,Long depositId){
+    public DepositSuccessfullyUpdated updateDeposit(Deposits deposits,Long depositId){
+       if(depositsRepository.findById(depositId).isEmpty()){
+           logger.info("Deposit Not found");
+           throw new DepositsNotFoundException();
+       }
 
-        if(depositsRepository.findById(depositId).isEmpty()){
-            throw new DepositsNotFoundException();
-        }
-        logger.info("Deposit Deleted!");
-        depositsRepository.save(deposits);
-
-        return new DepositSuccessfullyUpdated(HttpStatus.OK.value(), "Deposit Successfully Updated");
-
-
+       logger.info("Deposit Successfully Updated...");
+        DepositSuccessfullyUpdated depositSuccessfullyUpdated = new DepositSuccessfullyUpdated(HttpStatus.OK.value(),
+                "Deposit Successfully Updated",
+                depositsRepository.save(deposits));
+        return depositSuccessfullyUpdated;
     }
 
     //delete method
-    public Object deleteDeposit(Long depositId){
+    public DepositDeleteSuccessFull deleteDeposit(Long depositId){
 
         if (depositsRepository.findById(depositId).isEmpty()){
             throw new DepositDeleteException();
@@ -114,7 +115,7 @@ public class DepositsService {
         depositsRepository.deleteById(depositId);
 
         DepositDeleteSuccessFull depositDeleteSuccessFull = new DepositDeleteSuccessFull(HttpStatus.OK.value(), "Deposit successfully deleted");
-        return new ResponseEntity<>(depositDeleteSuccessFull,HttpStatus.OK);
+        return depositDeleteSuccessFull;
 
     }
 
