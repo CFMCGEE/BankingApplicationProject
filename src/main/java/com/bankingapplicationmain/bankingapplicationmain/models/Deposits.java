@@ -20,15 +20,14 @@ public class Deposits {
     private int amount;
     private String description;
     private Status status;
-    private Long payee_id;
+    private int payee_id;
     private Type type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Account account;
 
-    public Deposits(Long id, Medium medium, String transaction_date, int amount, String description, Status status, Long payee_id, Type type) {
-
+    public Deposits(Long id, Medium medium, String transaction_date, int amount, String description, Status status, int payee_id, Type type, Account account) {
         this.id = id;
         this.medium = medium;
         this.transaction_date = transaction_date;
@@ -37,7 +36,7 @@ public class Deposits {
         this.status = status;
         this.payee_id = payee_id;
         this.type = type;
-
+        this.account = account;
     }
 
     public Deposits() {
@@ -92,11 +91,11 @@ public class Deposits {
         this.status = status;
     }
 
-    public Long getPayee_id() {
+    public int getPayee_id() {
         return payee_id;
     }
 
-    public void setPayee_id(Long payee_id) {
+    public void setPayee_id(int payee_id) {
         this.payee_id = payee_id;
     }
 

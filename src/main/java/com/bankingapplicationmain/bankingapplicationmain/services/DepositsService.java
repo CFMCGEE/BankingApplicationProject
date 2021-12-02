@@ -5,12 +5,11 @@ import com.bankingapplicationmain.bankingapplicationmain.details.success.Deposit
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyCreated;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositSuccessfullyUpdated;
 import com.bankingapplicationmain.bankingapplicationmain.details.success.DepositsByIdSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositDeleteException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundById;
+import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.DepositsNotFoundException;
-import com.bankingapplicationmain.bankingapplicationmain.exceptions.UnableToCreateDepositException;
+import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.models.Deposits;
+import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.DepositsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +30,9 @@ import java.util.Optional;
 public class DepositsService {
 
     private static final Logger logger = LoggerFactory.getLogger(DepositsService.class);
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private DepositsRepository depositsRepository;
@@ -65,17 +67,23 @@ public class DepositsService {
     }
 
     //we need a post method
-    public DepositSuccessfullyCreated createDeposit(Long accountId ,Deposits deposits){
+    public Deposits createDeposit(Deposits deposits){
+
+     Optional<Account> account = accountRepository.findById(deposits.getAccount().getId()); //.orElseThrow(() -> new SingleAccountNotFoundException());
+
+      deposits.setAccount(account.get());
+
+      Deposits newDeposits = depositsRepository.save(deposits);
 
         try {
 
             logger.info("Deposit successfully completed");
             int successCode = HttpStatus.CREATED.value();
 
-            DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created", depositsRepository.save(deposits));
+           // DepositSuccessfullyCreated depositSuccessfullyCreated = new DepositSuccessfullyCreated(successCode, "Deposit Successfully Created");
 
 
-            return depositSuccessfullyCreated;
+            return newDeposits;
 
         }catch (UnableToCreateDepositException e){
             throw new UnableToCreateDepositException();
@@ -88,7 +96,6 @@ public class DepositsService {
            logger.info("Deposit Not found");
            throw new DepositsNotFoundException();
        }
-      
        logger.info("Deposit Successfully Updated...");
         DepositSuccessfullyUpdated depositSuccessfullyUpdated = new DepositSuccessfullyUpdated(HttpStatus.OK.value(),
                 "Deposit Successfully Updated",
