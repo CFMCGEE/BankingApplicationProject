@@ -43,13 +43,13 @@ public class AccountController {
                 .buildAndExpand(account.getId())
                 .toUri();
 
-        return ResponseEntity.created(newAccount).body(accountService.createAccount(account, customerId));
+        return ResponseEntity.created(newAccount).body(accountService.createAccount(account));
 
     }
 
     @PutMapping("/{accountID}")
     public ResponseEntity<Object> updateAccount(@PathVariable Long accountID, @Valid @RequestBody Account account){
-        return ResponseEntity.ok(accountService.updateAccount(accountID, account));
+        return ResponseEntity.ok(accountService.updateAccount(account, accountID));
     }
     
     @DeleteMapping("/{accountID}")
