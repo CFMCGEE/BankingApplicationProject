@@ -4,17 +4,19 @@ import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
 
 public class SingleBillSuccessfullyFound {
     private Integer code;
-    private String message;
+    private  String message;
     private Bill data;
 
-    public SingleBillSuccessfullyFound(Integer code, String message, Bill data) {
+    public SingleBillSuccessfullyFound(Integer code, String message, Bill bill){
         this.code = code;
         this.message = message;
         this.data = data;
 
     }
 
-    public SingleBillSuccessfullyFound() {
+
+
+    public  SingleBillSuccessfullyFound(){
 
     }
 
