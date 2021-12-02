@@ -3,14 +3,14 @@ package com.bankingapplicationmain.bankingapplicationmain.details.success;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.models.Withdrawals;
 
-import java.util.List;
+import java.util.*;
 
 public class WithdrawalsByAccountSuccessfullyFound {
 
     private Integer code;
-    private List<Withdrawals> data;
+    private Set<Withdrawals> data;
 
-    public WithdrawalsByAccountSuccessfullyFound(Integer code, List<Withdrawals> data) {
+    public WithdrawalsByAccountSuccessfullyFound(Integer code, Set<Withdrawals> data) {
 
         this.code = code;
         this.data = data;
@@ -29,11 +29,11 @@ public class WithdrawalsByAccountSuccessfullyFound {
         this.code = code;
     }
 
-    public List<Withdrawals> getData() {
+    public Set<Withdrawals> getData() {
         return data;
     }
 
-    public void setData(List<Withdrawals> data) {
+    public void setData(Set<Withdrawals> data) {
         this.data = data;
     }
 

@@ -1,8 +1,10 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Type;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 public class Account {
@@ -17,40 +19,37 @@ public class Account {
     private Integer rewards;
     private Double balance;
 
-    @JoinColumn(name = "CUSTOMER_ID")
-    private Long customer_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Customer customer;
 
-<<<<<<< Updated upstream
-    public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Long customer_id) {
-=======
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private List<Withdrawals> withdrawals;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private Set<Withdrawals> withdrawals;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
-    private List<Bill> bills;
+    private Set<Bill> bills;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private Set<Deposits> deposits;
->>>>>>> Stashed changes
-
+  
     public Account(Long id, Type type, String nickname, Integer rewards, Double balance, Customer customer, List<Withdrawals> withdrawals, List<Bill> bills, Set<Deposits> deposits) {
+     
         this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
-<<<<<<< Updated upstream
-        this.customer_id = customer_id;
-
-=======
         this.customer = customer;
         this.withdrawals = withdrawals;
         this.bills = bills;
         this.deposits = deposits;
->>>>>>> Stashed changes
+
     }
 
     public Account() {
@@ -97,42 +96,20 @@ public class Account {
         this.balance = balance;
     }
 
-    public Long getCustomer_id() {
-        return customer_id;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomer_id(Long customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    @Override
-    public String toString() {
-        return "{\n" +
-                "id: " + id + ", \n" +
-                "type: " + type + ", \n" +
-                "nickname: " + nickname + ", \n" +
-                "rewards: " + rewards + ", \n" +
-                "balance: " + balance + ", \n" +
-               "customer_id: " + customer_id +
-                "\n}";
+    public Set<Withdrawals> getWithdrawals() {
+        return withdrawals;
     }
 
-<<<<<<< Updated upstream
-=======
-    public List<Bill> getBills() {
-        return bills;
+    public void setWithdrawals(Set<Withdrawals> withdrawals) {
+        this.withdrawals = withdrawals;
     }
 
-    public void setBills(List<Bill> bills) {
-        this.bills = bills;
-    }
-
-    public Set<Deposits> getDeposits() {
-        return deposits;
-    }
-
-    public void setDeposits(Set<Deposits> deposits) {
-        this.deposits = deposits;
-    }
->>>>>>> Stashed changes
 }

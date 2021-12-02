@@ -76,11 +76,9 @@ public class AccountService {
 
     public Object getAllAccountsByCustomer(Long customerId) {
 
-        Iterable<Account> accountOfCustomersByID = accountRepository.findAllById(Collections.singleton(customerId));
-
         try {
             logger.info("All customer accounts successfully found!");
-            return new AccountByIDSuccessfullyFound(HttpStatus.OK.value(), "Success!", accountOfCustomersByID);
+            return new AccountByIDSuccessfullyFound(HttpStatus.OK.value(), "Success!", accountRepository.findAllByCustomerId(customerId));
         } catch (AccountByIDNotFoundException e) {
             throw new AccountByIDNotFoundException();
         }
@@ -89,16 +87,17 @@ public class AccountService {
 
     public Object createAccount(Account account, long customerId) {
 
-        if (customerRepository.findById(customerId).isEmpty()) {
-            throw new AccountPostException();
-        }
-
+    try {
         logger.info("Account created!");
-        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account !", accountRepository.save(account));
+        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", accountRepository.save(account));
+    } catch (AccountPostException e) {
+        throw new AccountPostException();
+    }
 
     }
 
     public Object updateAccount(Long accountId, Account account) {
+
 
         verifyCustomer(accountId);
 
@@ -118,7 +117,7 @@ public class AccountService {
         logger.info("Account deleted!");
         accountRepository.deleteById(id);
 
-        return new AccountSuccessfulMethods(HttpStatus.ACCEPTED.value(),"Account successfully deleted!");
+        return new AccountSuccessfulMethods(HttpStatus.ACCEPTED.value(), "Account successfully deleted!");
 
     }
 

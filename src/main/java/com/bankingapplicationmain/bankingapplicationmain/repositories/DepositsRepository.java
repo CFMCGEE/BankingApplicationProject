@@ -10,13 +10,8 @@ import java.util.Set;
 
 @Repository
 public interface DepositsRepository extends JpaRepository<Deposits,Long> {
-
-<<<<<<< Updated upstream
-=======
+  
     @Query(value = "SELECT d FROM Deposits d WHERE d.account.id = ?1 ")
     Set<Deposits> findDepositsByAccountId(Long accountId);
-
-
->>>>>>> Stashed changes
 
 }

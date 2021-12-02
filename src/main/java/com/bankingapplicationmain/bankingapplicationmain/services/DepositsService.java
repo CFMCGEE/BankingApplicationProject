@@ -96,7 +96,6 @@ public class DepositsService {
            logger.info("Deposit Not found");
            throw new DepositsNotFoundException();
        }
-
        logger.info("Deposit Successfully Updated...");
         DepositSuccessfullyUpdated depositSuccessfullyUpdated = new DepositSuccessfullyUpdated(HttpStatus.OK.value(),
                 "Deposit Successfully Updated",
