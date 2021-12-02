@@ -72,6 +72,7 @@ public class CustomerService {
         customerToUpdate.setFirst_Name(customer.getFirst_Name());
         customerToUpdate.setLast_Name(customer.getLast_Name());
 
+        customerRepository.save(customerToUpdate);
         return customerToUpdate;
     }
 

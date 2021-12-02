@@ -43,7 +43,7 @@ public class AccountController {
                 .buildAndExpand(account.getId())
                 .toUri();
 
-        return ResponseEntity.created(newAccount).body(accountService.createAccount(account, customerId));
+        return ResponseEntity.created(newAccount).body(accountService.createAccount(account));
 
     }
 
