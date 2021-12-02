@@ -49,7 +49,7 @@ public class AccountController {
 
     @PutMapping("/{accountID}")
     public ResponseEntity<Object> updateAccount(@PathVariable Long accountID, @Valid @RequestBody Account account){
-        return ResponseEntity.ok(accountService.updateAccount(account, accountID));
+        return ResponseEntity.ok(accountService.updateAccount(accountID, account));
     }
     
     @DeleteMapping("/{accountID}")
