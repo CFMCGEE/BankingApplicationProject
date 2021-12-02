@@ -24,9 +24,6 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Account> accounts;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<Bill> bills;
-
     public Long getId() {
         return id;
     }
@@ -50,7 +47,6 @@ public class Customer {
     public void setLast_Name(String last_Name) {
         this.last_Name = last_Name;
     }
-
 
     public Set<Address> getAddress() {
         return addresses;
@@ -82,29 +78,5 @@ public class Customer {
 
     public void removeAddress(Address address) {
         this.addresses.remove(address);
-    }
-
-    public Set<Bill> getBills() {
-        return bills;
-    }
-
-    public void setBills(Set<Bill> bills) {
-        this.bills = bills;
-    }
-
-    public void addBill(Bill bill) {
-        this.bills.add(bill);
-    }
-
-    public void removeBill(Bill bill) {
-        this.bills.remove(bill);
-    }
-
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
     }
 }
