@@ -1,9 +1,6 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
-import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountByIDSuccessfullyFound;
-import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountPostSuccess;
-import com.bankingapplicationmain.bankingapplicationmain.details.success.AccountSuccessfulMethods;
-import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleAccountSuccessfullyFound;
+import com.bankingapplicationmain.bankingapplicationmain.details.success.*;
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
@@ -12,16 +9,11 @@ import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRe
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -52,7 +44,8 @@ public class AccountService {
             throw new AccountNotFoundException();
         } else {
             logger.info("All accounts successfully found!");
-            throw new AccountSuccessfullyFoundException();
+//            throw new AccountSuccessfullyFoundException();
+            return accounts;
         }
 
     }
@@ -85,14 +78,31 @@ public class AccountService {
 
     }
 
-    public Object createAccount(Account account, long customerId) {
+//    public Object createAccount(Account account, long customerId) {
+//
+//    try {
+//        logger.info("Account created!");
+//        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", accountRepository.save(account));
+//    } catch (AccountPostException e) {
+//        throw new AccountPostException();
+//    }
+//
+//    }
 
-    try {
-        logger.info("Account created!");
-        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", accountRepository.save(account));
-    } catch (AccountPostException e) {
-        throw new AccountPostException();
-    }
+    public Object createAccount(Account account)  {
+
+        Optional<Customer> customer = customerRepository.findById(account.getCustomer().getId());
+
+        account.setCustomer(customer.get());
+
+        Account newAccount = accountRepository.save(account);
+
+        try {
+            logger.info("Account created!");
+            return newAccount; //new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", );
+        } catch (AccountPostException e) {
+            throw new AccountPostException();
+        }
 
     }
 

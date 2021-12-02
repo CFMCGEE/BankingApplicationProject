@@ -34,8 +34,21 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAllAccountsByCustomer(customerId));
     }
 
-    @PostMapping("/customers/{customerId}/accounts")
-    public ResponseEntity<Object> createAccount(@Valid @RequestBody Account account, @PathVariable("customerId") Long customerId) {
+//    @PostMapping("/customers/{customerId}/accounts")
+//    public ResponseEntity<Object> createAccount(@Valid @RequestBody Account account, @PathVariable("customerId") Long customerId) {
+//
+//        URI newAccount = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(account.getId())
+//                .toUri();
+//
+//        return ResponseEntity.created(newAccount).body(accountService.createAccount(account, customerId));
+//
+//    }
+
+    @PostMapping
+    public ResponseEntity<Object> createAccount(@Valid @RequestBody Account account) {
 
         URI newAccount = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -43,7 +56,7 @@ public class AccountController {
                 .buildAndExpand(account.getId())
                 .toUri();
 
-        return ResponseEntity.created(newAccount).body(accountService.createAccount(account, customerId));
+        return ResponseEntity.created(newAccount).body(accountService.createAccount(account));
 
     }
 
