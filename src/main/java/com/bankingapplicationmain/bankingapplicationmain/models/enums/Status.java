@@ -4,27 +4,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Status {
 
-    @JsonProperty("pending")
+    @JsonProperty("Pending")
     PENDING,
-    @JsonProperty("cancelled")
+    @JsonProperty("Cancelled")
     CANCELLED,
-    @JsonProperty("completed")
+    @JsonProperty("Completed")
     COMPLETED,
-    @JsonProperty("recurring")
-    RECURRING;
-
-    private String status;
+    @JsonProperty("Recurring")
+    RECURRING,
+    @JsonProperty("Executed")
+    EXECUTED;
 
     Status() {
 
     }
 
+    private String status;
+
     Status(String status) {
         this.status = status;
     }
 
-
     public String getStatus() {
         return status;
     }
+
 }

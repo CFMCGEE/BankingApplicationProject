@@ -18,6 +18,11 @@ public class Address {
     private String state;
     private String zip;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "customer_id")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private Customer customer;
+
 
     public Long getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.details.success;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
+
 import java.util.List;
 
 public class BillSuccessfullyFound {
@@ -14,6 +15,11 @@ public class BillSuccessfullyFound {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public BillSuccessfullyFound(Integer code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
     public BillSuccessfullyFound() {
@@ -42,5 +48,4 @@ public class BillSuccessfullyFound {
     public void setData(List<Bill> data) {
         this.data = data;
     }
-
 }
