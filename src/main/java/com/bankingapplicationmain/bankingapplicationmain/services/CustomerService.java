@@ -72,7 +72,7 @@ public class CustomerService {
         customerToUpdate.setFirst_Name(customer.getFirst_Name());
         customerToUpdate.setLast_Name(customer.getLast_Name());
 
-        return customerToUpdate;
+        return customerRepository.save(customer);
     }
 
     public Customer getCustomerByAccount(Long accountId) {
