@@ -1,7 +1,7 @@
 package com.bankingapplicationmain.bankingapplicationmain.models;
 
 import com.bankingapplicationmain.bankingapplicationmain.models.enums.Status;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -27,12 +27,9 @@ public class Bill {
     private String upcoming_payment_date;
     private Double payment_amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //many bills to one account
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Customer customer;
-
-    public Bill(Status status, String payee, String nickname, String creation_date, String payment_date, Integer recurring_date, String upcoming_payment_date, Double payment_amount, Integer account_id, Long id) {
-
+    private Account account;
 
     public Bill(Long id, Status status, String payee, String nickname, String creation_date, String payment_date, Integer recurring_date, String upcoming_payment_date, Double payment_amount, Account account) {
         this.id = id;
