@@ -29,16 +29,16 @@ public class WithdrawalsController {
         return ResponseEntity.ok(withdrawalsService.getAllWithdrawalsByAccountID(accountID));
     }
 
-    @PostMapping("accounts/{accountID}/withdrawals")
-    public ResponseEntity<Object> postWithdrawals(@PathVariable Long accountID, @Valid @RequestBody Withdrawals withdrawals){
+    @PostMapping("accounts/withdrawals")
+    public ResponseEntity<Object> postWithdrawals(@Valid @RequestBody Withdrawals withdrawal){
 
         URI newWithdrawals = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(withdrawals.getId())
+                .buildAndExpand(withdrawal.getId())
                 .toUri();
 
-        return ResponseEntity.created(newWithdrawals).body(withdrawalsService.createWithdrawals(accountID, withdrawals));
+        return ResponseEntity.created(newWithdrawals).body(withdrawalsService.createWithdrawals(withdrawal));
     }
 
     @PutMapping("/{withdrawalId}")

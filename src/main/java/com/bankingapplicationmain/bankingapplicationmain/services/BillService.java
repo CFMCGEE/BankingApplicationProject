@@ -7,6 +7,7 @@ import com.bankingapplicationmain.bankingapplicationmain.details.success.SingleB
 import com.bankingapplicationmain.bankingapplicationmain.exceptions.*;
 import com.bankingapplicationmain.bankingapplicationmain.models.Account;
 import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
+import com.bankingapplicationmain.bankingapplicationmain.models.Customer;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.BillRepository;
 import com.bankingapplicationmain.bankingapplicationmain.repositories.CustomerRepository;
@@ -21,12 +22,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillService {
 
     @Autowired
     private BillRepository billRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(BillService.class);
 
@@ -62,11 +67,17 @@ public class BillService {
 //        return new BillByIDSuccessfullyFound(HttpStatus.OK.value(), "Successfully Found Account " + customerId + " Bills", billRepository.findBillsByCustomerId(customerId));
 //    }
 
-    public Bill createBill(Bill bill, Long billId) {
+    public Bill createBill(Bill bill) {
+
+        Optional<Account> account = accountRepository.findById(bill.getAccount().getId());
+
+        bill.setAccount(account.get());
+
+        Bill newBill = billRepository.save(bill);
 
         try{
             logger.info("Bill Created");
-            return billRepository.save(bill);
+            return newBill;
         }
         catch(UnableToCreateBillException e){
             throw new UnableToCreateBillException();

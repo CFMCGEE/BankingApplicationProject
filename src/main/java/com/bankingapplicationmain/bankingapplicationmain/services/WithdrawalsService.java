@@ -1,5 +1,8 @@
 package com.bankingapplicationmain.bankingapplicationmain.services;
 
+import com.bankingapplicationmain.bankingapplicationmain.models.Account;
+import com.bankingapplicationmain.bankingapplicationmain.models.Bill;
+import com.bankingapplicationmain.bankingapplicationmain.repositories.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WithdrawalsService {
@@ -25,6 +29,10 @@ public class WithdrawalsService {
     //Declare the withdrawalRepository
     @Autowired
     private WithdrawalsRepository withdrawalsRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
 
     //Get all withdrawals
     public WithdrawalsByAccountSuccessfullyFound getAllWithdrawalsByAccountID(Long accountId) {
@@ -58,9 +66,17 @@ public class WithdrawalsService {
     }
 
     //Create withdrawals
-    public Withdrawals createWithdrawals(Long accountId, Withdrawals withdrawals) {
+    public Withdrawals createWithdrawals(Withdrawals withdrawal) {
+
+        Optional<Account> account = accountRepository.findById(withdrawal.getAccount().getId());
+
+        withdrawal.setAccount(account.get());
+
+        Withdrawals newWithdrawal = withdrawalsRepository.save(withdrawal);
+
         logger.info("Withdrawals created successfully");
-        return withdrawalsRepository.save(withdrawals);
+        return newWithdrawal;
+
     }
 
     //Update withdrawals

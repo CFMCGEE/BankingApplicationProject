@@ -110,6 +110,8 @@ public class AccountService {
 
         verifyCustomer(id);
 
+        Customer customer = customerRepository.findById(account.getCustomer().getId()).orElse(null);
+
         Account updateAccount = accountRepository.findById(id).get();
         if (accountRepository.findById(id).isEmpty()) {
             throw new UnableToUpdateCustomer();
@@ -119,7 +121,7 @@ public class AccountService {
         updateAccount.setNickname(account.getNickname());
         updateAccount.setRewards(account.getRewards());
         updateAccount.setBalance(account.getBalance());
-        updateAccount.setCustomer(account.getCustomer());
+        updateAccount.setCustomer(customer);
 
         logger.info("Account updated!");
         accountRepository.save(updateAccount);
