@@ -6,8 +6,8 @@ public enum Type {
 
     @JsonProperty("Savings")
     SAVINGS,
-    @JsonProperty("Checking")
-    CHECKING,
+    @JsonProperty("Checkings")
+    CHECKINGS,
     @JsonProperty("Credit")
     CREDIT,
     @JsonProperty("P2P")

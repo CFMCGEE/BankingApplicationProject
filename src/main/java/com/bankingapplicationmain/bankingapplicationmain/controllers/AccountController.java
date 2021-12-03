@@ -24,9 +24,9 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    @GetMapping("/{accountID}")
-    public ResponseEntity<Object> getAccount(@PathVariable Long accountID) {
-        return ResponseEntity.ok(accountService.getSingleAccount(accountID));
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getAccount(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getSingleAccount(id));
     }
 
     @GetMapping("/customers/{customerId}/accounts") //
@@ -60,9 +60,9 @@ public class AccountController {
 
     }
 
-    @PutMapping("/{accountID}")
-    public ResponseEntity<Object> updateAccount(@PathVariable Long accountID, @Valid @RequestBody Account account){
-        return ResponseEntity.ok(accountService.updateAccount(accountID, account));
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateAccount(@PathVariable Long id, @Valid @RequestBody Account account){
+        return ResponseEntity.ok(accountService.updateAccount(id, account));
     }
     
     @DeleteMapping("/{accountID}")

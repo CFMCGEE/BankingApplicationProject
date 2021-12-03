@@ -50,9 +50,9 @@ public class AccountService {
 
     }
 
-    public Object getSingleAccount(Long accountID) {
+    public Object getSingleAccount(Long id) {
 
-        Account singleAccount = accountRepository.findById(accountID).orElseThrow(() -> new SingleAccountNotFoundException());
+        Account singleAccount = accountRepository.findById(id).orElseThrow(() -> new SingleAccountNotFoundException());
 
         logger.info("One account successfully found!");
 
@@ -82,7 +82,7 @@ public class AccountService {
 //
 //    try {
 //        logger.info("Account created!");
-//        return new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", accountRepository.save(account));
+//        return accountRepository.save(account);//new AccountPostSuccess(HttpStatus.CREATED.value(), "Account Successfully Created!", accountRepository.save(account));
 //    } catch (AccountPostException e) {
 //        throw new AccountPostException();
 //    }
@@ -106,15 +106,26 @@ public class AccountService {
 
     }
 
-    public Object updateAccount(Long accountId, Account account) {
+    public Object updateAccount(Long id, Account account) {
 
+        verifyCustomer(id);
 
-        verifyCustomer(accountId);
+        Account updateAccount = accountRepository.findById(id).get();
+        if (accountRepository.findById(id).isEmpty()) {
+            throw new UnableToUpdateCustomer();
+        }
+
+        updateAccount.setType(account.getType());
+        updateAccount.setNickname(account.getNickname());
+        updateAccount.setRewards(account.getRewards());
+        updateAccount.setBalance(account.getBalance());
+        updateAccount.setCustomer(account.getCustomer());
 
         logger.info("Account updated!");
-        accountRepository.save(account);
+        accountRepository.save(updateAccount);
 
-        return new AccountSuccessfulMethods(HttpStatus.OK.value(),"Customer Account Updated!");
+        //new AccountSuccessfulMethods(HttpStatus.OK.value(),"Customer Account Updated!");
+        return updateAccount;
 
     }
 
