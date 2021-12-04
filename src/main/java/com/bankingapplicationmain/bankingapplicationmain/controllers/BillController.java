@@ -42,7 +42,7 @@ public class BillController {
         return ResponseEntity.status(HttpStatus.CREATED).body(billService.createBill(bill));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteBill( @PathVariable Long id){
         billService.deleteBill(id);
     }

@@ -86,8 +86,8 @@ public class WithdrawalsService {
     }
 
     //Delete withdrawals
-    public void deleteWithdrawals(Long withdrawalId) {
-        withdrawalsRepository.deleteById(withdrawalId);
+    public void deleteWithdrawals(Long id) {
+        withdrawalsRepository.deleteById(id);
         logger.info("Withdrawals deleted successfully");
     }
 }

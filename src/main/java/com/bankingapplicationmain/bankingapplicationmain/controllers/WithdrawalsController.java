@@ -24,9 +24,9 @@ public class WithdrawalsController {
         return new ResponseEntity<>(withdrawalsService.getSingleWithdrawals(withdrawalId), HttpStatus.OK);
     }
 
-    @GetMapping("/accounts/{accountID}/withdrawals")
-    public ResponseEntity<Object> getEveryWithdrawalByID(@PathVariable Long accountID) {
-        return ResponseEntity.ok(withdrawalsService.getAllWithdrawalsByAccountID(accountID));
+    @GetMapping("/accounts/{id}/withdrawals")
+    public ResponseEntity<Object> getEveryWithdrawalByID(@PathVariable Long id) {
+        return ResponseEntity.ok(withdrawalsService.getAllWithdrawalsByAccountID(id));
     }
 
     @PostMapping("accounts/withdrawals")
@@ -46,9 +46,9 @@ public class WithdrawalsController {
         withdrawalsService.updateWithdrawals(withdrawals, withdrawalId);
     }
 
-    @DeleteMapping("/{withdrawalId}")
-    public void deleteWithdrawal(@PathVariable Long withdrawalId){
-        withdrawalsService.deleteWithdrawals(withdrawalId);
+    @DeleteMapping("/{id}")
+    public void deleteWithdrawal(@PathVariable Long id){
+        withdrawalsService.deleteWithdrawals(id);
     }
 
 }

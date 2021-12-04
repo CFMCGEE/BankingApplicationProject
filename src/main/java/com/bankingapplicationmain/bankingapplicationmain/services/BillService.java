@@ -93,7 +93,7 @@ public class BillService {
         return billRepository.save(bill);
     }
 
-    public BillSuccessMethods deleteBill( Long id) {
+    public BillSuccessMethods deleteBill(Long id) {
         if(billRepository.findById(id).isEmpty()){
             throw new UnableToDeleteBillException();
         } else {

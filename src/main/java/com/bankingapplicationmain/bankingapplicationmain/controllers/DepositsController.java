@@ -53,9 +53,9 @@ public class DepositsController {
     }
 
     //works
-    @DeleteMapping("{depositId}")
-    public ResponseEntity<Object> deleteDeposits(@PathVariable Long depositId){
-        return ResponseEntity.accepted().body(depositsService.deleteDeposit(depositId)) ;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteDeposits(@PathVariable Long id){
+        return ResponseEntity.accepted().body(depositsService.deleteDeposit(id)) ;
     }
 
 
